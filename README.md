@@ -66,7 +66,9 @@ was why its performance did not degrade.
 ## 2. The changes
 
 Changes 1, 2 and 4 affect the PyTorch path specifically, whereas  change 3 is 
-backend-independent.
+backend-independent. Most of these are pretty straight to the point and hacky
+so you'll want to implement something more readable based on the idea if you
+like it. 
 
 ### 1. Pinned host buffer for device-to-host transfers
 
@@ -182,7 +184,8 @@ def __rmul__(self, other):          # factor * X records, does not scale
 torch.from_numpy(dest).add_(torch.from_numpy(src), alpha=factor)
 ```
 
-Each accumulate is now one pass, spread across sixteen threads.
+Each accumulate is now one pass, spread across sixteen threads. This is a pytorch
+only fix, so for CuPy you'll need to do the equivalent.
 
 ## 3. Applying the changes
 
