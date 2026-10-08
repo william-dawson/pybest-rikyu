@@ -7,13 +7,13 @@ v2.2.0 on NVIDIA GB200, using RIKEN's AI4S machine RIKYU.
 
 Dobrowolska et al., *J. Chem. Theory Comput.* **2026**, *22*, 6533–6546
 benchmark PyBEST's Cholesky-decomposed CCSD tensor contractions on H100 and
-GH200. This repository measures the same contractions on NVIDIA GB200, locates
-the cost, and removes what can be removed.
+GH200. This repository measures the code on NVIDIA GB200, locates
+the costly parts, and removes what can be removed.
 
 Conditions throughout: PyTorch backend, C-split, Cholesky threshold 1e-5,
 frozen core, one B200. "Unmodified" is PyBEST 2.2.0 as released; "patched" is
 that code with the changes in section 2 applied. Each pair is measured in a
-single job, since the same cell has differed by 15% between jobs.
+single job to try to reduce variance. 
 
 ## 1. Timings
 
@@ -26,18 +26,14 @@ single job, since the same cell has differed by 15% between jobs.
 | 240 | cc-pVDZ | 23.9 s | 25.4 s | 21.03 s | 31.09 s | 12.20 s |
 | 580 | cc-pVTZ | 5.5 m | 5.7 m | 4.39 m | 3.72 m | 2.07 m |
 | 920 | aug-cc-pVTZ | -- | -- | 18.1 m | 15.97 m | 10.99 m |
-| 1150 | cc-pVQZ | -- | -- | -- | -- | planned |
+| 1150 | cc-pVQZ | -- | -- | -- | -- | TBD |
 
-The reduction falls as the basis set grows: 61% at 240 AO, 44% at 580, 31% at
-920.
 
 The patched column is the PyTorch path with the four changes below applied,
-measured against the GB200 PyTorch column in the same job. The CuPy columns
-come from separate jobs, so they place the backend but should not be
-subtracted from the others.
+measured against the GB200 PyTorch column in the same job.
 
-Energies were checked against the unmodified runs to verify correctness, and
-GPU memory does not increase.
+Energies were checked against the unmodified runs to verify correctness. We
+also measured memory usage to verify it does not increase.
 
 ### The ladder contraction
 
@@ -60,18 +56,17 @@ changes only the pinned host buffer (change 1) applies.
 | 1300 | CuPy | 4665.3 s (H100) | 2325.18 s | 2.01x | -- |
 | 1300 | PyTorch | 2679.1 s (H100) | 2909.81 s | 0.92x | 2236.56 s, 1.20x |
 
-GH200 cannot compute N = 1200 or 1300, because 480 GB of host memory is
-insufficient, so H100 is the reference at those sizes. RIKYU grants 400 GB per
-GPU, so two GPUs reach both.
+GH200 in the paper couldn't compute N = 1200 or 1300, so H100 is the reference
+at those sizes.
 
 At N = 1200 and 1300 unmodified PyTorch is slower on Blackwell than on Hopper.
-The cause is unpinned host memory. CuPy already pins, and gains 1.88x and
-2.01x at the same sizes.
+The cause is unpinned host memory. CuPy already pins the memory so that
+was why its performance did not degrade.
 
 ## 2. The changes
 
-Four changes to PyBEST 2.2.0, none of which increases GPU memory use.
-Changes 1, 2 and 4 affect the PyTorch path; change 3 is backend-independent.
+Changes 1, 2 and 4 affect the PyTorch path specifically, whereas  change 3 is 
+backend-independent.
 
 ### 1. Pinned host buffer for device-to-host transfers
 
@@ -86,7 +81,7 @@ destination cannot use the DMA engine, so the driver stages the transfer
 through a bounce buffer with a synchronous CPU memcpy. Device-to-host runs at
 3.22 GB/s.
 
-After, one pinned buffer per dtype, reused for the whole calculation:
+After this change, one pinned buffer per dtype, reused for the whole calculation:
 
 ```python
 buffer = _PINNED_STAGING.get(tensor.dtype)
