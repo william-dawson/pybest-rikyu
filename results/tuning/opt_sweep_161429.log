@@ -1,0 +1,131 @@
+host=c379 nproc=64 job=161429 date=Sat Oct  3 00:15:46 JST 2026
+
+=============== opt_N1200_cupy_cachedvram ===============
+# pin_experiment backend=cupy strategy=cachedvram
+# patch: memory_usage() cached for the process lifetime
+# driver args: --nbasis 1200 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+# cachedvram: pinned at 183.30 GiB
+#batch free_vram_gib=183.30
+  warmup 0:   1537.12 s
+#batch free_vram_gib=183.30
+  timed 1:   1614.24 s
+median 1614.24 s   mean 1614.24 s
+peak_rss 533.3 GiB   = 1.85x operand sum (288.5 GiB)
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=37%
+
+=============== opt_N1200_pytorch_cachedvram ===============
+# pin_experiment backend=pytorch strategy=cachedvram
+# patch: memory_usage() cached for the process lifetime
+# driver args: --nbasis 1200 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+# cachedvram: pinned at 183.31 GiB
+#batch free_vram_gib=183.31
+  warmup 0:   1655.32 s
+#batch free_vram_gib=183.31
+  timed 1:   1704.41 s
+median 1704.41 s   mean 1704.41 s
+peak_rss 492.2 GiB   = 1.71x operand sum (288.5 GiB)
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=32%
+
+=============== opt_N800_cupy_parts2 ===============
+# pin_experiment backend=cupy strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching --parts 2
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+#batch free_vram_gib=183.31
+rc=1
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/cupy/linalg/_product.py", line 420, in tensordot
+    return _core.tensordot_core(a, b, None, n, m, k, ret_shape)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "cupy/_core/_routines_linalg.pyx", line 541, in cupy._core._routines_linalg.tensordot_core
+  File "cupy/_core/_routines_linalg.pyx", line 602, in cupy._core._routines_linalg.tensordot_core
+  File "cupy/_core/core.pyx", line 3342, in cupy._core.core._ndarray_init
+  File "cupy/_core/core.pyx", line 300, in cupy._core.core._ndarray_base._init_fast
+  File "cupy/cuda/memory.pyx", line 904, in cupy.cuda.memory.alloc
+  File "cupy/cuda/memory.pyx", line 1614, in cupy.cuda.memory.MemoryPool.malloc
+  File "cupy/cuda/memory.pyx", line 1635, in cupy.cuda.memory.MemoryPool.malloc
+  File "cupy/cuda/memory.pyx", line 1350, in cupy.cuda.memory.SingleDeviceMemoryPool.malloc
+  File "cupy/cuda/memory.pyx", line 1376, in cupy.cuda.memory.SingleDeviceMemoryPool._malloc
+  File "cupy/cuda/memory.pyx", line 1560, in cupy.cuda.memory.SingleDeviceMemoryPool._try_malloc
+cupy.cuda.memory.OutOfMemoryError: Out of memory allocating 240,100,000,256 bytes (allocated so far: 39,200,000,000 bytes).
+gpu_max_util=%  mem_ctrl_max_util=%
+
+=============== opt_N800_cupy_parts4 ===============
+# pin_experiment backend=cupy strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching --parts 4
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+#batch free_vram_gib=183.30
+  warmup 0:    260.42 s
+#batch free_vram_gib=164.98
+  timed 1:    259.49 s
+median 259.49 s   mean 259.49 s
+peak_rss 199.8 GiB   = 1.95x operand sum (102.2 GiB)
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=21%
+
+=============== opt_N800_cupy_parts8 ===============
+# pin_experiment backend=cupy strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching --parts 8
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+#batch free_vram_gib=183.31
+  warmup 0:    304.02 s
+#batch free_vram_gib=176.89
+  timed 1:    304.54 s
+median 304.54 s   mean 304.54 s
+peak_rss 187.8 GiB   = 1.84x operand sum (102.2 GiB)
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=15%
+
+=============== opt_N800_pytorch_parts2 ===============
+# pin_experiment backend=pytorch strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching --parts 2
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+#batch free_vram_gib=183.31
+rc=1
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/pybest/linalg/crosslib_batching.py", line 1033, in c_splitting
+    result_temp = tensordot_gpu(
+                  ^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py", line 415, in tensordot_gpu
+    return _get_ops()["tensordot"](a, b, axes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py", line 251, in _pytorch_tensordot
+    return torch_tensordot(
+           ^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/torch/functional.py", line 1407, in tensordot
+    return _VF.tensordot(a, b, dims_a, dims_b)  # type: ignore[attr-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 223.61 GiB. GPU 0 has a total capacity of 184.00 GiB of which 150.45 GiB is free. Including non-PyTorch memory, this process has 33.54 GiB memory in use. Of the allocated memory 32.86 GiB is allocated by PyTorch, and 4.37 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+gpu_max_util=%  mem_ctrl_max_util=%
+
+=============== opt_N800_pytorch_parts4 ===============
+# pin_experiment backend=pytorch strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching --parts 4
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+#batch free_vram_gib=183.31
+  warmup 0:    302.90 s
+#batch free_vram_gib=173.98
+  timed 1:    303.44 s
+median 303.44 s   mean 303.44 s
+peak_rss 185.1 GiB   = 1.81x operand sum (102.2 GiB)
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=18%
+
+=============== opt_N800_pytorch_parts8 ===============
+# pin_experiment backend=pytorch strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching --parts 8
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+#batch free_vram_gib=183.31
+  warmup 0:    657.39 s
+#batch free_vram_gib=176.25
+  timed 1:    660.03 s
+median 660.03 s   mean 660.03 s
+peak_rss 180.4 GiB   = 1.76x operand sum (102.2 GiB)
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=15%
+
+ALL DONE Sat Oct  3 02:58:30 JST 2026

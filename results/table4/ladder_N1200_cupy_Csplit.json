@@ -1,0 +1,13 @@
+{
+  "nbasis": 1200, "nocc": 100, "nvirt": 1100, "nchol": 6000, "nvec_factor": 5,
+  "backend": "cupy", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [1622.3197541991249],
+  "median_sec": 1622.3197541991249, "mean_sec": 1622.3197541991249,
+  "total_gib": 288.4864807128906, "host": "c382", "slurm_job": "157159",
+  "peak_rss_gib": 533.1070556640625, "peak_over_operands": 1.8479446743801653,
+  "cpus_visible": 144, "random": false, "seed": 0, "rel_err": null,
+  "cublas_env": {},
+  "free_vram_gib_per_pass": [183.30, 138.16],
+  "note": "warmup 1534.52 s then timed 1622.32 s: the second pass is 5.7% slower because the free-VRAM reading dropped, so c_splitting split harder. GH200 is n.c. at this N; H100 C-split was 3042.4 s."
+}

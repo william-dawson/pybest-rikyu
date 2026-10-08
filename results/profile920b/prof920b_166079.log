@@ -1,0 +1,205 @@
+host=c361 nproc=64 job=166079 date=Sun Oct  4 22:25:56 JST 2026
+0, NVIDIA GB200
+1, NVIDIA GB200
+/dev/nvme0n1p1  3.4T     0  3.4T   0% /tmp
+
+=============== prof920b_cprofile ===============
+# temp_dir=/tmp/prof920b-166079/pb-cp
+# nbasis=920 predicted=920
+# cholesky_eri_sec=623.688
+# rhf_sec=62.324 
+# pin_strategy=baseline
+# accum3: torch fused axpy, 16 threads
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+# maxiter overridden to 2
+Total energy             -763.32071017 a.u.
+# ccsd_total_sec=1653.923 upper_bound_per_iter=826.961 maxiter=2
+# total_sec=2340.653
+# d2h_view: returned a view 572 times, copied 44 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# accum3: fused 575 (733.7 GiB), 40 fell back
+rc=0
+--- top 30 by cumulative time ---
+Sun Oct  4 23:05:09 2026    /tmp/prof920b-166079/prof920b_cprofile.prof
+
+         2550093 function calls (2484354 primitive calls) in 2350.969 seconds
+
+   Ordered by: cumulative time
+   List reduced from 7519 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+  1182/22    0.011    0.000 2299.438  104.520 /opt/venv/lib/python3.12/site-packages/pybest/log.py:373(wrapper)
+        1    0.021    0.021 1653.923 1653.923 /opt/venv/lib/python3.12/site-packages/pybest/cc/rcc.py:432(__call__)
+        1    0.000    0.000 1496.191 1496.191 /opt/venv/lib/python3.12/site-packages/pybest/cc/rcc.py:697(compute_amplitudes)
+        1    0.000    0.000 1496.191 1496.191 /opt/venv/lib/python3.12/site-packages/pybest/cc/rcc.py:714(select_solver)
+      473  145.127    0.307 1493.091    3.157 /opt/venv/lib/python3.12/site-packages/pybest/linalg/base.py:545(contract)
+        1    0.017    0.017 1489.732 1489.732 /opt/venv/lib/python3.12/site-packages/pybest/cc/rcc.py:790(select_pbqn)
+        1    0.001    0.001 1485.859 1485.859 /opt/venv/lib/python3.12/site-packages/pybest/solvers/pbquasinewton.py:197(__call__)
+        3    0.000    0.000 1395.762  465.254 /opt/venv/lib/python3.12/site-packages/pybest/solvers/pbquasinewton.py:158(compute_vfunction)
+        3    0.050    0.017 1395.761  465.254 /opt/venv/lib/python3.12/site-packages/pybest/cc/rccsd.py:677(vfunction)
+        3    0.001    0.000 1375.063  458.354 /opt/venv/lib/python3.12/site-packages/pybest/cc/rccsd.py:685(cc_residual_vector)
+     2399    0.005    0.000 1059.537    0.442 /opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py:363(clean_memory)
+     2399    0.005    0.000 1059.529    0.442 /opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py:296(<lambda>)
+     2399    0.007    0.000 1059.525    0.442 /opt/venv/lib/python3.12/site-packages/torch/cuda/memory.py:217(empty_cache)
+     2399 1059.513    0.442 1059.513    0.442 {built-in method torch._C._cuda_emptyCache}
+      208    0.001    0.000 1047.024    5.034 /opt/venv/lib/python3.12/site-packages/pybest/linalg/crosslib_batching.py:1498(splitting_assistance)
+      208    0.032    0.000 1047.017    5.034 /opt/venv/lib/python3.12/site-packages/pybest/linalg/crosslib_batching.py:591(c_splitting)
+        1  621.357  621.357  623.688  623.688 /opt/venv/lib/python3.12/site-packages/pybest/gbasis/cholesky_eri.py:39(compute_cholesky_eri)
+      243    0.063    0.000  228.416    0.940 /opt/venv/lib/python3.12/site-packages/pybest/linalg/crosslib_batching.py:1320(td_GPU_helper)
+        1    0.000    0.000  128.764  128.764 /opt/venv/lib/python3.12/site-packages/pybest/cc/rccsd.py:217(set_hamiltonian)
+      937   83.630    0.089  101.675    0.109 /opt/venv/lib/python3.12/site-packages/numpy/_core/numeric.py:997(tensordot)
+     1493    0.009    0.000   98.682    0.066 /opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py:287(<lambda>)
+     1493   98.514    0.066   98.514    0.066 {method 'to' of 'torch._C.TensorBase' objects}
+     1095    0.003    0.000   96.411    0.088 /opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py:317(create_tensor_on_gpu)
+     1146    0.004    0.000   73.593    0.064 /opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py:396(tensordot_gpu)
+     1146    0.009    0.000   73.587    0.064 /opt/venv/lib/python3.12/site-packages/pybest/linalg/_gpu_support.py:240(_pytorch_tensordot)
+     1146    0.019    0.000   73.564    0.064 /opt/venv/lib/python3.12/site-packages/torch/functional.py:1306(tensordot)
+     1146   73.539    0.064   73.539    0.064 {built-in method torch.tensordot}
+        1    0.000    0.000   70.579   70.579 /opt/venv/lib/python3.12/site-packages/pybest/auxmat.py:68(get_fock_matrix)
+        5    3.158    0.632   70.505   14.101 /opt/venv/lib/python3.12/site-packages/pybest/linalg/contract.py:120(cholesky_td_routine)
+        1    0.000    0.000   62.324   62.324 /opt/venv/lib/python3.12/site-packages/pybest/wrappers/hf.py:177(__call__)
+
+
+--- top 30 by time in the function itself ---
+Sun Oct  4 23:05:09 2026    /tmp/prof920b-166079/prof920b_cprofile.prof
+
+         2550093 function calls (2484354 primitive calls) in 2350.969 seconds
+
+   Ordered by: internal time
+   List reduced from 7519 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     2399 1059.513    0.442 1059.513    0.442 {built-in method torch._C._cuda_emptyCache}
+        1  621.357  621.357  623.688  623.688 /opt/venv/lib/python3.12/site-packages/pybest/gbasis/cholesky_eri.py:39(compute_cholesky_eri)
+      473  145.127    0.307 1493.091    3.157 /opt/venv/lib/python3.12/site-packages/pybest/linalg/base.py:545(contract)
+     1493   98.514    0.066   98.514    0.066 {method 'to' of 'torch._C.TensorBase' objects}
+      937   83.630    0.089  101.675    0.109 /opt/venv/lib/python3.12/site-packages/numpy/_core/numeric.py:997(tensordot)
+     1146   73.539    0.064   73.539    0.064 {built-in method torch.tensordot}
+      284   53.784    0.189   53.798    0.189 /opt/venv/lib/python3.12/site-packages/h5py/_hl/dataset.py:39(make_new_dset)
+       16   32.072    2.005   38.905    2.432 /data1/rkp00012/rku00036/pybest/unravel_patch.py:59(_symmetrise)
+      575   28.638    0.050   28.638    0.050 {method 'add_' of 'torch._C.TensorBase' objects}
+       20   19.334    0.967   19.336    0.967 /opt/venv/lib/python3.12/site-packages/h5py/_hl/dataset.py:1112(read_direct)
+     2937   18.034    0.006   18.034    0.006 {method 'reshape' of 'numpy.ndarray' objects}
+      616    9.383    0.015    9.383    0.015 {built-in method torch._C._cuda_synchronize}
+        4    7.957    1.989   13.452    3.363 /opt/venv/lib/python3.12/site-packages/pybest/linalg/dense/dense_four_index.py:566(get_triu)
+        1    7.102    7.102   40.135   40.135 /opt/venv/lib/python3.12/site-packages/pybest/linalg/cholesky.py:639(assign_four_index_transform)
+     9564    6.828    0.001    6.828    0.001 {method 'copy' of 'numpy.ndarray' objects}
+       13    6.356    0.489    6.356    0.489 /data1/rkp00012/rku00036/pybest/unravel_patch.py:49(_triu_rows)
+       15    5.911    0.394    5.911    0.394 /opt/venv/lib/python3.12/site-packages/numpy/lib/_twodim_base_impl.py:1178(<genexpr>)
+        2    5.569    2.784    5.569    2.784 /opt/venv/lib/python3.12/site-packages/pybest/linalg/dense/dense_four_index.py:828(iadd_transpose)
+       12    4.768    0.397    4.768    0.397 /opt/venv/lib/python3.12/site-packages/pybest/linalg/dense/dense_one_index.py:256(copy)
+      451    4.592    0.010    4.595    0.010 /opt/venv/lib/python3.12/site-packages/pybest/linalg/dense/dense_two_index.py:462(iadd)
+        3    3.864    1.288    3.864    1.288 /opt/venv/lib/python3.12/site-packages/pybest/linalg/dense/dense_one_index.py:518(divide)
+       70    3.768    0.054    3.769    0.054 /opt/venv/lib/python3.12/site-packages/h5py/_hl/files.py:212(make_fid)
+       19    3.658    0.193    3.658    0.193 {built-in method _ctypes.dlopen}
+        1    3.470    3.470    3.470    3.470 /opt/venv/lib/python3.12/site-packages/pybest/linalg/cholesky.py:449(assign)
+        6    3.377    0.563    3.377    0.563 /opt/venv/lib/python3.12/site-packages/pybest/linalg/dense/dense_one_index.py:341(iadd)
+        5    3.158    0.632   70.505   14.101 /opt/venv/lib/python3.12/site-packages/pybest/linalg/contract.py:120(cholesky_td_routine)
+        2    2.934    1.467    3.784    1.892 /opt/venv/lib/python3.12/site-packages/pybest/linalg/base.py:968(get_max_values)
+      616    2.767    0.004    2.767    0.004 {method 'copy_' of 'torch._C.TensorBase' objects}
+       29    2.600    0.090    2.616    0.090 /opt/venv/lib/python3.12/site-packages/scipy/linalg/_decomp.py:311(eigh)
+        1    2.330    2.330    2.330    2.330 {built-in method numpy._core._multiarray_umath.count_nonzero}
+
+
+
+NSYS=/shared/software/hpc_sdk/Linux_aarch64/26.3/compilers/bin/nsys
+=============== prof920b_nsys ===============
+# temp_dir=/tmp/prof920b-166079/pb-ns
+# nbasis=920 predicted=920
+# cholesky_eri_sec=651.471
+# rhf_sec=63.091 
+# pin_strategy=baseline
+# accum3: torch fused axpy, 16 threads
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+# maxiter overridden to 2
+Total energy             -763.32071017 a.u.
+# ccsd_total_sec=1664.793 upper_bound_per_iter=832.396 maxiter=2
+# total_sec=2380.098
+# d2h_view: returned a view 572 times, copied 44 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# accum3: fused 575 (733.7 GiB), 40 fell back
+rc=0
+--- trace size: 676M ---
+--- cuda_gpu_kern_sum ---
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
++----------+-----------------+-----------+--------------+--------------+------------+------------+-------------+------------------------------------------------------------------------------------------------------+
+| Time (%) | Total Time (ns) | Instances |   Avg (ns)   |   Med (ns)   |  Min (ns)  |  Max (ns)  | StdDev (ns) |                                                 Name                                                 |
++----------+-----------------+-----------+--------------+--------------+------------+------------+-------------+------------------------------------------------------------------------------------------------------+
+|     71.5 |    725001208567 |       378 | 1917992615.3 | 1920700099.0 | 1913975863 | 1921076423 |   3253051.9 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x32_16x5_nt_align1>(T1::Params)                 |
+|     19.0 |    192679349487 |       426 |  452298942.5 |  370761853.5 |     768800 | 2163451808 | 393544698.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nn_align1>(T1::Params)                 |
+|      4.1 |     41740514482 |        93 |  448822736.4 |  391920224.0 |     855904 |  853007368 | 313672802.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(T1::Params)                 |
+|      2.0 |     20703277172 |        15 | 1380218478.1 | 2138773434.0 |   98296576 | 2139200399 | 966515557.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_tn_align1>(T1::Params)                 |
+|      1.1 |     10875796270 |     49517 |     219637.6 |      91264.0 |       1952 |    1130944 |    256993.9 | void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::n… |
+|      0.8 |      7767970558 |        55 |  141235828.3 |  218332933.0 |    3044448 |  218830752 |  89967913.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nn_align1>(T1::Params)                 |
+|      0.7 |      7546111014 |        25 |  301844440.6 |  301622375.0 |  300021597 |  304207646 |   1094497.0 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x64_16x4_nt_align1>(T1::Params)                 |
+|      0.7 |      6718283732 |       150 |   44788558.2 |   48875055.5 |   24558560 |   48887137 |   9075719.4 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x64_16x4_nn_align1>(T1::Params)                 |
+|      0.0 |       445741889 |       198 |    2251221.7 |     638080.0 |     225344 |   43066528 |   5456053.5 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_tn_align1>(T1::Params)                |
+|      0.0 |       184357376 |        31 |    5947012.1 |    6598592.0 |     310496 |    6605248 |   1880247.4 | std::enable_if<T7, void>::type internal::gemvx::kernel<int, int, double, double, double, double, (b… |
+|      0.0 |       173624226 |       227 |     764864.4 |       6688.0 |       2112 |    5656608 |   1835304.5 | void dot_kernel<double, (int)128, (int)0, cublasDotParams<cublasGemvTensorStridedBatched<const doub… |
+|      0.0 |        34680032 |        31 |    1118710.7 |    1323168.0 |     254816 |    1333344 |    427760.4 | void gemv2T_kernel_val<int, int, double, double, double, double, (int)128, (int)16, (int)4, (int)4,… |
+|      0.0 |        32465089 |         3 |   10821696.3 |   10821856.0 |   10820832 |   10822401 |       796.6 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nt_align1>(T1::Params)                 |
+|      0.0 |        11534336 |         3 |    3844778.7 |    3844544.0 |    3842976 |    3846816 |      1930.7 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nn_align1>(T1::Params)                |
+|      0.0 |         2732480 |        78 |      35031.8 |       9536.0 |       5472 |     111520 |     35944.1 | void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, double, double, double, double, (bool)0, … |
+|      0.0 |          632512 |       227 |       2786.4 |       2432.0 |       2080 |       5664 |       934.3 | void reduce_1Block_kernel<double, (int)128, (int)7, cublasGemvTensorStridedBatched<double>, cublasG… |
+--- cuda_gpu_mem_time_sum ---
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
++----------+-----------------+-------+------------+-----------+----------+-----------+-------------+------------------------------+
+| Time (%) | Total Time (ns) | Count |  Avg (ns)  | Med (ns)  | Min (ns) | Max (ns)  | StdDev (ns) |          Operation           |
++----------+-----------------+-------+------------+-----------+----------+-----------+-------------+------------------------------+
+|     91.1 |     41725875294 |  1383 | 30170553.4 | 8449344.0 |     1632 | 212566848 |  58687665.4 | [CUDA memcpy Host-to-Device] |
+|      8.9 |      4081047064 |   824 |  4952727.0 |  396864.0 |     2176 |  50144448 |  14521957.4 | [CUDA memcpy Device-to-Host] |
+|      0.0 |         2744992 |   964 |     2847.5 |    2048.0 |     1248 |      4704 |      1252.8 | [CUDA memset]                |
++----------+-----------------+-------+------------+-----------+----------+-----------+-------------+------------------------------+
+--- cuda_gpu_mem_size_sum ---
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
++-------------+-------+----------+----------+----------+-----------+-------------+------------------------------+
+| Total (MB)  | Count | Avg (MB) | Med (MB) | Min (MB) | Max (MB)  | StdDev (MB) |          Operation           |
++-------------+-------+----------+----------+----------+-----------+-------------+------------------------------+
+| 8495028.086 |  1383 | 6142.464 | 1789.493 |    0.013 | 42462.195 |   12034.999 | [CUDA memcpy Host-to-Device] |
+|  788133.282 |   824 |  956.472 |   76.096 |    0.000 |  9688.320 |    2806.200 | [CUDA memcpy Device-to-Host] |
+|    6886.840 |   964 |    7.144 |    0.213 |    0.002 |    18.012 |       8.553 | [CUDA memset]                |
++-------------+-------+----------+----------+----------+-----------+-------------+------------------------------+
+--- cuda_api_sum ---
+ ** CUDA API Summary (cuda_api_sum):
++----------+-----------------+-----------+-------------+------------+----------+------------+-------------+-------------------------------------------+
+| Time (%) | Total Time (ns) | Num Calls |  Avg (ns)   |  Med (ns)  | Min (ns) |  Max (ns)  | StdDev (ns) |                   Name                    |
++----------+-----------------+-----------+-------------+------------+----------+------------+-------------+-------------------------------------------+
+|     88.0 |   1045903553216 |      3638 | 287494104.8 | 30124624.0 |    68704 | 2211821984 | 604966364.2 | cudaFree                                  |
+|      7.6 |     90172902560 |      3641 |  24765971.6 | 16902368.0 |     4448 |  249181184 |  31323179.0 | cudaMalloc                                |
+|      3.5 |     41820941472 |      2207 |  18949225.9 |    76576.0 |     8448 |  212617376 |  48695749.5 | cudaMemcpyAsync                           |
+|      0.8 |      9490201792 |       616 |  15406171.7 |   362512.0 |     7616 |  449905920 |  63047407.5 | cudaDeviceSynchronize                     |
+|      0.1 |       657140640 |         3 | 219046880.0 | 21752576.0 |   540896 |  634847168 | 360249765.4 | cudaHostAlloc                             |
+|      0.0 |       205905824 |     50033 |      4115.4 |     2752.0 |     2080 |    7986592 |     36470.8 | cudaLaunchKernel                          |
+|      0.0 |       121701920 |        17 |   7158936.5 |   308352.0 |   108064 |   70180736 |  19852585.3 | cuLibraryLoadData                         |
+|      0.0 |        89698752 |       223 |    402236.6 |    87136.0 |    28608 |   21332640 |   1873613.2 | cudaMemGetInfo                            |
+|      0.0 |        29288512 |       964 |     30382.3 |    34928.0 |     9024 |      57824 |     10509.7 | cudaMemsetAsync                           |
+|      0.0 |        15457888 |      1346 |     11484.3 |     7584.0 |     2080 |      55040 |      8607.2 | cuLaunchKernel                            |
+|      0.0 |        10976224 |      5848 |      1876.9 |     1632.0 |      416 |      16576 |      1237.3 | cudaStreamIsCapturing                     |
+|      0.0 |         9294816 |      1591 |      5842.1 |     6112.0 |     2336 |      35136 |      2253.9 | cudaStreamSynchronize                     |
+|      0.0 |         4361504 |     50033 |        87.2 |       64.0 |       32 |      17728 |       163.9 | cuKernelGetName                           |
+|      0.0 |         4166304 |      1346 |      3095.3 |     3040.0 |      160 |     277184 |      8731.1 | cuKernelGetFunction                       |
+|      0.0 |         2599520 |        78 |     33327.2 |    10208.0 |     4032 |    1832192 |    206349.7 | cudaLaunchKernelExC                       |
+|      0.0 |         1275680 |        28 |     45560.0 |      832.0 |      256 |    1241504 |    234385.1 | cuLibraryGetKernel                        |
+--- osrt_sum ---
+ ** OS Runtime Summary (osrt_sum):
++----------+-----------------+-----------+---------------+--------------+------------+---------------+---------------+------------------------+
+| Time (%) | Total Time (ns) | Num Calls |   Avg (ns)    |   Med (ns)   |  Min (ns)  |   Max (ns)    |  StdDev (ns)  |          Name          |
++----------+-----------------+-----------+---------------+--------------+------------+---------------+---------------+------------------------+
+|     65.1 | 187694262120448 |     11096 | 16915488655.4 |   62640800.0 |      57376 |  660974123392 | 85056139308.9 | pthread_cond_wait      |
+|     33.2 |  95603253651008 |     91621 |  1043464420.3 |   12310496.0 |       1024 | 1665420468096 | 21570150923.1 | futex                  |
+|      0.8 |   2390419889472 |     23878 |   100109719.8 |  100112512.0 |       1984 |     212931680 |     2569940.4 | poll                   |
+|      0.8 |   2388092538592 |       597 |  4000155006.0 | 4000055392.0 | 4000009312 |    4020075200 |      854791.6 | pthread_cond_timedwait |
+|      0.0 |    137490548576 |     33607 |     4091128.3 |      59072.0 |       1088 |     634661216 |    13390505.5 | ioctl                  |
+|      0.0 |     53958975392 |       764 |    70626931.1 |      33856.0 |       1024 |    1689997728 |   267319020.3 | pwrite64               |
+|      0.0 |     19543491552 |       346 |    56484079.6 |       4368.0 |       1024 |     190453088 |    82516628.6 | pread64                |
+|      0.0 |      3455466528 |      2003 |     1725145.5 |      56096.0 |       1120 |     987107712 |    34982023.5 | open64                 |
+|      0.0 |      1859775552 |      3178 |      585203.1 |      18512.0 |       1024 |      63008416 |     3610161.7 | read                   |
+|      0.0 |      1434389792 |      7029 |      204067.4 |       8640.0 |       1760 |       7373088 |      734257.6 | munmap                 |
+|      0.0 |       358115520 |         1 |   358115520.0 |  358115520.0 |  358115520 |     358115520 |           0.0 | pthread_rwlock_rdlock  |
+|      0.0 |       271456032 |      8283 |       32772.7 |       7040.0 |       1024 |      33181888 |      377614.7 | stat64                 |
+|      0.0 |       112090592 |       226 |      495976.1 |      20960.0 |       8576 |      97482496 |     6494944.1 | backtrace              |
+|      0.0 |        96920384 |      2317 |       41830.1 |      17888.0 |       2176 |      46107648 |      957483.5 | mmap                   |
+|      0.0 |        64392192 |     11110 |        5795.9 |       3008.0 |       1408 |       3813152 |       83122.4 | pthread_cond_signal    |
+|      0.0 |        43565152 |      1861 |       23409.5 |       5152.0 |       1024 |       3132384 |      115022.4 | close                  |
+kept /data1/rkp00012/rku00036/pybest/results/profile920b/prof920b_nsys.nsys-rep
+ALL DONE Mon Oct  5 00:09:03 JST 2026

@@ -1,0 +1,158 @@
+{
+  "job": "161307",
+  "tool": "Nsight Systems 2026.1.1.204 (RIKYU module nvhpc, HPC SDK 26.3)",
+  "system": "(H2O)10 / cc-pVDZ, 240 AO, RCCSD maxiter=4, C-split, --gpus=2",
+  "caveat": "240 AO is the small-system regime and its BALANCE is not representative of large bases: C-split is 14% of GPU-section time here against 58% at 1150 AO. The allocation and pinning findings should generalise (more batches means more allocations) but that is untested.",
+  "profiling_overhead": "ccsd_total 87.0 s profiled vs 81.8 s clean for CuPy, about 7%",
+  "energy_check": "-762.39447031 a.u. for both backends, matching the unprofiled run exactly",
+  "gemm_kernels": "cutlass_80_tensorop_d884gemm_* -- sm_80 (Ampere) DMMA kernels, identical set in both backends. Worth confirming whether Blackwell offers a newer FP64 path.",
+  "cupy": {
+    "ccsd_total_sec": 87.047,
+    "gpu_kernel_total_sec": 3.49,
+    "gpu_kernel_gemm_share": 0.94,
+    "h2d_sec": 2.024,
+    "d2h_sec": 0.521,
+    "api": {
+      "cudaHostAlloc": 12.74,
+      "cudaFree": 5.32,
+      "cudaMalloc": 3.56,
+      "cudaMemcpyAsync": 2.88,
+      "cudaFreeHost": 2.6
+    },
+    "api_calls": {
+      "cudaHostAlloc": 1032,
+      "cudaMalloc": 1777,
+      "cudaFree": 1778,
+      "cudaMemcpyAsync": 1736,
+      "cudaFreeHost": 1032
+    },
+    "defect": "pins host memory correctly but allocates and frees 1032 pinned buffers rather than reusing one; cudaHostAlloc averages 12.3 ms per call, so pinning costs 15.3 s -- 4.4x all GPU kernel time"
+  },
+  "pytorch": {
+    "ccsd_total_sec": 115.666,
+    "gpu_kernel_total_sec": 3.41,
+    "h2d_sec": 2.226,
+    "d2h_sec": 21.461,
+    "api": {
+      "cudaMemcpyAsync": 23.945,
+      "cudaFree": 4.366,
+      "cudaMalloc": 2.552
+    },
+    "api_calls": {
+      "cudaMemcpyAsync": 1736,
+      "cudaMalloc": 1246,
+      "cudaFree": 1243
+    },
+    "cudaHostAlloc_calls": 0,
+    "defect": "never pins host memory, so cudaMemcpyAsync to pageable destinations is synchronous. D2H costs 21.46 s against CuPy's 0.52 s for the SAME 65.8 GB -- 41x. The cudaMemcpyAsync max of 620.87 ms matches the D2H max of 620.84 ms, i.e. the call blocks for the whole transfer. PyBEST's path ends in t.cpu().numpy(), which targets pageable numpy memory."
+  },
+  "shared_defect": {
+    "h2d_volume_mb": 260095.979,
+    "h2d_ops": 1211,
+    "eri_size_gb": 0.77,
+    "redundancy": "about 85x re-transmission of the same data; identical in both backends",
+    "h2d_achieved_gbs": 128,
+    "nvlink_c2c_spec_gbs": 450,
+    "note": "first measurement of C2C in this project: 29% of spec"
+  },
+  "what_this_overturns": "PyBEST's own timer charged 61.6 s to GPU: C-split plus GPU: Generic at this size, while actual GPU kernels ran 3.5 s. The timer cannot separate kernel execution from allocation, pinning and transfer, so section times should not be read as GPU work.",
+  "pinned_run_161952": {
+    "system": "(H2O)10 / cc-pVDZ, 240 AO, RCCSD maxiter=4, C-split, --gpus=1, PyTorch only",
+    "why_pytorch_only": "bounded pinning REGRESSED CuPy by 7.5% at this size (job 161877), so the patch is PyTorch-only and CuPy's baseline trace already exists above",
+    "ccsd_total_sec": {
+      "baseline": 103.981,
+      "pinned": 66.624,
+      "change_pct": -35.9
+    },
+    "energy_check": "-762.39447031 a.u. in both, matching every earlier run",
+    "d2h": {
+      "mb": 65806.59,
+      "ops": 525,
+      "baseline_sec": 20.448,
+      "baseline_gbs": 3.22,
+      "pinned_sec": 0.342,
+      "pinned_gbs": 192.7,
+      "speedup": 59.9,
+      "max_single_op_ms": {
+        "baseline": 701.5,
+        "pinned": 2.4
+      }
+    },
+    "h2d": {
+      "mb": 260095.98,
+      "ops": 1211,
+      "baseline_sec": 1.453,
+      "pinned_sec": 1.425,
+      "gbs": 179.0,
+      "note": "untouched -- the patch only replaces as_numpy/get_numpy"
+    },
+    "api_sec": {
+      "baseline": {
+        "cudaMemcpyAsync": 22.154,
+        "cudaFree": 4.688,
+        "cudaMalloc": 2.729,
+        "cudaMemGetInfo": 0.222
+      },
+      "pinned": {
+        "cudaFree": 5.351,
+        "cudaMalloc": 3.292,
+        "cudaMemcpyAsync": 1.537,
+        "cudaMemGetInfo": 0.602,
+        "cudaHostAlloc": 0.027
+      }
+    },
+    "api_calls": {
+      "cudaMemcpyAsync": 1736,
+      "cudaMemGetInfo": 328,
+      "cudaHostAlloc_pinned": 3,
+      "cudaHostAlloc_baseline": 0,
+      "cudaFree": {
+        "baseline": 1243,
+        "pinned": 1390
+      },
+      "cudaMalloc": {
+        "baseline": 1246,
+        "pinned": 1393
+      }
+    },
+    "gemm_kernels_sec": {
+      "baseline": 3.3,
+      "pinned": 3.3,
+      "note": "11 cutlass_80_tensorop_d884gemm variants, identical mix and times -- the patch changes nothing computational"
+    },
+    "breakdown_of_the_pinned_run": {
+      "gemm_kernels": [
+        3.3,
+        "5.0%"
+      ],
+      "h2d": [
+        1.43,
+        "2.1%"
+      ],
+      "d2h": [
+        0.34,
+        "0.5%"
+      ],
+      "cudaMalloc_plus_cudaFree": [
+        8.64,
+        "13.0%"
+      ],
+      "cudaMemGetInfo": [
+        0.6,
+        "0.9%"
+      ],
+      "host_side_remainder": [
+        52.0,
+        "78%"
+      ]
+    },
+    "conclusions": [
+      "The transfer problem is SOLVED: all memory movement is 1.77 s of 66.6 s, 2.7%. That retires registering destinations and managed-memory allocation as performance work -- both chase a 2.7% envelope.",
+      "The 85x H2D re-transmission is dead as a target: all 260 GB costs 1.43 s.",
+      "The CUDA allocator is now the largest GPU-side cost at 8.64 s, 2.6x the GEMM time. 1390 cudaFree calls means PyBEST's explicit clean_memory() defeats PyTorch's caching allocator. Reducing it perturbs the batching decision, so it is a question for the authors rather than a patch.",
+      "78% is host-side orchestration. RCCSD: unravel is 13.5 s of it at this size and 462 s at 920 AO, and is the only large item that perturbs nothing when changed.",
+      "cudaMemGetInfo is called 328 times, not five -- five call SITES inside loops. Still 0.6 s, under 1%, so the retraction of the caching result holds with room to spare."
+    ],
+    "bounded_buffer_validated": "3 cudaHostAlloc calls for the whole run, 0.027 s, against CuPy's 1032 calls and 12.74 s. The doubling-reuse design does what it was meant to."
+  }
+}

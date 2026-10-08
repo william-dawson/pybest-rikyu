@@ -1,0 +1,10 @@
+{
+  "nbasis": 1100, "nocc": 100, "nvirt": 1000, "nchol": 5500, "nvec_factor": 5,
+  "backend": "pytorch", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [1379.4612356640864, 1379.209526540013, 1380.4262202440295, 1383.4280853960663],
+  "median_sec": 1379.943727954058, "mean_sec": 1380.6312669610488,
+  "total_gib": 230.96799850463867, "host": "c077", "slurm_job": "147127",
+  "peak_rss_gib": 325.9599609375, "peak_over_operands": 1.4112775927741936,
+  "cpus_visible": 144
+}

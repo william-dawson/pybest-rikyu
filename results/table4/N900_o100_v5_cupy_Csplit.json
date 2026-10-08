@@ -1,0 +1,10 @@
+{
+  "nbasis": 900, "nocc": 100, "nvirt": 800, "nchol": 4500, "nvec_factor": 5,
+  "backend": "cupy", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [398.9691019479651, 397.54904231405817, 398.40051877102815, 396.7151949290419],
+  "median_sec": 397.97478054254316, "mean_sec": 397.90846449052333,
+  "total_gib": 138.28277587890625, "host": "c077", "slurm_job": "147127",
+  "peak_rss_gib": 212.90625, "peak_over_operands": 1.5396440275862069,
+  "cpus_visible": 144
+}

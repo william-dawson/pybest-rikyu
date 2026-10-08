@@ -1,0 +1,138 @@
+host=c077 nproc=64 job=147127 date=Mon Sep 28 10:59:39 JST 2026
+index, name, memory.total [MiB]
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+Mem:            1690          61        1661           0           1        1629
+
+=============== N900_o100_v5_cupy_Csplit ===============
+N=900 nocc=100 nvirt=800 nchol=4500
+  xac   (4500, 800, 800)               21.5 GiB
+  xbd   (4500, 800, 800)               21.5 GiB
+  ecfd  (100, 800, 100, 800)           47.7 GiB
+  out   (100, 100, 800, 800)           47.7 GiB
+  TOTAL                               138.3 GiB   (host available 1629.4 GiB)
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 5.3s
+  warmup 0:    398.42 s
+  timed 1:    398.97 s
+  timed 2:    397.55 s
+  timed 3:    398.40 s
+  timed 4:    396.72 s
+median 397.97 s   mean 397.91 s
+peak_rss 212.9 GiB   = 1.54x operand sum (138.3 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/N900_o100_v5_cupy_Csplit.json
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_N900_o100_v5_cupy_Csplit.log
+gpu_max_util=100%
+
+=============== N900_o100_v5_pytorch_Csplit ===============
+N=900 nocc=100 nvirt=800 nchol=4500
+  xac   (4500, 800, 800)               21.5 GiB
+  xbd   (4500, 800, 800)               21.5 GiB
+  ecfd  (100, 800, 100, 800)           47.7 GiB
+  out   (100, 100, 800, 800)           47.7 GiB
+  TOTAL                               138.3 GiB   (host available 1627.7 GiB)
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 5.3s
+  warmup 0:    444.92 s
+  timed 1:    433.67 s
+  timed 2:    442.02 s
+  timed 3:    435.76 s
+  timed 4:    436.74 s
+median 436.25 s   mean 437.05 s
+peak_rss 192.0 GiB   = 1.39x operand sum (138.3 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/N900_o100_v5_pytorch_Csplit.json
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_N900_o100_v5_pytorch_Csplit.log
+gpu_max_util=100%
+
+=============== N1000_o100_v5_cupy_Csplit ===============
+N=1000 nocc=100 nvirt=900 nchol=5000
+  xac   (5000, 900, 900)               30.2 GiB
+  xbd   (5000, 900, 900)               30.2 GiB
+  ecfd  (100, 900, 100, 900)           60.3 GiB
+  out   (100, 100, 900, 900)           60.3 GiB
+  TOTAL                               181.0 GiB   (host available 1634.0 GiB)
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 7.2s
+  warmup 0:    669.60 s
+  timed 1:    687.48 s
+  timed 2:    673.76 s
+  timed 3:    690.32 s
+  timed 4:    674.49 s
+median 680.98 s   mean 681.51 s
+peak_rss 251.6 GiB   = 1.39x operand sum (181.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/N1000_o100_v5_cupy_Csplit.json
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_N1000_o100_v5_cupy_Csplit.log
+gpu_max_util=100%
+
+=============== N1000_o100_v5_pytorch_Csplit ===============
+N=1000 nocc=100 nvirt=900 nchol=5000
+  xac   (5000, 900, 900)               30.2 GiB
+  xbd   (5000, 900, 900)               30.2 GiB
+  ecfd  (100, 900, 100, 900)           60.3 GiB
+  out   (100, 100, 900, 900)           60.3 GiB
+  TOTAL                               181.0 GiB   (host available 1621.6 GiB)
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 7.1s
+  warmup 0:    664.78 s
+  timed 1:    684.23 s
+  timed 2:    683.00 s
+  timed 3:    684.78 s
+  timed 4:    687.34 s
+median 684.50 s   mean 684.84 s
+peak_rss 245.8 GiB   = 1.36x operand sum (181.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/N1000_o100_v5_pytorch_Csplit.json
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_N1000_o100_v5_pytorch_Csplit.log
+gpu_max_util=100%
+
+=============== N1100_o100_v5_cupy_Csplit ===============
+N=1100 nocc=100 nvirt=1000 nchol=5500
+  xac   (5500, 1000, 1000)             41.0 GiB
+  xbd   (5500, 1000, 1000)             41.0 GiB
+  ecfd  (100, 1000, 100, 1000)         74.5 GiB
+  out   (100, 100, 1000, 1000)         74.5 GiB
+  TOTAL                               231.0 GiB   (host available 1608.7 GiB)
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 9.0s
+  warmup 0:   1052.09 s
+  timed 1:   1051.66 s
+  timed 2:   1051.40 s
+  timed 3:   1051.57 s
+  timed 4:   1051.28 s
+median 1051.48 s   mean 1051.48 s
+peak_rss 370.2 GiB   = 1.60x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/N1100_o100_v5_cupy_Csplit.json
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_N1100_o100_v5_cupy_Csplit.log
+gpu_max_util=100%
+
+=============== N1100_o100_v5_pytorch_Csplit ===============
+N=1100 nocc=100 nvirt=1000 nchol=5500
+  xac   (5500, 1000, 1000)             41.0 GiB
+  xbd   (5500, 1000, 1000)             41.0 GiB
+  ecfd  (100, 1000, 100, 1000)         74.5 GiB
+  out   (100, 100, 1000, 1000)         74.5 GiB
+  TOTAL                               231.0 GiB   (host available 1521.2 GiB)
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 9.2s
+  warmup 0:   1377.76 s
+  timed 1:   1379.46 s
+  timed 2:   1379.21 s
+  timed 3:   1380.43 s
+  timed 4:   1383.43 s
+median 1379.94 s   mean 1380.63 s
+peak_rss 326.0 GiB   = 1.41x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/N1100_o100_v5_pytorch_Csplit.json
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_N1100_o100_v5_pytorch_Csplit.log
+gpu_max_util=100%
+
+ALL DONE Mon Sep 28 17:28:25 JST 2026
+total 37
+drwxr-sr-x 2 rku00036 rkp00012 4096 Sep 28 17:28 .
+drwxr-sr-x 7 rku00036 rkp00012 4096 Sep 28 17:28 ..
+-rw-r--r-- 1 rku00036 rkp00012  554 Sep 28 13:07 N1000_o100_v5_cupy_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  561 Sep 28 14:04 N1000_o100_v5_pytorch_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  566 Sep 28 15:32 N1100_o100_v5_cupy_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  565 Sep 28 17:28 N1100_o100_v5_pytorch_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  483 Sep 28 08:35 N800_o100_v5_cupy_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  483 Sep 28 08:58 N800_o100_v5_pytorch_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  555 Sep 28 11:33 N900_o100_v5_cupy_Csplit.json
+-rw-r--r-- 1 rku00036 rkp00012  564 Sep 28 12:10 N900_o100_v5_pytorch_Csplit.json

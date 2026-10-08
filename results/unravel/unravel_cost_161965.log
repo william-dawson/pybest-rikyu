@@ -1,0 +1,143 @@
+host=c071 nproc=32 job=161965 date=Sat Oct  3 10:00:08 JST 2026
+               total        used        free      shared  buff/cache   available
+Mem:            1691         233        1483           0          16        1458
+
+=============== unravel_blk1024 ===============
+numpy 2.5.3  threads: see OMP_NUM_THREADS=None
+
+======================================================================
+240 AO  cc-pVDZ: nacto=40 nactv=190  ov=7600
+  t_2 0.43 GiB   packed vector 0.22 GiB   triu_indices would be 0.43 GiB
+  assign_triu   PyBEST     0.18 s   sliced     0.03 s     5.8x   equal=True
+  abab->ab          0.00 s
+  iadd_transpose PyBEST    0.29 s   blocked    0.11 s     2.5x   equal=True
+  gc.collect()      0.00 s
+  -> one unravel 0.5 s -> 0.1 s  (3.2x)
+
+======================================================================
+580 AO  cc-pVTZ: nacto=40 nactv=530  ov=21200
+  t_2 3.35 GiB   packed vector 1.67 GiB   triu_indices would be 3.35 GiB
+  assign_triu   PyBEST     1.37 s   sliced     0.20 s     6.7x   equal=True
+  abab->ab          0.00 s
+  iadd_transpose PyBEST    3.02 s   blocked    0.76 s     4.0x   equal=True
+  gc.collect()      0.00 s
+  -> one unravel 4.4 s -> 1.0 s  (4.5x)
+
+======================================================================
+920 AO  aug-cc-pVTZ: nacto=40 nactv=870  ov=34800
+  t_2 9.02 GiB   packed vector 4.51 GiB   triu_indices would be 9.02 GiB
+  assign_triu   PyBEST     3.49 s   sliced     0.49 s     7.1x   equal=True
+  abab->ab          0.00 s
+  iadd_transpose PyBEST   10.23 s   blocked    2.05 s     5.0x   equal=True
+  gc.collect()      0.00 s
+  -> one unravel 13.7 s -> 2.5 s  (5.4x)
+
+wrote /data1/rkp00012/rku00036/pybest/results/unravel/unravel_blk1024.json
+
+`equal=True` is the point: these are the same arrays, not an approximation.
+Measured against PyBEST's 462 s of unravel at 920 AO over 4 iterations.
+rc=0
+
+=============== unravel_blk4096 ===============
+numpy 2.5.3  threads: see OMP_NUM_THREADS=None
+
+======================================================================
+240 AO  cc-pVDZ: nacto=40 nactv=190  ov=7600
+  t_2 0.43 GiB   packed vector 0.22 GiB   triu_indices would be 0.43 GiB
+  assign_triu   PyBEST     0.18 s   sliced     0.03 s     5.8x   equal=True
+  abab->ab          0.00 s
+  iadd_transpose PyBEST    0.29 s   blocked    0.20 s     1.5x   equal=True
+  gc.collect()      0.00 s
+  -> one unravel 0.5 s -> 0.2 s  (2.0x)
+
+======================================================================
+580 AO  cc-pVTZ: nacto=40 nactv=530  ov=21200
+  t_2 3.35 GiB   packed vector 1.67 GiB   triu_indices would be 3.35 GiB
+  assign_triu   PyBEST     1.34 s   sliced     0.20 s     6.7x   equal=True
+  abab->ab          0.00 s
+  iadd_transpose PyBEST    3.02 s   blocked    1.88 s     1.6x   equal=True
+  gc.collect()      0.00 s
+  -> one unravel 4.4 s -> 2.1 s  (2.1x)
+
+======================================================================
+920 AO  aug-cc-pVTZ: nacto=40 nactv=870  ov=34800
+  t_2 9.02 GiB   packed vector 4.51 GiB   triu_indices would be 9.02 GiB
+  assign_triu   PyBEST     3.53 s   sliced     0.49 s     7.2x   equal=True
+  abab->ab          0.00 s
+  iadd_transpose PyBEST   10.22 s   blocked    6.10 s     1.7x   equal=True
+  gc.collect()      0.00 s
+  -> one unravel 13.7 s -> 6.6 s  (2.1x)
+
+wrote /data1/rkp00012/rku00036/pybest/results/unravel/unravel_blk4096.json
+
+`equal=True` is the point: these are the same arrays, not an approximation.
+Measured against PyBEST's 462 s of unravel at 920 AO over 4 iterations.
+rc=0
+
+ALL DONE Sat Oct  3 10:01:18 JST 2026
+===JSON===
+{
+  "block": 1024,
+  "cases": {
+    "240 AO  cc-pVDZ": {
+      "nacto": 40,
+      "nactv": 190,
+      "ov": 7600,
+      "t2_gib": 0.4303455352783203,
+      "triu_index_gib": 0.43040215969085693,
+      "triu_slow_sec": 0.18172718212008476,
+      "triu_fast_sec": 0.031167555134743452,
+      "triu_equal": true,
+      "triu_speedup": 5.830652463256824,
+      "diag_sec": 9.721703827381134e-05,
+      "symm_slow_sec": 0.2896446739323437,
+      "symm_fast_sec": 0.11424086592160165,
+      "symm_equal": true,
+      "symm_speedup": 2.5353858410974737,
+      "gc_sec": 0.002784915966913104,
+      "unravel_slow_sec": 0.4742539890576154,
+      "unravel_fast_sec": 0.14829055406153202,
+      "unravel_speedup": 3.198140246079513
+    },
+    "580 AO  cc-pVTZ": {
+      "nacto": 40,
+      "nactv": 530,
+      "ov": 21200,
+      "t2_gib": 3.3485889434814453,
+      "triu_index_gib": 3.3487468957901,
+      "triu_slow_sec": 1.3697391820605844,
+      "triu_fast_sec": 0.20362100610509515,
+      "triu_equal": true,
+      "triu_speedup": 6.7269050883366095,
+      "diag_sec": 0.0005104988813400269,
+      "symm_slow_sec": 3.022347053978592,
+      "symm_fast_sec": 0.7647572630085051,
+      "symm_equal": true,
+      "symm_speedup": 3.9520344561212486,
+      "gc_sec": 0.002503089839592576,
+      "unravel_slow_sec": 4.395099824760109,
+      "unravel_fast_sec": 0.9713918578345329,
+      "unravel_speedup": 4.524538464382282
+    },
+    "920 AO  aug-cc-pVTZ": {
+      "nacto": 40,
+      "nactv": 870,
+      "ov": 34800,
+      "t2_gib": 9.022951126098633,
+      "triu_index_gib": 9.023210406303406,
+      "triu_slow_sec": 3.4869699659757316,
+      "triu_fast_sec": 0.49226173805072904,
+      "triu_equal": true,
+      "triu_speedup": 7.08356895618889,
+      "diag_sec": 0.001141608925536275,
+      "symm_slow_sec": 10.232300356961787,
+      "symm_fast_sec": 2.0460481829941273,
+      "symm_equal": true,
+      "symm_speedup": 5.0010065461841355,
+      "gc_sec": 0.0026253950782120228,
+      "unravel_slow_sec": 13.723037326941267,
+      "unravel_fast_sec": 2.5420769250486046,
+      "unravel_speedup": 5.398356435133796
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "job": "147646",
+  "system": "synthetic ladder xac,xbd,ecfd->efab",
+  "nbasis": 800,
+  "nocc": 100,
+  "nvec_factor": 5,
+  "split": "C",
+  "gpus": 2,
+  "operands": "random normal, seed 0",
+  "note": "rel_err is nan in this job: the reference was written from the unused `out` array rather than the return value of splitting_assistance. Timings are unaffected; accuracy needs a rerun.",
+  "gemm_fraction_implied": {
+    "method": "solve G+O for G given the raw-DGEMM speedup of each mode",
+    "cupy_sec": [
+      50.5,
+      49.3,
+      46.5
+    ],
+    "cupy_total_sec": 235.76,
+    "conclusion": "the matrix multiply is ~20% of the contraction"
+  },
+  "cupy": [
+    {
+      "mode": "native",
+      "median_sec": 235.76,
+      "vs_native": 1.0,
+      "peak_rss_gib": 172.7
+    },
+    {
+      "mode": "adp",
+      "median_sec": 223.51,
+      "vs_native": 1.055,
+      "peak_rss_gib": 172.7
+    },
+    {
+      "mode": "m55",
+      "median_sec": 213.23,
+      "vs_native": 1.106,
+      "peak_rss_gib": 172.8
+    },
+    {
+      "mode": "m39",
+      "median_sec": 205.31,
+      "vs_native": 1.148,
+      "peak_rss_gib": 172.7
+    }
+  ],
+  "pytorch": [
+    {
+      "mode": "native",
+      "median_sec": 267.62,
+      "vs_native": 1.0,
+      "peak_rss_gib": 143.5
+    },
+    {
+      "mode": "adp",
+      "median_sec": 251.55,
+      "vs_native": 1.064,
+      "peak_rss_gib": 143.6
+    },
+    {
+      "mode": "m55",
+      "median_sec": 246.56,
+      "vs_native": 1.085,
+      "peak_rss_gib": 143.7
+    },
+    {
+      "mode": "m39",
+      "median_sec": 231.74,
+      "vs_native": 1.155,
+      "peak_rss_gib": 143.6
+    }
+  ],
+  "raw_dgemm_reference": {
+    "adp": 1.32,
+    "m55": 1.84,
+    "m39": 2.9
+  }
+}

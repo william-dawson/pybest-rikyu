@@ -1,0 +1,13 @@
+{
+  "nbasis": 1200, "nocc": 100, "nvirt": 1100, "nchol": 6000, "nvec_factor": 5,
+  "backend": "pytorch", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [1948.0394842298701],
+  "median_sec": 1948.0394842298701, "mean_sec": 1948.0394842298701,
+  "total_gib": 288.4864807128906, "host": "c382", "slurm_job": "157159",
+  "peak_rss_gib": 492.56646728515625, "peak_over_operands": 1.7074161190082644,
+  "cpus_visible": 144, "random": false, "seed": 0, "rel_err": null,
+  "cublas_env": {},
+  "free_vram_gib_per_pass": [183.31, 138.04],
+  "note": "H100 C-split was 1864.7 s, so GB200 is 4.5% SLOWER here -- PyTorch loses to Hopper at this size while CuPy gains 1.88x. GH200 is n.c."
+}

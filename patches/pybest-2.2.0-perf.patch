@@ -1,0 +1,333 @@
+PyBEST 2.2.0: three measured performance fixes in the GPU offload path
+
+Apply from the top of an unpacked pybest.v2.2.0 tree:
+
+    patch -p1 < pybest-2.2.0-perf.patch
+
+All three change performance only. Energies are unchanged to every printed
+digit, and the two numpy rewrites were checked bitwise against the originals at
+every shape and offset tried. Measured on an NVIDIA GB200 (RIKYU, RIKEN R-CCS)
+with RCCSD on (H2O)10, Cholesky threshold 1e-5, frozen core.
+
+  1. linalg/_gpu_support.py
+     Device-to-host transfers for the PyTorch backend go through one reused
+     pinned buffer per dtype instead of a fresh pageable array per transfer.
+     cudaMemcpyAsync cannot use the DMA engine for a pageable destination, so
+     the driver stages it through a bounce buffer with a synchronous CPU memcpy.
+     65.8 GB of D2H traffic at 240 AO: 3.22 GB/s before, 192.7 GB/s after.
+     CuPy is deliberately excluded -- it already stages through a pinned pool
+     and reaches 126 GB/s unaided, and interposing on it is a regression.
+
+  2. linalg/crosslib_batching.py
+     Seven call sites consume the transferred array inside the expression that
+     receives it (`destination[...] += ...`), so they can take a non-owning view
+     of the staging buffer rather than a copy. Attributing every transfer by
+     caller line, those sites carry 96-100% of all D2H bytes; the four sites
+     that return the array keep the owning form.
+
+  3. linalg/dense/dense_four_index.py
+     assign_triu built np.triu_indices(nacto*nactv) on every call -- 9.02 GiB of
+     int64 index arrays plus a 605-million-element scatter at 920 AO -- for a
+     triangle whose rows are contiguous slices. 7.1x.
+     iadd_transpose materialised two full temporaries; for an (o,v,o,v) array
+     the permutation (2,3,0,1) is exactly matrix transpose on the (ov,ov) view,
+     so it is M += M.T and blocks in place. 5.0x. Together, RCCSD: unravel at
+     920 AO falls from 461.2 s to 61.9 s.
+
+Effect on a complete RCCSD. The first two rows are this patch bind-mounted over
+an installed PyBEST 2.2.0, stock against patched inside one job (164390):
+
+    240 AO   100.35 s -> 45.28 s    -54.9%
+    580 AO   853.06 s -> 571.13 s   -33.0%
+    920 AO                          -16%     (product of in-job ratios)
+
+The 580 AO figure agrees with the monkey-patched prototype to 0.4% (571.13 s
+against 568.70 s), and energies are unchanged to every printed digit.
+
+MEMORY: the pinned staging buffer is one allocation per dtype, sized to the
+largest single transfer, and it is NOT free. Peak resident memory at 580 AO
+rises 44.81 -> 47.73 GiB, +2.9 GiB; at 240 AO the change is +0.007 GiB. Expect
+roughly +9 GiB at 920 AO, where the largest device-to-host transfer is 9.7 GB.
+The other two changes cost nothing, and the view form reduces peak slightly by
+not allocating an array per transfer.
+
+Not included: PyBEST calls clean_memory() from ~40 sites in crosslib_batching,
+and at 920 AO torch.cuda.empty_cache() costs 1059.8 s over 2399 calls against
+1002.9 s of GPU kernel time. The flush exists because memory_usage() reports
+driver-level free VRAM and excludes the caching allocator's cached-but-free
+blocks. Correcting that accounting looks like the larger win, but it is still
+under test and is not part of this patch.
+
+--- a/src/pybest/linalg/_gpu_support.py
++++ b/src/pybest/linalg/_gpu_support.py
+@@ -265,7 +265,50 @@
+ #######################################
+ # Maps each backend name to a dict of primitive GPU operations.
+ # Adding a new backend requires only a new entry here.
++
+ 
++# Device-to-host staging for PyTorch.
++#
++# `t.cpu()` allocates a fresh pageable numpy array for every transfer, and
++# `cudaMemcpyAsync` into a pageable destination cannot be served by the DMA
++# engine: the driver stages it through a small bounce buffer with a synchronous
++# CPU memcpy. Measured on GB200, 65.8 GB of device-to-host traffic in a 240 AO
++# RCCSD: 3.22 GB/s that way, 192.7 GB/s into pinned memory -- a factor of 60,
++# with the worst single transfer falling from 701 ms to 2.4 ms.
++#
++# Copying through one reused pinned buffer per dtype costs three cudaHostAlloc
++# calls for a whole calculation instead of one allocation per transfer, and no
++# extra resident memory beyond the largest single transfer.
++#
++# CuPy deliberately does NOT use this: it already stages through a pinned
++# memory pool and reaches 126 GB/s unaided, so interposing on it is a
++# regression (measured +7.5% at 240 AO, +5.2% at 580 AO).
++_PINNED_STAGING: dict = {}
++
++
++def _pinned_staging_view(tensor):
++    """A pinned host view of `tensor`, valid until the next transfer."""
++    import torch
++
++    count = tensor.numel()
++    buffer = _PINNED_STAGING.get(tensor.dtype)
++    if buffer is None or buffer.numel() < count:
++        grow = 0 if buffer is None else 2 * buffer.numel()
++        buffer = torch.empty(
++            max(count, grow), dtype=tensor.dtype, pin_memory=True
++        )
++        _PINNED_STAGING[tensor.dtype] = buffer
++    view = buffer[:count].view(tensor.shape)
++    view.copy_(tensor, non_blocking=True)
++    torch.cuda.synchronize()
++    return view.numpy()
++
++
++def _torch_to_numpy_pinned(tensor):
++    """Device to host through pinned memory, returning an owned array."""
++    return _pinned_staging_view(tensor).copy()
++
++
+ _ops: dict = {}
+ 
+ if PYBEST_CUPY_AVAIL:
+@@ -285,8 +328,8 @@
+ if PYBEST_PYTORCH_AVAIL:
+     _ops["pytorch"] = {
+         "asarray": lambda t: torch_as_tensor(t).to("cuda"),
+-        "as_numpy": lambda t: t.cpu().numpy(),
+-        "get_numpy": lambda t: t.cpu().numpy(),
++        "as_numpy": _torch_to_numpy_pinned,
++        "get_numpy": _torch_to_numpy_pinned,
+         "zeros": lambda shape, dtype: torch_zeros(shape, dtype=dtype).cuda(),
+         "tensordot": _pytorch_tensordot,
+         "einsum": lambda eq, ops, _: torch_einsum(eq, *ops),
+@@ -365,6 +408,26 @@
+     _get_ops()["clean"]()
+ 
+ 
++def move_tensor_to_cpu_view(tensor) -> NDArray:
++    """Device to host WITHOUT copying out of the staging buffer.
++
++    The returned array is only valid until the next device-to-host transfer, so
++    callers must consume it inside the expression that receives it -- typically
++    `destination[...] += move_tensor_to_cpu_view(part)`. Use
++    `move_tensor_to_cpu` for anything that is stored or returned.
++
++    Skipping the copy is worth measuring: a staged copy runs at 10.8 GB/s while
++    the same DMA with no copy runs at 193 GB/s, and the copy is host-side work
++    that a CUDA profiler does not attribute to the transfer. In RCCSD it is
++    worth -10.8% at 580 AO and -3.7% at 920 AO, and it lowers peak host memory
++    because no array is allocated per transfer.
++    """
++    ops = _get_ops()
++    if ops is _ops.get("pytorch"):
++        return _pinned_staging_view(tensor)
++    return ops["get_numpy"](tensor)
++
++
+ def move_tensor_to_cpu(tensor) -> NDArray:
+     """Move tensor from GPU to CPU.
+ 
+--- a/src/pybest/linalg/crosslib_batching.py
++++ b/src/pybest/linalg/crosslib_batching.py
+@@ -43,6 +43,7 @@
+     general_einsum,
+     memory_usage,
+     move_tensor_to_cpu,
++    move_tensor_to_cpu_view,
+     tensordot_gpu,
+     transpose_tensor,
+ )
+@@ -434,7 +435,7 @@
+                                 start[1] : end[1],
+                                 start[2] : end[2],
+                                 start[3] : end[3],
+-                            ] += move_tensor_to_cpu(result_part)
++                            ] += move_tensor_to_cpu_view(result_part)
+                             del result_part
+                             clean_memory()
+                             start_b = end_b
+@@ -486,7 +487,7 @@
+                             start[1] : end[1],
+                             start[2] : end[2],
+                             start[3] : end[3],
+-                        ] += move_tensor_to_cpu(result_part)
++                        ] += move_tensor_to_cpu_view(result_part)
+                         del result_part
+                         clean_memory()
+                         start_b = end_b
+@@ -538,7 +539,7 @@
+                 del operand, chol2dense
+                 clean_memory()
+                 # Assign to final array
+-                result[start_a:end_a, start_b:end_b, :] = move_tensor_to_cpu(
++                result[start_a:end_a, start_b:end_b, :] = move_tensor_to_cpu_view(
+                     result_batch
+                 )
+                 # Cleanup
+@@ -995,7 +996,7 @@
+                             start[1] : end[1],
+                             start[2] : end[2],
+                             start[3] : end[3],
+-                        ] += move_tensor_to_cpu(result_part)
++                        ] += move_tensor_to_cpu_view(result_part)
+                         del result_part
+                         clean_memory()
+                         start_a = end_a
+@@ -1059,7 +1060,7 @@
+                                 start[1] : end[1],
+                                 start[2] : end[2],
+                                 start[3] : end[3],
+-                            ] += move_tensor_to_cpu(result_part)
++                            ] += move_tensor_to_cpu_view(result_part)
+ 
+                             del result_part
+                             clean_memory()
+@@ -1114,7 +1115,7 @@
+                 del operand, chol2dense
+                 clean_memory()
+                 # Assign to final array
+-                result[start_a:end_a, start_b:end_b, :] = move_tensor_to_cpu(
++                result[start_a:end_a, start_b:end_b, :] = move_tensor_to_cpu_view(
+                     result_batch
+                 )
+                 # Cleanup
+@@ -1484,7 +1485,7 @@
+                 trans = tuple(outscript_.index(i) for i in outscript)
+                 outmat = transpose_tensor(outmat, trans)
+             # Add batched contraction result to view of result array
+-            result[tuple(view)] += move_tensor_to_cpu(outmat)
++            result[tuple(view)] += move_tensor_to_cpu_view(outmat)
+             # Cleanup
+             del outmat
+             clean_memory()
+--- a/src/pybest/linalg/dense/dense_four_index.py
++++ b/src/pybest/linalg/dense/dense_four_index.py
+@@ -486,6 +486,29 @@
+             raise ArgumentError(
+                 f"Do not know how to assign object of type {type(other)}."
+             )
++
++    def _assign_triu_rows(self, vector, k=0):
++        """Fill the upper triangle of the (n, n) view from a packed vector.
++
++        np.triu_indices(n) materialises two int64 arrays of n(n+1)/2 entries
++        before scattering -- at nacto=40, nactv=870 that is n=34800, so 9.02 GiB
++        of index arrays and a 605-million-element scatter, rebuilt on every
++        call. But np.triu_indices enumerates the triangle in row-major order and
++        row i of the triangle is the contiguous slice mat[i, i+k:], so the same
++        assignment is a sequence of contiguous copies needing no index arrays at
++        all. Measured 7.1x faster at 920 AO dimensions, bitwise identical.
++        """
++        matrix = self.array.reshape(
++            self.nbasis * self.nbasis1, self.nbasis2 * self.nbasis3
++        )
++        n = matrix.shape[0]
++        offset = 0
++        for i in range(n):
++            length = n - i - k
++            if length <= 0:
++                break
++            matrix[i, i + k :] = vector[offset : offset + length]
++            offset += length
+ 
+     def assign_triu(self, other, begin4=0, end4=None, shape=None, k=0):
+         """Assign upper triangular with the contents of another object
+@@ -509,10 +532,7 @@
+         if isinstance(other, DenseOneIndex):
+             end4 = other.fix_ends(end4)[0]
+             if shape is None:
+-                indtriu = np.triu_indices(self.nbasis * self.nbasis1, k)
+-                self.array.reshape(
+-                    self.nbasis * self.nbasis1, self.nbasis2 * self.nbasis3
+-                )[indtriu] = other.array[begin4:end4]
++                self._assign_triu_rows(other.array[begin4:end4], k)
+             else:
+                 raise NotImplementedError
+         elif isinstance(other, np.ndarray):
+@@ -521,10 +541,9 @@
+                     f"Do not know how to assign object of type {type(other)}."
+                 )
+             if shape is None:
+-                indtriu = np.triu_indices(self.nbasis * self.nbasis1)
+-                self.array.reshape(
+-                    self.nbasis * self.nbasis1, self.nbasis2 * self.nbasis3
+-                )[indtriu] = other[begin4:end4]
++                # NB: the original used np.triu_indices(n) here, ignoring k.
++                # Preserved deliberately; this patch changes performance only.
++                self._assign_triu_rows(other[begin4:end4], 0)
+             else:
+                 raise NotImplementedError
+         else:
+@@ -825,13 +844,49 @@
+         # We cannot do inplace einsum. Instead use (and don't change):
+         self.array = self.array - np.einsum("abcd->abdc", self.array)
+ 
++    # A 1024x1024 block of doubles is 8 MB and stays in cache; 4096x4096 is
++    # 134 MB and does not, which costs a factor of three. Do not raise this
++    # without measuring.
++    _SYMMETRISE_BLOCK = 1024
++
++    def _iadd_own_transpose_square(self):
++        """In-place `M += M.T` on the (n, n) view, blocked.
++
++        For an (o, v, o, v) array the permutation (2, 3, 0, 1) sends row (a, b),
++        column (c, d) to row (c, d), column (a, b) -- it is exactly matrix
++        transpose on the (ov, ov) view. The generic path evaluates
++        `self.array + self.array.transpose(...)`, which materialises two full
++        temporaries: 18 GiB at nacto=40, nactv=870. Blocking in place needs only
++        one block-sized temporary and is 5.0x faster there, bitwise identical.
++        """
++        n = self.nbasis * self.nbasis1
++        matrix = self.array.reshape(n, n)
++        block = self._SYMMETRISE_BLOCK
++        for i0 in range(0, n, block):
++            i1 = min(i0 + block, n)
++            diagonal = matrix[i0:i1, i0:i1]
++            diagonal += diagonal.T.copy()
++            for j0 in range(i1, n, block):
++                j1 = min(j0 + block, n)
++                upper = matrix[i0:i1, j0:j1].copy()
++                matrix[i0:i1, j0:j1] = upper + matrix[j0:j1, i0:i1].T
++                matrix[j0:j1, i0:i1] = matrix[i0:i1, j0:j1].T
++
+     def iadd_transpose(self, transpose, other=None, factor=1.0):
+         """In-place addition of transpose. If `other` is given (FourIndex),
+         its transpose is added, otherwise (None) its own transpose is added.
+         """
+         self.check_type("factor", factor, float, int)
+         self.check_type("other", other, type(None), DenseFourIndex)
+-        if other is None:
++        if (
++            other is None
++            and tuple(transpose) == (2, 3, 0, 1)
++            and factor == 1.0
++            and self.nbasis * self.nbasis1 == self.nbasis2 * self.nbasis3
++            and self.array.flags.c_contiguous
++        ):
++            self._iadd_own_transpose_square()
++        elif other is None:
+             self.array[:] = (
+                 self.array + self.array.transpose(transpose) * factor
+             )

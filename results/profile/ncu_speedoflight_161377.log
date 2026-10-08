@@ -1,0 +1,231 @@
+host=c144 job=161377 date=Fri Oct  2 23:48:08 JST 2026
+NCU=/shared/software/hpc_sdk/Linux_aarch64/26.3/compilers/bin/ncu
+NVIDIA (R) Nsight Compute Command Line Profiler
+Copyright (c) 2018-2025 NVIDIA Corporation
+Version 2025.4.1.0 (build 37096885) (public-release)
+
+=============== ncu_wide_N400_o100_cupy  (v=300, N_gemm=o^2=10000) ===============
+rc=0
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        33.96
+    DRAM Throughput                   %         2.62
+    Duration                         ms       776.15
+    Compute (SM) Throughput           %        98.36
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(Params) (5632, 20, 5)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %         44.69
+    DRAM Throughput                   %          7.81
+    Duration                          s          3.89
+    Compute (SM) Throughput           %         98.46
+    Block Size                                                   128
+    Grid Size                                                 563200
+    Achieved Occupancy                        %        18.74
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        33.96
+    DRAM Throughput                   %         2.62
+    Duration                         ms       776.15
+    Compute (SM) Throughput           %        98.36
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(Params) (5632, 20, 5)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %         44.71
+    DRAM Throughput                   %          7.85
+    Duration                          s          3.89
+    Compute (SM) Throughput           %         98.46
+    Block Size                                                   128
+    Grid Size                                                 563200
+    Achieved Occupancy                        %        18.74
+--- bound statement ---
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 87.5%                                                                                     
+          The 2.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (12.5%) is limited by the number of required      
+          registers, and the required amount of shared memory.                                                          
+--
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 81.25%                                                                                    
+          The 3.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (18.8%) is limited by the required amount of      
+          shared memory.                                                                                                
+--
+
+=============== ncu_wide_N400_o100_pytorch  (v=300, N_gemm=o^2=10000) ===============
+rc=0
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        33.96
+    DRAM Throughput                   %         2.62
+    Duration                         ms       776.12
+    Compute (SM) Throughput           %        98.36
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nn_align1>(Params) (5632, 20, 5)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %         42.69
+    DRAM Throughput                   %          5.99
+    Duration                          s          3.93
+    Compute (SM) Throughput           %         97.60
+    Block Size                                                   128
+    Grid Size                                                 563200
+    Achieved Occupancy                        %        18.74
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        33.96
+    DRAM Throughput                   %         2.62
+    Duration                         ms       776.19
+    Compute (SM) Throughput           %        98.36
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nn_align1>(Params) (5632, 20, 5)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %         42.67
+    DRAM Throughput                   %          6.07
+    Duration                          s          3.93
+    Compute (SM) Throughput           %         97.60
+    Block Size                                                   128
+    Grid Size                                                 563200
+    Achieved Occupancy                        %        18.74
+--- bound statement ---
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 87.5%                                                                                     
+          The 2.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (12.5%) is limited by the number of required      
+          registers, and the required amount of shared memory.                                                          
+--
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 81.25%                                                                                    
+          The 3.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (18.8%) is limited by the required amount of      
+          shared memory.                                                                                                
+--
+
+=============== ncu_skinny_N340_o40_cupy  (v=300, N_gemm=o^2=1600) ===============
+rc=0
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        34.06
+    DRAM Throughput                   %         2.68
+    Duration                         ms       665.32
+    Compute (SM) Throughput           %        98.23
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(Params) (5632, 4, 5)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        45.12
+    DRAM Throughput                   %         4.96
+    Duration                         ms       620.21
+    Compute (SM) Throughput           %        98.39
+    Block Size                                                   128
+    Grid Size                                                 112640
+    Achieved Occupancy                        %        18.72
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        34.06
+    DRAM Throughput                   %         2.68
+    Duration                         ms       665.32
+    Compute (SM) Throughput           %        98.23
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(Params) (5632, 4, 5)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        45.11
+    DRAM Throughput                   %         4.93
+    Duration                         ms       620.12
+    Compute (SM) Throughput           %        98.39
+    Block Size                                                   128
+    Grid Size                                                 112640
+    Achieved Occupancy                        %        18.72
+--- bound statement ---
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 87.5%                                                                                     
+          The 2.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (12.5%) is limited by the number of required      
+          registers, and the required amount of shared memory.                                                          
+--
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 81.25%                                                                                    
+          The 3.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (18.8%) is limited by the required amount of      
+          shared memory.                                                                                                
+--
+
+=============== ncu_skinny_N340_o40_pytorch  (v=300, N_gemm=o^2=1600) ===============
+rc=0
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        34.06
+    DRAM Throughput                   %         2.68
+    Duration                         ms       665.30
+    Compute (SM) Throughput           %        98.23
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nn_align1>(Params) (11256, 4, 3)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        65.43
+    DRAM Throughput                   %         7.82
+    Duration                         ms       628.20
+    Compute (SM) Throughput           %        97.08
+    Block Size                                                   128
+    Grid Size                                                 135072
+    Achieved Occupancy                        %        24.96
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(Params) (2816, 176, 1)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        34.06
+    DRAM Throughput                   %         2.68
+    Duration                         ms       665.32
+    Compute (SM) Throughput           %        98.23
+    Block Size                                                   128
+    Grid Size                                                 495616
+    Achieved Occupancy                        %        12.49
+  void Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nn_align1>(Params) (11256, 4, 3)x(128, 1, 1), Context 1, Stream 7, Device 0, CC 10.0
+    Memory Throughput                 %        65.44
+    DRAM Throughput                   %         7.37
+    Duration                         ms       628.23
+    Compute (SM) Throughput           %        97.07
+    Block Size                                                   128
+    Grid Size                                                 135072
+    Achieved Occupancy                        %        24.96
+--- bound statement ---
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 87.5%                                                                                     
+          The 2.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (12.5%) is limited by the number of required      
+          registers, and the required amount of shared memory.                                                          
+--
+    INF   This workload is utilizing greater than 80.0% of the available compute or memory performance of this device.  
+          To further improve performance, work will likely need to be shifted from the most utilized to another unit.   
+          Start by analyzing workloads in the Compute Workload Analysis section.                                        
+
+--
+    OPT   Est. Local Speedup: 75%                                                                                       
+          The 4.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 16. This kernel's theoretical occupancy (25.0%) is limited by the required amount of      
+          shared memory.                                                                                                
+--
+
+ALL DONE Fri Oct  2 23:53:01 JST 2026

@@ -1,0 +1,147 @@
+host=c360 nproc=64 job=165955 date=Sun Oct  4 21:11:16 JST 2026
+0, NVIDIA GB200
+1, NVIDIA GB200
+
+=============== final_h2o10_cc-pvdz_ccsd_stock ===============
+# temp_dir=/tmp/final-165955-h2o10_cc-pvdz_ccsd-stock
+# nbasis=240 predicted=240
+# cholesky_eri_sec=6.744
+# rhf_sec=6.587 
+# pin_strategy=baseline
+Total energy             -762.39447031 a.u.
+# ccsd_total_sec=107.648 upper_bound_per_iter=26.912 maxiter=4
+# total_sec=121.114
+	Maximum resident set size (kbytes): 6623936
+Base: contract           87.7     13.4 WWWWWWWWWWW                                                  
+GPU: C-split              4.0      4.0 WWW                                                          
+GPU: Generic             70.3     70.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            4.0      0.0                                                              
+Ints: CD-ERI              6.7      6.7 WWWWW                                                        
+RCCSD: unravel           13.0     13.0 WWWWWWWWWWW                                                  
+Total                   125.6      6.2 WWWWW                                                        
+ENERGY OK (-762.39447031)
+rc=0
+vram_peak=12.0 GiB  vram_mean=2.8 GiB
+
+=============== final_h2o10_cc-pvdz_ccsd_full ===============
+# temp_dir=/tmp/final-165955-h2o10_cc-pvdz_ccsd-full
+# nbasis=240 predicted=240
+# cholesky_eri_sec=6.419
+# rhf_sec=5.272 
+# pin_strategy=baseline
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -762.39447031 a.u.
+# ccsd_total_sec=48.460 upper_bound_per_iter=12.115 maxiter=4
+# total_sec=60.343
+# d2h_view: returned a view 267 times, copied 68 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+	Maximum resident set size (kbytes): 7097664
+Base: contract           39.0     12.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                           
+GPU: C-split              4.1      4.1 WWWWWWWWWWW                                                  
+GPU: Generic             22.2     22.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            4.1      0.0                                                              
+Ints: CD-ERI              6.4      6.4 WWWWWWWWWWWWWWWWW                                            
+RCCSD: unravel            3.3      3.3 WWWWWWWWW                                                    
+Total                    66.5      7.9 WWWWWWWWWWWWWWWWWWWWW                                        
+ENERGY OK (-762.39447031)
+PATCH DID NOT INSTALL: accum3:
+rc=0
+vram_peak=1.8 GiB  vram_mean=0.9 GiB
+
+=============== final_h2o10_cc-pvtz_ccsd_stock ===============
+# temp_dir=/tmp/final-165955-h2o10_cc-pvtz_ccsd-stock
+# nbasis=580 predicted=580
+# cholesky_eri_sec=136.363
+# rhf_sec=20.069 
+# pin_strategy=baseline
+Total energy             -763.24436502 a.u.
+# ccsd_total_sec=892.377 upper_bound_per_iter=223.094 maxiter=4
+# total_sec=1049.082
+	Maximum resident set size (kbytes): 47187456
+Base: contract          654.7    102.1 WWWWWWWWWWWWWWWWWW                                           
+GPU: C-split            218.0    218.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                      
+GPU: Generic            334.5    334.5 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          218.0      0.0                                                              
+Ints: CD-ERI            136.4    136.4 WWWWWWWWWWWWWWWWWWWWWWWW                                     
+RCCSD: unravel          144.5    144.5 WWWWWWWWWWWWWWWWWWWWWWWWWW                                   
+Total                  1053.8     19.3 WWW                                                          
+ENERGY OK (-763.24436502)
+rc=0
+vram_peak=85.8 GiB  vram_mean=14.4 GiB
+
+=============== final_h2o10_cc-pvtz_ccsd_full ===============
+# temp_dir=/tmp/final-165955-h2o10_cc-pvtz_ccsd-full
+# nbasis=580 predicted=580
+# cholesky_eri_sec=138.219
+# rhf_sec=19.703 
+# pin_strategy=baseline
+# accum3: torch fused axpy, 16 threads, verifying first 20
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.24436502 a.u.
+# ccsd_total_sec=496.268 upper_bound_per_iter=124.067 maxiter=4
+# total_sec=654.886
+# d2h_view: returned a view 359 times, copied 66 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# accum3: fused 364 (454.0 GiB), 60 fell back, verified 20 against numpy, max deviation 0.000e+00
+	Maximum resident set size (kbytes): 49807104
+Base: contract          404.7    101.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                             
+GPU: C-split            193.3    193.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            109.7    109.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                           
+GPU: Splitting          193.3      0.0                                                              
+Ints: CD-ERI            138.2    138.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                  
+RCCSD: unravel           22.8     22.8 WWWWWWW                                                      
+Total                   663.7     23.7 WWWWWWW                                                      
+ENERGY OK (-763.24436502)
+# accum3: fused 364 (454.0 GiB), 60 fell back, verified 20 against numpy, max deviation 0.000e+00
+rc=0
+vram_peak=85.6 GiB  vram_mean=18.7 GiB
+
+=============== final_h2o10_aug-cc-pvtz_ccsd_stock ===============
+# temp_dir=/tmp/final-165955-h2o10_aug-cc-pvtz_ccsd-stock
+# nbasis=920 predicted=920
+# cholesky_eri_sec=626.822
+# rhf_sec=64.226 
+# pin_strategy=baseline
+Total energy             -763.32762373 a.u.
+# ccsd_total_sec=3832.972 upper_bound_per_iter=958.243 maxiter=4
+# total_sec=4524.527
+	Maximum resident set size (kbytes): 166990080
+Base: contract         3085.3    306.3 WWWWWWWWWW                                                   
+GPU: C-split           1827.3   1827.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            951.7    951.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                              
+GPU: Splitting         1827.3      0.0                                                              
+Ints: CD-ERI            626.8    626.8 WWWWWWWWWWWWWWWWWWWW                                         
+RCCSD: unravel          478.2    478.2 WWWWWWWWWWWWWWW                                              
+Total                  4530.2     48.3 W                                                            
+ENERGY OK (-763.32762373)
+rc=0
+vram_peak=119.6 GiB  vram_mean=30.4 GiB
+
+=============== final_h2o10_aug-cc-pvtz_ccsd_full ===============
+# temp_dir=/tmp/final-165955-h2o10_aug-cc-pvtz_ccsd-full
+# nbasis=920 predicted=920
+# cholesky_eri_sec=625.090
+# rhf_sec=61.763 
+# pin_strategy=baseline
+# accum3: torch fused axpy, 16 threads, verifying first 20
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.32762373 a.u.
+# ccsd_total_sec=2637.000 upper_bound_per_iter=659.250 maxiter=4
+# total_sec=3324.664
+# d2h_view: returned a view 949 times, copied 66 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# accum3: fused 954 (1210.5 GiB), 60 fell back, verified 20 against numpy, max deviation 0.000e+00
+	Maximum resident set size (kbytes): 166992192
+Base: contract         2388.7    304.8 WWWWWWWWWW                                                   
+GPU: C-split           1727.2   1727.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            356.6    356.6 WWWWWWWWWWWW                                                 
+GPU: Splitting         1727.2      0.0                                                              
+Ints: CD-ERI            625.1    625.1 WWWWWWWWWWWWWWWWWWWWWW                                       
+RCCSD: unravel           62.0     62.0 WW                                                           
+Total                  3334.5     52.1 W                                                            
+ENERGY OK (-763.32762373)
+# accum3: fused 954 (1210.5 GiB), 60 fell back, verified 20 against numpy, max deviation 0.000e+00
+rc=0
+vram_peak=119.5 GiB  vram_mean=35.1 GiB
+
+ALL DONE Sun Oct  4 23:54:58 JST 2026

@@ -1,0 +1,15 @@
+{
+  "nbasis": 1300, "nocc": 100, "nvirt": 1200, "nchol": 6500, "nvec_factor": 5,
+  "backend": "pytorch", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [2909.809189141961],
+  "median_sec": 2909.809189141961, "mean_sec": 2909.809189141961,
+  "total_gib": 354.0515899658203, "host": "c382", "slurm_job": "157159",
+  "peak_rss_gib": 589.94921875, "peak_over_operands": 1.6662803824915824,
+  "cpus_visible": 144, "random": false, "seed": 0, "rel_err": null,
+  "cublas_env": {},
+  "free_vram_gib_per_pass": [183.31, 128.97],
+  "warmup_sec": 2511.33,
+  "mem_ctrl_max_util_pct": 28,
+  "note": "H100 C-split was 2679.1 s, so GB200 is 0.92x -- slower than Hopper, as at N=1200. CuPy on the same node and size reaches 82% memory-controller utilisation and 2325.18 s; PyTorch reaches 28% and 2909.81 s, so it saturates neither compute nor bandwidth. Pass 2 is 15.9% slower than pass 1 against CuPy's 9.1%."
+}

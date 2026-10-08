@@ -1,0 +1,48 @@
+host=c168 nproc=64 job=162511 date=Sat Oct  3 15:36:30 JST 2026
+
+=============== d2hv_h2o10_aug-cc-pvtz_ccsd_copy ===============
+# temp_dir=/tmp/d2hv-162511-h2o10_aug-cc-pvtz_ccsd-copy
+# nbasis=920 predicted=920
+# cholesky_eri_sec=628.578
+# rhf_sec=60.543
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+# ccsd_total_sec=2966.103 upper_bound_per_iter=741.526 maxiter=4
+# total_sec=3655.888
+	Maximum resident set size (kbytes): 166839936
+Base: contract         2721.6    303.9 WWWWWWWWWW                                                   
+GPU: C-split           1782.2   1782.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            635.5    635.5 WWWWWWWWWWWWWWWWWWWWW                                        
+GPU: Splitting         1782.2      0.0                                                              
+Ints: CD-ERI            628.6    628.6 WWWWWWWWWWWWWWWWWWWWW                                        
+RCCSD: unravel           60.6     60.5 WW                                                           
+Total                  3665.2     51.3 W                                                            
+rc=0
+
+=============== d2hv_h2o10_aug-cc-pvtz_ccsd_view ===============
+# temp_dir=/tmp/d2hv-162511-h2o10_aug-cc-pvtz_ccsd-view
+# nbasis=920 predicted=920
+# cholesky_eri_sec=628.862
+# rhf_sec=61.388
+# pin_strategy=baseline
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+# ccsd_total_sec=2854.967 upper_bound_per_iter=713.742 maxiter=4
+# total_sec=3545.941
+# d2h_view: returned a view 949 times, copied 66 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+	Maximum resident set size (kbytes): 166844928
+Base: contract         2609.2    301.6 WWWWWWWWWW                                                   
+GPU: C-split           1779.3   1779.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            528.3    528.3 WWWWWWWWWWWWWWWWWW                                           
+GPU: Splitting         1779.3      0.0                                                              
+Ints: CD-ERI            628.9    628.9 WWWWWWWWWWWWWWWWWWWWW                                        
+RCCSD: unravel           60.3     60.2 WW                                                           
+Total                  3554.5     51.2 W                                                            
+rc=0
+
+ALL DONE Sat Oct  3 17:37:15 JST 2026

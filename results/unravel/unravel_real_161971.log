@@ -1,0 +1,104 @@
+host=c071 nproc=64 job=161971 date=Sat Oct  3 10:16:51 JST 2026
+0, NVIDIA GB200
+1, NVIDIA GB200
+/dev/nvme0n1p1  3.4T     0  3.4T   0% /tmp
+
+=============== unrav_h2o10_cc-pvtz_ccsd_pinned_fix0 ===============
+# temp_dir=/tmp/unrav-161971-h2o10_cc-pvtz_ccsd-0
+# nbasis=580 predicted=580
+# cholesky_eri_sec=135.024
+# rhf_sec=33.631
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+# ccsd_total_sec=800.999 upper_bound_per_iter=200.250 maxiter=4
+# total_sec=970.103
+	Maximum resident set size (kbytes): 51194176
+Base: contract          571.7    105.6 WWWWWWWWWWWWWWWWWWWWWWWWW                                    
+GPU: C-split            217.3    217.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW        
+GPU: Generic            248.8    248.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          217.3      0.0                                                              
+Ints: CD-ERI            135.0    135.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                            
+RCCSD: VecFct           601.5      7.2 W                                                            
+RCCSD: unravel          140.2    140.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                           
+SCF                      33.6      4.4 W                                                            
+Total                   979.7     34.8 WWWWWWWW                                                     
+rc=0
+gpu_max_util=100%
+
+=============== unrav_h2o10_cc-pvtz_ccsd_pinned_fix1 ===============
+# temp_dir=/tmp/unrav-161971-h2o10_cc-pvtz_ccsd-1
+# nbasis=580 predicted=580
+# cholesky_eri_sec=126.208
+# rhf_sec=19.584
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+# ccsd_total_sec=637.618 upper_bound_per_iter=159.404 maxiter=4
+# total_sec=783.879
+	Maximum resident set size (kbytes): 51324864
+Base: contract          536.9    104.8 WWWWWWWWWWWWWWWWWWWWWWWWWWW                                  
+GPU: C-split            202.3    202.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW        
+GPU: Generic            229.8    229.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          202.3      0.0                                                              
+Ints: CD-ERI            126.2    126.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                            
+RCCSD: VecFct           527.4      7.2 W                                                            
+RCCSD: unravel           22.5     22.5 WWWWW                                                        
+SCF                      19.5      4.1 W                                                            
+Total                   793.5     23.8 WWWWWW                                                       
+rc=0
+gpu_max_util=100%
+
+=============== unrav_h2o10_aug-cc-pvtz_ccsd_pinned_fix0 ===============
+# temp_dir=/tmp/unrav-161971-h2o10_aug-cc-pvtz_ccsd-0
+# nbasis=920 predicted=920
+# cholesky_eri_sec=565.724
+# rhf_sec=60.195
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+# ccsd_total_sec=3709.696 upper_bound_per_iter=927.424 maxiter=4
+# total_sec=4336.197
+	Maximum resident set size (kbytes): 166877824
+Base: contract         2981.6    312.1 WWWWWWWWW                                                    
+GPU: C-split           1957.9   1957.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            711.6    711.6 WWWWWWWWWWWWWWWWWWWWWW                                       
+GPU: Splitting         1957.9      0.0                                                              
+Ints: CD-ERI            565.7    565.7 WWWWWWWWWWWWWWWWW                                            
+RCCSD: VecFct          3088.6     19.4                                                              
+RCCSD: unravel          461.2    461.2 WWWWWWWWWWWWWW                                               
+SCF                      60.1      4.9                                                              
+Total                  4346.1     51.8 W                                                            
+rc=0
+gpu_max_util=100%
+
+=============== unrav_h2o10_aug-cc-pvtz_ccsd_pinned_fix1 ===============
+# temp_dir=/tmp/unrav-161971-h2o10_aug-cc-pvtz_ccsd-1
+# nbasis=920 predicted=920
+# cholesky_eri_sec=576.761
+# rhf_sec=87.805
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+# ccsd_total_sec=3429.092 upper_bound_per_iter=857.273 maxiter=4
+# total_sec=4094.336
+	Maximum resident set size (kbytes): 166862336
+Base: contract         3214.5    314.2 WWWWWWWWW                                                    
+GPU: C-split           2128.4   2128.4 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            771.9    771.9 WWWWWWWWWWWWWWWWWWWWWW                                       
+GPU: Splitting         2128.4      0.0                                                              
+Ints: CD-ERI            576.8    576.8 WWWWWWWWWWWWWWWW                                             
+RCCSD: VecFct          3101.5     19.0                                                              
+RCCSD: unravel           61.9     61.8 W                                                            
+SCF                      87.4      3.9                                                              
+Total                  4103.8     51.1 W                                                            
+rc=0
+gpu_max_util=100%
+
+ALL DONE Sat Oct  3 13:08:00 JST 2026

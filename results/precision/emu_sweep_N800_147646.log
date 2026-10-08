@@ -1,0 +1,112 @@
+host=c163 nproc=64 job=147646 date=Mon Sep 28 18:33:30 JST 2026
+index, name, memory.total [MiB]
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+/dev/nvme0n1p1  3.4T     0  3.4T   0% /tmp
+
+=============== emu_N800_cupy_native  [CUBLAS_EMULATE_DOUBLE_PRECISION=0] ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 45.3s
+  warmup 0:    236.35 s
+  timed 1:    235.58 s
+  timed 2:    235.94 s
+wrote reference /tmp/emu-147646/ref_cupy.npy in 2.7s
+median 235.76 s   mean 235.76 s
+peak_rss 172.7 GiB   = 1.69x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_cupy_native.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_cupy_adp  [CUBLAS_EMULATE_DOUBLE_PRECISION=1] ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 46.1s
+  warmup 0:    224.80 s
+  timed 1:    222.90 s
+  timed 2:    224.12 s
+rel_err vs /tmp/emu-147646/ref_cupy.npy: nan
+median 223.51 s   mean 223.51 s
+peak_rss 172.7 GiB   = 1.69x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_cupy_adp.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_cupy_m55  [CUBLAS_EMULATE_DOUBLE_PRECISION=1,CUBLAS_FIXEDPOINT_EMULATION_MANTISSA_BIT_COUNT=55] ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 45.6s
+  warmup 0:    214.56 s
+  timed 1:    213.18 s
+  timed 2:    213.28 s
+rel_err vs /tmp/emu-147646/ref_cupy.npy: nan
+median 213.23 s   mean 213.23 s
+peak_rss 172.8 GiB   = 1.69x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_cupy_m55.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_cupy_m39  [CUBLAS_EMULATE_DOUBLE_PRECISION=1,CUBLAS_FIXEDPOINT_EMULATION_MANTISSA_BIT_COUNT=39] ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 46.3s
+  warmup 0:    203.66 s
+  timed 1:    205.46 s
+  timed 2:    205.16 s
+rel_err vs /tmp/emu-147646/ref_cupy.npy: nan
+median 205.31 s   mean 205.31 s
+peak_rss 172.7 GiB   = 1.69x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_cupy_m39.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_pytorch_native  [CUBLAS_EMULATE_DOUBLE_PRECISION=0] ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 46.0s
+  warmup 0:    267.47 s
+  timed 1:    270.37 s
+  timed 2:    264.87 s
+wrote reference /tmp/emu-147646/ref_pytorch.npy in 2.7s
+median 267.62 s   mean 267.62 s
+peak_rss 143.5 GiB   = 1.40x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_pytorch_native.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_pytorch_adp  [CUBLAS_EMULATE_DOUBLE_PRECISION=1] ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 45.6s
+  warmup 0:    249.75 s
+  timed 1:    253.68 s
+  timed 2:    249.43 s
+rel_err vs /tmp/emu-147646/ref_pytorch.npy: nan
+median 251.55 s   mean 251.55 s
+peak_rss 143.6 GiB   = 1.41x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_pytorch_adp.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_pytorch_m55  [CUBLAS_EMULATE_DOUBLE_PRECISION=1,CUBLAS_FIXEDPOINT_EMULATION_MANTISSA_BIT_COUNT=55] ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 46.1s
+  warmup 0:    240.91 s
+  timed 1:    247.94 s
+  timed 2:    245.18 s
+rel_err vs /tmp/emu-147646/ref_pytorch.npy: nan
+median 246.56 s   mean 246.56 s
+peak_rss 143.7 GiB   = 1.41x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_pytorch_m55.json
+rc=0
+gpu_max_util=100%
+
+=============== emu_N800_pytorch_m39  [CUBLAS_EMULATE_DOUBLE_PRECISION=1,CUBLAS_FIXEDPOINT_EMULATION_MANTISSA_BIT_COUNT=39] ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 45.3s
+  warmup 0:    235.24 s
+  timed 1:    230.10 s
+  timed 2:    233.38 s
+rel_err vs /tmp/emu-147646/ref_pytorch.npy: nan
+median 231.74 s   mean 231.74 s
+peak_rss 143.6 GiB   = 1.40x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/emu_N800_pytorch_m39.json
+rc=0
+gpu_max_util=100%
+
+scratch_peak=0
+ALL DONE Mon Sep 28 20:16:06 JST 2026

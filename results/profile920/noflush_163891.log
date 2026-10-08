@@ -1,0 +1,82 @@
+host=c196 nproc=64 job=163891 date=Sat Oct  3 23:48:31 JST 2026
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+system=h2o10_aug-cc-pvtz_ccsd maxiter=2
+
+=============== nofl_h2o10_aug-cc-pvtz_ccsd_flush ===============
+# temp_dir=/tmp/nofl-163891-flush
+# nbasis=920 predicted=920
+# cholesky_eri_sec=627.228
+# rhf_sec=62.570
+# pin_strategy=baseline
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+# maxiter overridden to 2
+Total energy             -763.32071017 a.u.
+# ccsd_total_sec=1818.237 upper_bound_per_iter=909.119 maxiter=2
+# total_sec=2508.776
+# d2h_view: returned a view 572 times, copied 44 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+	Maximum resident set size (kbytes): 166844480
+Base: contract         1650.5    214.3 WWWWWWWWWWWW                                                 
+GPU: C-split           1086.1   1086.1 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            350.1    350.1 WWWWWWWWWWWWWWWWWWW                                          
+GPU: Splitting         1086.1      0.0                                                              
+Ints: CD-ERI            627.2    627.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                          
+RCCSD: unravel           40.6     40.6 WW                                                           
+Total                  2517.8     51.2 WW                                                           
+rc=0
+gpu_mean_util=22.1% over 254 samples
+
+=============== nofl_h2o10_aug-cc-pvtz_ccsd_accounting ===============
+# temp_dir=/tmp/nofl-163891-accounting
+# nbasis=920 predicted=920
+# cholesky_eri_sec=626.879
+# rhf_sec=63.824
+# pin_strategy=baseline
+# noflush: mode=accounting, corrected estimate 183.1 GiB vs raw 183.1 GiB
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+# maxiter overridden to 2
+Total energy             -763.32071017 a.u.
+# ccsd_total_sec=1822.594 upper_bound_per_iter=911.297 maxiter=2
+# total_sec=2514.283
+# d2h_view: returned a view 557 times, copied 44 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# noflush: mode=accounting flushes_skipped=0 corrected_free_at_exit=183.1 GiB
+	Maximum resident set size (kbytes): 166730176
+Base: contract         1658.6    216.4 WWWWWWWWWWWW                                                 
+GPU: C-split           1087.8   1087.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            354.4    354.4 WWWWWWWWWWWWWWWWWWW                                          
+GPU: Splitting         1087.8      0.0                                                              
+Ints: CD-ERI            626.9    626.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                          
+RCCSD: unravel           40.4     40.4 WW                                                           
+Total                  2523.7     51.6 WW                                                           
+rc=0
+gpu_mean_util=23.7% over 254 samples
+
+=============== nofl_h2o10_aug-cc-pvtz_ccsd_noflush ===============
+# temp_dir=/tmp/nofl-163891-noflush
+# nbasis=920 predicted=920
+# cholesky_eri_sec=626.590
+# rhf_sec=63.764
+# pin_strategy=baseline
+# noflush: mode=1, corrected estimate 183.1 GiB vs raw 183.1 GiB
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+# maxiter overridden to 2
+Total energy             -763.32071017 a.u.
+# ccsd_total_sec=1683.236 upper_bound_per_iter=841.618 maxiter=2
+# total_sec=2374.559
+# d2h_view: returned a view 557 times, copied 44 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# noflush: mode=1 flushes_skipped=2031 corrected_free_at_exit=183.1 GiB
+	Maximum resident set size (kbytes): 166869184
+Base: contract         1517.5    214.0 WWWWWWWWWWWWW                                                
+GPU: C-split            974.6    974.6 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            328.9    328.9 WWWWWWWWWWWWWWWWWWWW                                         
+GPU: Splitting          974.6      0.0                                                              
+Ints: CD-ERI            626.6    626.6 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                      
+RCCSD: unravel           40.5     40.5 WW                                                           
+Total                  2385.0     52.9 WWW                                                          
+rc=0
+gpu_mean_util=20.6% over 240 samples
+
+ALL DONE Sun Oct  4 01:52:59 JST 2026

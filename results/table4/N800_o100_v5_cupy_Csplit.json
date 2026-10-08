@@ -1,0 +1,9 @@
+{
+  "nbasis": 800, "nocc": 100, "nvirt": 700, "nchol": 4000, "nvec_factor": 5,
+  "backend": "cupy", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [235.31599854200613, 235.24694940797053, 235.11701281589922, 234.88531144801527],
+  "median_sec": 235.18198111193487, "mean_sec": 235.1413180534728,
+  "total_gib": 102.22196578979492, "host": "c074", "slurm_job": "147057",
+  "cpus_visible": 144
+}

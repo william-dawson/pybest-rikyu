@@ -1,0 +1,163 @@
+host=c069 job=161952 date=Sat Oct  3 09:36:46 JST 2026
+found via module nvhpc
+NSYS=/shared/software/hpc_sdk/Linux_aarch64/26.3/compilers/bin/nsys
+NVIDIA Nsight Systems version 2026.1.1.204-261137176666v0
+SDK=/shared/software/hpc_sdk (bound into the container)
+=============== nsyspin_h2o10_ccpvdz_pytorch_baseline ===============
+profile rc=0
+# temp_dir=/tmp/nsys-161952/pb-baseline
+# nbasis=240 predicted=240
+# cholesky_eri_sec=8.232
+# rhf_sec=6.983
+# pin_strategy=baseline
+  Iter     Total energy        Diff    Corr. energy  |Residual|    max(Residual)         Time
+Total energy             -762.39447031 a.u.
+# ccsd_total_sec=103.981 upper_bound_per_iter=25.995 maxiter=4
+# total_sec=119.496
+--- trace size: 13M ---
+--- cuda_gpu_kern_sum ---
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
++----------+-----------------+-----------+------------+------------+----------+-----------+-------------+------------------------------------------------------------------------------------------------------+
+| Time (%) | Total Time (ns) | Instances |  Avg (ns)  |  Med (ns)  | Min (ns) | Max (ns)  | StdDev (ns) |                                                 Name                                                 |
++----------+-----------------+-----------+------------+------------+----------+-----------+-------------+------------------------------------------------------------------------------------------------------+
+|     48.7 |      1660811070 |        86 | 19311756.6 | 22773744.0 |    67712 | 108135328 |  23805728.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nn_align1>(T1::Params)                 |
+|     30.2 |      1028946717 |        82 | 12548130.7 |  5284320.0 |  1132288 | 117453792 |  27368282.4 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(T1::Params)                |
+|     12.0 |       409000000 |        25 | 16360000.0 | 23759072.0 |  5005824 |  23764736 |   9253602.6 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_tn_align1>(T1::Params)                 |
+|      2.6 |        89518464 |       330 |   271268.1 |   263904.0 |     2592 |    590560 |    156030.1 | void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::n… |
+|      1.5 |        52574016 |        10 |  5257401.6 |  5256992.0 |  5252896 |   5263648 |      3986.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(T1::Params)                 |
+|      1.4 |        48321312 |        10 |  4832131.2 |  4831152.0 |  4825440 |   4844800 |      5261.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nn_align1>(T1::Params)                 |
+|      1.0 |        34399072 |        28 |  1228538.3 |  1443168.0 |   238560 |   1445408 |    469446.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nn_align1>(T1::Params)                |
+|      1.0 |        34100448 |        23 |  1482628.2 |  1482432.0 |  1480800 |   1485536 |      1101.6 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x64_16x4_nt_align1>(T1::Params)                 |
+|      0.5 |        15973856 |        26 |   614379.1 |   265968.0 |   149184 |   1145728 |    463661.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nt_align1>(T1::Params)                 |
+|      0.2 |         8468288 |        30 |   282276.3 |   238352.0 |    54368 |    618016 |    173369.8 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x64_16x4_nn_align1>(T1::Params)                 |
+|      0.2 |         6641536 |        40 |   166038.4 |    61360.0 |    60192 |    662144 |    200373.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_tn_align1>(T1::Params)                |
+|      0.2 |         6393248 |        25 |   255729.9 |   255648.0 |   254688 |    257632 |       639.9 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_tn_align1>(T1::Params)                 |
+|      0.2 |         5201056 |       220 |    23641.2 |     2656.0 |     2240 |    160768 |     48155.3 | void dot_kernel<double, (int)128, (int)0, cublasDotParams<cublasGemvTensorStridedBatched<const doub… |
+|      0.1 |         3786304 |        38 |    99639.6 |    99584.0 |    91904 |    106336 |      2891.1 | void gemv2T_kernel_val<int, int, double, double, double, double, (int)128, (int)16, (int)4, (int)4,… |
+|      0.1 |         3672576 |        23 |   159677.2 |   159712.0 |   158368 |    160960 |       750.1 | std::enable_if<T7, void>::type internal::gemvx::kernel<int, int, double, double, double, double, (b… |
+|      0.0 |          427968 |       220 |     1945.3 |     1888.0 |     1376 |      3008 |       398.7 | void reduce_1Block_kernel<double, (int)128, (int)7, cublasGemvTensorStridedBatched<double>, cublasG… |
+|      0.0 |          426144 |        59 |     7222.8 |     6368.0 |     3776 |     14944 |      3326.9 | void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, double, double, double, double, (bool)0, … |
+|      0.0 |          386080 |         5 |    77216.0 |    77248.0 |    76576 |     77696 |       485.8 | void gemv2N_kernel<int, int, double, double, double, double, (int)128, (int)2, (int)4, (int)4, (int… |
+--- cuda_gpu_mem_time_sum ---
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
++----------+-----------------+-------+------------+----------+----------+-----------+-------------+------------------------------+
+| Time (%) | Total Time (ns) | Count |  Avg (ns)  | Med (ns) | Min (ns) | Max (ns)  | StdDev (ns) |          Operation           |
++----------+-----------------+-------+------------+----------+----------+-----------+-------------+------------------------------+
+|     93.4 |     20448332672 |   525 | 38949205.1 |   4128.0 |     1280 | 701520416 | 105839383.9 | [CUDA memcpy Device-to-Host] |
+|      6.6 |      1452817186 |  1211 |  1199683.9 | 529536.0 |     1664 |   8069856 |   1511878.0 | [CUDA memcpy Host-to-Device] |
+|      0.0 |          206656 |   110 |     1878.7 |   1872.0 |     1184 |      2336 |       308.7 | [CUDA memset]                |
++----------+-----------------+-------+------------+----------+----------+-----------+-------------+------------------------------+
+--- cuda_gpu_mem_size_sum ---
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
++------------+-------+----------+----------+----------+----------+-------------+------------------------------+
+| Total (MB) | Count | Avg (MB) | Med (MB) | Min (MB) | Max (MB) | StdDev (MB) |          Operation           |
++------------+-------+----------+----------+----------+----------+-------------+------------------------------+
+| 260095.979 |  1211 |  214.778 |   97.280 |    0.013 |  808.704 |     263.231 | [CUDA memcpy Host-to-Device] |
+|  65806.590 |   525 |  125.346 |    0.061 |    0.000 |  462.080 |     197.201 | [CUDA memcpy Device-to-Host] |
+|      7.503 |   110 |    0.068 |    0.070 |    0.005 |    0.113 |       0.045 | [CUDA memset]                |
++------------+-------+----------+----------+----------+----------+-------------+------------------------------+
+--- cuda_api_sum ---
+ ** CUDA API Summary (cuda_api_sum):
++----------+-----------------+-----------+------------+-----------+----------+-----------+-------------+-------------------------------------------+
+| Time (%) | Total Time (ns) | Num Calls |  Avg (ns)  | Med (ns)  | Min (ns) | Max (ns)  | StdDev (ns) |                   Name                    |
++----------+-----------------+-----------+------------+-----------+----------+-----------+-------------+-------------------------------------------+
+|     74.1 |     22153652384 |      1736 | 12761320.5 |  165424.0 |    11232 | 706680896 |  60800743.6 | cudaMemcpyAsync                           |
+|     15.7 |      4687809568 |      1243 |  3771367.3 |  532320.0 |    70752 | 118109408 |  12803025.8 | cudaFree                                  |
+|      9.1 |      2729119680 |      1246 |  2190304.7 | 1099360.0 |     3648 | 140661216 |   8277467.8 | cudaMalloc                                |
+|      0.7 |       222332736 |       328 |   677843.7 |   81856.0 |    26112 |  47487040 |   3813124.2 | cudaMemGetInfo                            |
+|      0.2 |        58772000 |        17 |  3457176.5 |  314272.0 |   129312 |  38718880 |   9805715.4 | cuLibraryLoadData                         |
+|      0.1 |        28229216 |       856 |    32978.1 |   23872.0 |     2688 |   4255104 |    178974.9 | cudaLaunchKernel                          |
+|      0.0 |         9124736 |       385 |    23700.6 |   25344.0 |     3616 |     68352 |     12013.7 | cuLaunchKernel                            |
+|      0.0 |         8782016 |      1736 |     5058.8 |    4128.0 |     1184 |     25984 |      3366.8 | cudaStreamSynchronize                     |
+|      0.0 |         6780224 |      2979 |     2276.0 |    2112.0 |      416 |     21024 |      1342.1 | cudaStreamIsCapturing                     |
+|      0.0 |         3576608 |       110 |    32514.6 |   34496.0 |    18720 |     56928 |      7458.1 | cudaMemsetAsync                           |
+|      0.0 |         2528640 |        59 |    42858.3 |   11008.0 |     4384 |   1866688 |    241576.3 | cudaLaunchKernelExC                       |
+|      0.0 |         2011328 |       385 |     5224.2 |    2976.0 |      448 |    294272 |     19549.9 | cuKernelGetFunction                       |
+|      0.0 |          463008 |       856 |      540.9 |     448.0 |       32 |      8832 |       478.6 | cuKernelGetName                           |
+|      0.0 |          225024 |        29 |     7759.4 |     704.0 |      384 |    191744 |     35395.6 | cuLibraryGetKernel                        |
+|      0.0 |          202240 |       882 |      229.3 |     224.0 |       64 |      1216 |       145.4 | cuGetProcAddress_v2                       |
+|      0.0 |           28192 |        38 |      741.9 |     624.0 |      160 |      4000 |       608.9 | cudaGetDriverEntryPointByVersion          |
+|      0.0 |           17760 |        18 |      986.7 |     464.0 |      224 |      8672 |      1950.1 | cudaEventCreateWithFlags                  |
+|      0.0 |           13664 |        30 |      455.5 |     384.0 |      288 |      2912 |       465.4 | cudaOccupancyMaxActiveClusters            |
+kept /data1/rkp00012/rku00036/pybest/logs/nsyspin_h2o10_ccpvdz_pytorch_baseline.nsys-rep (512)
+
+=============== nsyspin_h2o10_ccpvdz_pytorch_pinned ===============
+profile rc=0
+# temp_dir=/tmp/nsys-161952/pb-pinned
+# nbasis=240 predicted=240
+# cholesky_eri_sec=8.359
+# rhf_sec=6.066
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+  Iter     Total energy        Diff    Corr. energy  |Residual|    max(Residual)         Time
+Total energy             -762.39447031 a.u.
+# ccsd_total_sec=66.624 upper_bound_per_iter=16.656 maxiter=4
+# total_sec=81.180
+--- trace size: 12M ---
+--- cuda_gpu_kern_sum ---
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
++----------+-----------------+-----------+------------+------------+----------+-----------+-------------+------------------------------------------------------------------------------------------------------+
+| Time (%) | Total Time (ns) | Instances |  Avg (ns)  |  Med (ns)  | Min (ns) | Max (ns)  | StdDev (ns) |                                                 Name                                                 |
++----------+-----------------+-----------+------------+------------+----------+-----------+-------------+------------------------------------------------------------------------------------------------------+
+|     47.8 |      1660129695 |        86 | 19303833.7 | 22773919.5 |    67840 | 107775937 |  23770609.4 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nn_align1>(T1::Params)                 |
+|     29.6 |      1028833055 |        82 | 12546744.6 |  5286096.0 |  1132320 | 117342303 |  27350322.2 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nt_align1>(T1::Params)                |
+|     11.8 |       409025151 |        25 | 16361006.0 | 23760576.0 |  5005984 |  23767103 |   9253037.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_tn_align1>(T1::Params)                 |
+|      4.4 |       151876832 |       527 |   288191.3 |   263488.0 |     2304 |   1187296 |    275657.1 | void at::native::elementwise_kernel<(int)128, (int)2, void at::native::gpu_kernel_impl_nocast<at::n… |
+|      1.5 |        52601825 |        10 |  5260182.5 |  5261568.0 |  5252321 |   5263360 |      3440.0 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nt_align1>(T1::Params)                 |
+|      1.4 |        48339328 |        10 |  4833932.8 |  4833968.0 |  4827841 |   4840800 |      4059.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_nn_align1>(T1::Params)                 |
+|      1.0 |        34403648 |        28 |  1228701.7 |  1443456.0 |   238368 |   1445696 |    469548.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_nn_align1>(T1::Params)                |
+|      1.0 |        34098817 |        23 |  1482557.3 |  1482368.0 |  1480672 |   1484608 |       886.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x64_16x4_nt_align1>(T1::Params)                 |
+|      0.5 |        15967264 |        26 |   614125.5 |   264240.0 |   149344 |   1144928 |    464032.3 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x32_16x4_nt_align1>(T1::Params)                 |
+|      0.2 |         8464000 |        30 |   282133.3 |   238064.0 |    54528 |    615616 |    173074.1 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_32x64_16x4_nn_align1>(T1::Params)                 |
+|      0.2 |         6660864 |        40 |   166521.6 |    62832.0 |    60192 |    662368 |    199889.0 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x128_16x3_tn_align1>(T1::Params)                |
+|      0.2 |         6375552 |        25 |   255022.1 |   255104.0 |   254016 |    255712 |       401.8 | void cutlass::Kernel2<cutlass_80_tensorop_d884gemm_64x64_16x4_tn_align1>(T1::Params)                 |
+|      0.2 |         5210176 |       220 |    23682.6 |     2704.0 |     2272 |    161120 |     48184.8 | void dot_kernel<double, (int)128, (int)0, cublasDotParams<cublasGemvTensorStridedBatched<const doub… |
+|      0.1 |         3747040 |        38 |    98606.3 |    99072.0 |    91104 |    104672 |      3038.6 | void gemv2T_kernel_val<int, int, double, double, double, double, (int)128, (int)16, (int)4, (int)4,… |
+|      0.1 |         3668448 |        23 |   159497.7 |   159424.0 |   158848 |    160704 |       498.1 | std::enable_if<T7, void>::type internal::gemvx::kernel<int, int, double, double, double, double, (b… |
+|      0.0 |          529824 |       220 |     2408.3 |     2432.0 |     1760 |      3520 |       355.5 | void reduce_1Block_kernel<double, (int)128, (int)7, cublasGemvTensorStridedBatched<double>, cublasG… |
+|      0.0 |          428288 |        59 |     7259.1 |     6464.0 |     3712 |     15104 |      3355.8 | void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, double, double, double, double, (bool)0, … |
+|      0.0 |          383232 |         5 |    76646.4 |    76608.0 |    75680 |     77856 |       798.5 | void gemv2N_kernel<int, int, double, double, double, double, (int)128, (int)2, (int)4, (int)4, (int… |
+--- cuda_gpu_mem_time_sum ---
+ ** CUDA GPU MemOps Summary (by Time) (cuda_gpu_mem_time_sum):
++----------+-----------------+-------+-----------+----------+----------+----------+-------------+------------------------------+
+| Time (%) | Total Time (ns) | Count | Avg (ns)  | Med (ns) | Min (ns) | Max (ns) | StdDev (ns) |          Operation           |
++----------+-----------------+-------+-----------+----------+----------+----------+-------------+------------------------------+
+|     80.7 |      1424609920 |  1211 | 1176391.3 | 515520.0 |     1792 |  8046912 |   1466220.5 | [CUDA memcpy Host-to-Device] |
+|     19.3 |       341573793 |   525 |  650616.7 |   3584.0 |     1280 |  2425152 |   1019014.0 | [CUDA memcpy Device-to-Host] |
+|      0.0 |          222272 |   110 |    2020.7 |   2064.0 |     1536 |     2560 |       235.3 | [CUDA memset]                |
++----------+-----------------+-------+-----------+----------+----------+----------+-------------+------------------------------+
+--- cuda_gpu_mem_size_sum ---
+ ** CUDA GPU MemOps Summary (by Size) (cuda_gpu_mem_size_sum):
++------------+-------+----------+----------+----------+----------+-------------+------------------------------+
+| Total (MB) | Count | Avg (MB) | Med (MB) | Min (MB) | Max (MB) | StdDev (MB) |          Operation           |
++------------+-------+----------+----------+----------+----------+-------------+------------------------------+
+| 260095.979 |  1211 |  214.778 |   97.280 |    0.013 |  808.704 |     263.231 | [CUDA memcpy Host-to-Device] |
+|  65806.590 |   525 |  125.346 |    0.061 |    0.000 |  462.080 |     197.201 | [CUDA memcpy Device-to-Host] |
+|      7.503 |   110 |    0.068 |    0.070 |    0.005 |    0.113 |       0.045 | [CUDA memset]                |
++------------+-------+----------+----------+----------+----------+-------------+------------------------------+
+--- cuda_api_sum ---
+ ** CUDA API Summary (cuda_api_sum):
++----------+-----------------+-----------+-----------+-----------+----------+-----------+-------------+-------------------------------------------+
+| Time (%) | Total Time (ns) | Num Calls | Avg (ns)  | Med (ns)  | Min (ns) | Max (ns)  | StdDev (ns) |                   Name                    |
++----------+-----------------+-----------+-----------+-----------+----------+-----------+-------------+-------------------------------------------+
+|     47.0 |      5350685696 |      1390 | 3849414.2 |  528832.0 |    68576 | 138134976 |  13216318.9 | cudaFree                                  |
+|     28.9 |      3292414464 |      1393 | 2363542.3 | 1048800.0 |     4832 | 135488288 |   9414919.8 | cudaMalloc                                |
+|     13.5 |      1537036384 |      1736 |  885389.6 |   37664.0 |     8224 |   8807904 |   1448532.3 | cudaMemcpyAsync                           |
+|      5.3 |       602208864 |       328 | 1836002.6 |   79152.0 |    29376 |  57051040 |   7868661.9 | cudaMemGetInfo                            |
+|      4.3 |       485063488 |       335 | 1447950.7 |  501216.0 |     7136 |   7665568 |   1920355.2 | cudaDeviceSynchronize                     |
+|      0.3 |        28450144 |      1053 |   27018.2 |   20832.0 |     2720 |   5483744 |    168799.5 | cudaLaunchKernel                          |
+|      0.2 |        26974880 |         3 | 8991626.7 | 6383488.0 |   281984 |  20309408 |  10265291.9 | cudaHostAlloc                             |
+|      0.2 |        18720896 |        17 | 1101229.2 |  339104.0 |   121120 |   7067200 |   2230142.2 | cuLibraryLoadData                         |
+|      0.1 |         9607840 |      1401 |    6857.8 |    3744.0 |     1184 |   3012928 |     80444.0 | cudaStreamSynchronize                     |
+|      0.1 |         7588960 |       385 |   19711.6 |   21024.0 |     4992 |     65472 |     10082.0 | cuLaunchKernel                            |
+|      0.1 |         6348704 |      3129 |    2029.0 |    1728.0 |      384 |     16352 |      1208.9 | cudaStreamIsCapturing                     |
+|      0.0 |         2792448 |       110 |   25385.9 |   21584.0 |    15008 |     73856 |      8545.9 | cudaMemsetAsync                           |
+|      0.0 |         2309824 |        59 |   39149.6 |    8192.0 |     5056 |   1792256 |    232190.5 | cudaLaunchKernelExC                       |
+|      0.0 |         1824896 |       385 |    4740.0 |    2400.0 |      544 |    284064 |     19841.9 | cuKernelGetFunction                       |
+|      0.0 |          522784 |      1053 |     496.5 |     416.0 |       32 |     20512 |       717.9 | cuKernelGetName                           |
+|      0.0 |          283840 |        29 |    9787.6 |     768.0 |      320 |    248960 |     46006.9 | cuLibraryGetKernel                        |
+|      0.0 |          137024 |       882 |     155.4 |      96.0 |       64 |      1280 |       130.7 | cuGetProcAddress_v2                       |
+|      0.0 |           33312 |        20 |    1665.6 |     560.0 |      288 |     10304 |      2758.9 | cudaEventCreateWithFlags                  |
+kept /data1/rkp00012/rku00036/pybest/logs/nsyspin_h2o10_ccpvdz_pytorch_pinned.nsys-rep (512)
+
+ALL DONE Sat Oct  3 09:44:40 JST 2026

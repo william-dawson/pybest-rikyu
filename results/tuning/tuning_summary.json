@@ -1,0 +1,536 @@
+{
+  "what": "Tuning experiments on PyBEST's GPU path. All patches are monkey-patches on the backend op table; the container is untouched.",
+  "pinning_bounded_pytorch": {
+    "fix": "as_numpy/get_numpy copy through a single REUSED pinned staging buffer instead of t.cpu().numpy(), whose destination is pageable memory where cudaMemcpyAsync is synchronous",
+    "results": [
+      {
+        "workload": "molecular CCSD 240 AO",
+        "job": "161361",
+        "baseline_sec": 97.618,
+        "pinned_sec": 61.29,
+        "change_pct": -37.2,
+        "peak_rss_note": "unchanged"
+      },
+      {
+        "workload": "ladder N=800",
+        "job": "161368",
+        "baseline_sec": 275.83,
+        "pinned_sec": 228.45,
+        "change_pct": -17.2,
+        "peak_rss_gib": [
+          180.0,
+          180.3
+        ]
+      },
+      {
+        "workload": "ladder N=1100",
+        "job": "161368",
+        "baseline_sec": 1473.39,
+        "pinned_sec": 1030.72,
+        "change_pct": -30.0,
+        "peak_rss_gib": [
+          400.3,
+          400.4
+        ]
+      },
+      {
+        "workload": "ladder N=800, independent repeat",
+        "job": "161883",
+        "baseline_sec": 286.52,
+        "pinned_sec": 233.06,
+        "change_pct": -18.6,
+        "peak_rss_gib": [
+          180.2,
+          180.3
+        ]
+      }
+    ],
+    "vs_published_gh200": {
+      "N800": {
+        "gh200_sec": 355.9,
+        "baseline_x": 1.33,
+        "pinned_x": 1.56
+      },
+      "N1100": {
+        "gh200_sec": 1401.7,
+        "baseline_x": 1.02,
+        "pinned_x": 1.36
+      }
+    },
+    "significance": "PyTorch's advantage collapsing to 1.02x at N=1100, and falling below H100 at N=1200-1300, is caused by unpinned synchronous device-to-host transfers. The fix recovers it, at no memory cost.",
+    "where_the_saving_lands": "At 240 AO, GPU: Generic (td_GPU_helper, crosslib_batching.py:1320) falls 60.0 -> 24.7 s while GPU: C-split stays at 3.0 s and every CPU-side section is flat. The fix acts on the generic GPU tensordot path, not on the C-split machinery the paper optimised.",
+    "molecular_paired_in_job": {
+      "note": "the benefit DECAYS with basis size because the fix acts on td_GPU_helper (GPU: Generic), not on C-split, whose share rises with basis size",
+      "240_AO": {
+        "job": "161877",
+        "baseline": 105.874,
+        "pinned": 66.35,
+        "change_pct": -37.3,
+        "generic_share_of_gpu_time_pct": 95
+      },
+      "580_AO": {
+        "job": "161877",
+        "baseline": 915.898,
+        "pinned": 810.785,
+        "change_pct": -11.5,
+        "generic_share_of_gpu_time_pct": 60
+      },
+      "920_AO": {
+        "job": "161895",
+        "baseline": 3974.279,
+        "pinned": 3740.863,
+        "change_pct": -5.9,
+        "generic_share_of_gpu_time_pct": 36,
+        "sections": {
+          "GPU: Generic": [
+            1016.3,
+            776.4
+          ],
+          "GPU: C-split": [
+            1809.4,
+            1816.6
+          ]
+        }
+      }
+    },
+    "ladder_large": {
+      "job": "161896",
+      "N1200": {
+        "baseline": 1948.04,
+        "pinned": 1583.43,
+        "change_pct": -18.7,
+        "peak_rss_gib": [
+          492.6,
+          493.51
+        ],
+        "vs_h100_csplit_1864.7": [
+          0.96,
+          1.18
+        ]
+      },
+      "N1300": {
+        "baseline": 2909.81,
+        "pinned": 2236.56,
+        "change_pct": -23.1,
+        "peak_rss_gib": [
+          589.9,
+          591.26
+        ],
+        "vs_h100_csplit_2679.1": [
+          0.92,
+          1.2
+        ]
+      },
+      "note": "their GH200 reports n.c. for both cells, so H100 C-split is the reference"
+    }
+  },
+  "pinning_unbounded_cupy": {
+    "fix": "clean_memory stops flushing the pinned pool -- UNBOUNDED, and the wrong shape of fix",
+    "ladder_N800": {
+      "baseline_sec": 237.2,
+      "pinned_sec": 229.19,
+      "change_pct": -3.4,
+      "peak_rss_gib": [
+        203.2,
+        246.4
+      ],
+      "memory_cost_gib": 43
+    },
+    "verdict": "bad trade on a memory-constrained code. A bounded single-buffer version is what should be measured instead; not yet done."
+  },
+  "cached_vram_query": {
+    "fix": "memory_usage() frozen at its first reading instead of queried per call. The reading falls 183 -> 138 GiB as the allocator fills, and it decides the ecfd < 0.4*memhave branch at crosslib_batching.py:702.",
+    "N1200": {
+      "cupy": {
+        "baseline_timed_sec": 1622.32,
+        "cached_timed_sec": 1614.24,
+        "change_pct": -0.5,
+        "pass2_penalty_pct": [
+          5.7,
+          5.0
+        ]
+      },
+      "pytorch": {
+        "baseline_timed_sec": 1948.04,
+        "cached_timed_sec": 1704.41,
+        "change_pct": -12.5,
+        "pass2_penalty_pct": [
+          18.0,
+          3.0
+        ]
+      }
+    },
+    "verdict": "NOT a fix to ship. Freezing makes PyBEST size batches against a stale optimistic estimate -- the largest value the run will ever see -- on a code whose reason for batching is to not exceed memory. What the number measures instead is how much the batching heuristic leaves on the table by sizing against a budget that has silently shrunk: -3.6% at N=800, -12.5% at N=1200 for PyTorch, -0.5% for CuPy. The fix worth proposing upstream is making memhave correct by adding the allocator's cached-but-free blocks, which are available to the next allocation and which the driver query excludes.",
+    "correction": "This was first recorded as removing query overhead. That is WRONG. free_memory is `lambda: torch_cuda.mem_get_info()[0]` (_gpu_support.py:293), a bare cudaMemGetInfo, and crosslib_batching calls memory_usage() five times (241, 503, 702, 1079 and one more). Five microsecond calls cannot be 12.5% of a 1948 s run. The whole gain is the batch plan changing.",
+    "N800_pytorch": {
+      "baseline_warmup_sec": 288.42,
+      "cached_warmup_sec": 278.03,
+      "change_pct": -3.6,
+      "note": "job 161883; growing with N is what a plan-sensitivity effect does and what a fixed syscall cost could not"
+    }
+  },
+  "parts_override": {
+    "fix": "pass parts= to bypass the adaptive heuristic (c_splitting lines 904-906)",
+    "N800": {
+      "cupy": {
+        "2": "OOM, tried 240 GB on a 184 GiB card",
+        "4": 259.49,
+        "8": 304.54,
+        "heuristic": 237.2
+      },
+      "pytorch": {
+        "2": "OOM, tried 223.6 GiB",
+        "4": 303.44,
+        "8": 660.03,
+        "heuristic": 275.83
+      }
+    },
+    "verdict": "NEGATIVE. Every fixed value loses to the heuristic: 2 runs out of memory, 4 is 9-10% slower, 8 is 28% slower for CuPy and 139% for PyTorch. The adaptive heuristic earns its complexity; do not recommend overriding it."
+  },
+  "thread_count": {
+    "fix": "set OMP_NUM_THREADS / OPENBLAS_NUM_THREADS, never set in any earlier run",
+    "cd_eri_sec": {
+      "64": 136.4,
+      "32": 169.9,
+      "16": 276.4,
+      "8": 425.0
+    },
+    "ccsd_sections_at_32_vs_default": {
+      "unravel": [
+        138.9,
+        146.0
+      ],
+      "contract_own": [
+        101.8,
+        103.2
+      ],
+      "gpu_sections": [
+        518.8,
+        525.0
+      ]
+    },
+    "verdict": "NEGATIVE for CCSD. Only the Cholesky decomposition scales; unravel, contract dispatch and the GPU sections are flat. The apparent 15% parallel efficiency was an artifact of averaging a threaded setup phase with serial CCSD work. The default (all cores) is already best: OMP=32 gave 238.04 s per iteration against 216.84 s unset.",
+    "caveat": "3 of 4 cells died to the Lustre checkpoint bug, so this rests on the CD-ERI series plus one complete run at OMP=32."
+  },
+  "pybest_bug_lustre_checkpoints": {
+    "symptom": "FileNotFoundError: Cannot find checkpoint file while loading array from pybest-temp/checkpoint_*.h5",
+    "where": "cache.py:474 -> linalg/base.py:535, reached from from_cache() and from rcc.py:627",
+    "trigger": "temp_dir on a parallel filesystem. NONDETERMINISTIC: at 580 AO, OMP=32 succeeded while OMP=64, 16 and 8 all failed with everything else identical.",
+    "diagnosis": "PyBEST writes a checkpoint and reads it back with no fsync and no retry; on Lustre the read sometimes does not see the write.",
+    "workaround": "point filemanager.temp_dir at node-local storage. Confirmed: every run with PYBEST_TEMP on NVMe succeeded (147264, 147598, 157276); runs on Lustre are a coin flip.",
+    "note": "I twice mis-diagnosed this as a dual-temp-directory conflict and then as an artifact of a runpy wrapper. Both were wrong; it reproduces with the driver run directly."
+  },
+  "pinning_bounded_cupy_null": {
+    "job": "161877",
+    "workload": "ladder N=800",
+    "baseline_sec": 258.12,
+    "pinned_sec": 258.19,
+    "change_pct": 0.03,
+    "peak_rss_gib": [
+      203.2,
+      204.2
+    ],
+    "why": "CuPy already stages through a pinned pool, so its transfers are already asynchronous -- 65.8 GB D2H in 0.52 s (~126 GB/s) against PyTorch's 21.46 s (~3.1 GB/s) for the same bytes. CuPy's only pinning cost is re-pinning after clean_memory flushes the pool (12.74 s over 1032 cudaHostAlloc calls), which scales with transfer COUNT; the ladder has few, large transfers.",
+    "molecular_regression": {
+      "240_AO": {
+        "job": "161877",
+        "baseline": 84.136,
+        "pinned": 90.418,
+        "change_pct": 7.5
+      },
+      "580_AO": {
+        "job": "161877",
+        "baseline": 1052.797,
+        "pinned": 1107.762,
+        "change_pct": 5.2
+      },
+      "verdict": "ABANDONED. Two molecular sizes, both regressions; CuPy's D2H already runs at 126 GB/s. The defect is PyTorch's alone."
+    }
+  },
+  "unravel_fix": {
+    "what": "assign_triu (dense_four_index.py:490) builds np.triu_indices(nacto*nactv) per call -- 9.02 GiB of int64 index arrays plus a 605 M-element scatter at 920 AO -- where the upper triangle is row-contiguous; iadd_transpose (line 828) materialises two full temporaries, and for (o,v,o,v) the permutation (2,3,0,1) IS matrix transpose on the (ov,ov) view, so it is M += M.T and blocks in place.",
+    "microbenchmark_161965": {
+      "240_AO_dims": {
+        "assign_triu": [
+          0.18,
+          0.03,
+          5.8
+        ],
+        "iadd_transpose": [
+          0.29,
+          0.11,
+          2.5
+        ],
+        "unravel": [
+          0.5,
+          0.1,
+          3.2
+        ]
+      },
+      "580_AO_dims": {
+        "assign_triu": [
+          1.37,
+          0.2,
+          6.7
+        ],
+        "iadd_transpose": [
+          3.02,
+          0.76,
+          4.0
+        ],
+        "unravel": [
+          4.4,
+          1.0,
+          4.5
+        ]
+      },
+      "920_AO_dims": {
+        "assign_triu": [
+          3.49,
+          0.49,
+          7.1
+        ],
+        "iadd_transpose": [
+          10.23,
+          2.05,
+          5.0
+        ],
+        "unravel": [
+          13.7,
+          2.5,
+          5.4
+        ]
+      },
+      "bitwise_equal": true,
+      "block_size": "1024 gives 5.0x on the symmetrisation, 4096 only 1.7x -- 1024^2 doubles is 8 MB and stays in cache, 4096^2 is 134 MB and does not"
+    },
+    "real_ccsd_161971": {
+      "580_AO": {
+        "both_cells_pinned": true,
+        "unravel_sec": [
+          140.2,
+          22.5
+        ],
+        "unravel_speedup": 6.2,
+        "ccsd_total_sec": [
+          800.999,
+          637.618
+        ],
+        "change_pct": -20.4,
+        "peak_rss_gib": [
+          48.82,
+          48.95
+        ],
+        "note": "peak RSS flat, not lower: at 580 AO the temporaries are ~10 GiB and peak is set during the Cholesky/ERI phase instead"
+      },
+      "920_AO": {
+        "both_cells_pinned": true,
+        "unravel_sec": [
+          461.2,
+          61.9
+        ],
+        "unravel_speedup": 7.45,
+        "ccsd_total_sec": [
+          3709.696,
+          3429.092
+        ],
+        "change_pct": -7.6,
+        "per_iter_sec": [
+          927.424,
+          857.273
+        ],
+        "peak_rss_gib": [
+          159.17,
+          159.15
+        ],
+        "note": "peak RSS flat again -- the ~27 GiB of temporaries this removes is never the binding allocation; peak is set during the Cholesky/ERI phase. The prediction that peak would fall was wrong at both sizes measured.",
+        "cross_job_check": "pinned-only here 3709.70 s vs 3740.86 s in job 161895, 0.8% apart"
+      }
+    },
+    "combined_580_AO": {
+      "nothing": 915.898,
+      "pinned": 810.785,
+      "pinned_plus_unravel": 637.618,
+      "total_change_pct": -30.4,
+      "per_iter_sec": 159.404,
+      "gh200_pytorch_per_iter_sec": 342,
+      "speedup_vs_gh200": 2.15,
+      "was_unpatched": 1.58
+    }
+  },
+  "biggest_remaining_lever_is_upstream": {
+    "measured_161947": {
+      "d2h_pageable_gbs": [
+        25.4,
+        40.1
+      ],
+      "d2h_staged_ours_gbs": 10.8,
+      "d2h_pinned_nocopy_gbs": 193.0,
+      "d2h_registered_gbs": 192.8,
+      "h2d_registered_gbs": 207.3,
+      "ats_gpu_read_gbs": 209.1,
+      "ats_supported": true,
+      "register_sec_per_gib": 0.03
+    },
+    "why_we_cannot_patch_it": "crosslib_batching consumes transfers two ways. At 437/489/998/1062/1487 it does `dest[...] += move_tensor_to_cpu(part)` and at 541/1117 it slice-assigns: both already know the destination, so the DMA could write it directly. At 351/582/925/1158 the array is RETURNED and escapes, so a view into a reused buffer would be corrupted by the next call -- which is why our patch copies.",
+    "the_gap": "10.8 GB/s staged vs 193 GB/s into a registered destination, 18x, and invisible to nsys because the copy is host-side work",
+    "recommendation": "pass out= at the sites that know their destination, and register the long-lived host arrays once (0.03 s/GiB)"
+  },
+  "d2h_view_fix": {
+    "what": "the .copy() in the pinned patch exists only for callers that RETAIN the array. Job 162176 showed those carry 4.4% of D2H bytes at 240 AO and 0.1% at 580. d2h_view_patch walks up to the first crosslib_batching frame and returns a view where the caller consumes it inside the receiving expression, copying where it escapes; an unrecognised caller copies, so the failure mode is correctness.",
+    "job": "162283",
+    "580_AO": {
+      "copy": 637.756,
+      "view": 568.704,
+      "change_pct": -10.8,
+      "peak_rss_gib": [
+        48.97,
+        47.39
+      ],
+      "peak_rss_change_gib": -1.58,
+      "sections": {
+        "GPU: Generic": [
+          236.0,
+          172.9
+        ],
+        "Base: contract": [
+          547.8,
+          474.9
+        ],
+        "GPU: C-split": [
+          206.2,
+          196.4
+        ]
+      },
+      "dispatch_counts": {
+        "view": 359,
+        "copy_retaining": 66,
+        "copy_unrecognised": 0
+      }
+    },
+    "240_AO": {
+      "copy": 60.123,
+      "view": 68.474,
+      "change_pct": 13.9,
+      "sections": {
+        "GPU: Generic": [
+          33.2,
+          30.5
+        ],
+        "Base: contract": [
+          51.2,
+          48.2
+        ],
+        "timer_Total": [
+          86.1,
+          86.7
+        ]
+      },
+      "dispatch_counts": {
+        "view": 267,
+        "copy_retaining": 68,
+        "copy_unrecognised": 0
+      },
+      "verdict": "INCONSISTENT, do not use. Every GPU section improved and the timer's own Total moved 0.6 s, yet the driver's ccsd_total_sec rose 8.4 s. At a 60 s run that is ordering or thermal noise, not a measured regression -- but it is unexplained and should not be quoted either way."
+    },
+    "correctness": "energies unchanged at both sizes, -762.39447031 and -763.24436502. This is the test that matters: a view handed to a retaining caller would corrupt results silently.",
+    "upstream_point": "this is a benchmark patch keyed on line numbers, not a proposal. The proposal is one line: at crosslib_batching.py:1487, which carries 96% of D2H bytes, PyBEST already holds the destination, so the DMA could write it directly and no staging buffer would exist.",
+    "920_AO_FIRST_ATTEMPT_INVALID": {
+      "job": "162302",
+      "what_went_wrong": "the 920 AO driver on the cluster had not been re-uploaded after the PYBEST_D2H_VIEW block was added to the template -- I skipped it because job 161971 was reading that file, then never went back. So the env var was read by a driver that did not carry the block: a silent no-op. The cell set no PYBEST_PIN_STRATEGY either, so it ran UNPINNED.",
+      "evidence": "no '# d2h_view:' install or summary line in raw_d2hv_h2o10_aug-cc-pvtz_ccsd_view.log, where the 580 AO log has both; '# pin_strategy=baseline' confirms no pinning",
+      "what_it_actually_measured": {
+        "note": "an in-job pinning pair at 920 AO with unravel active, which is still useful",
+        "pinned_plus_unravel_sec": 2985.955,
+        "unpinned_plus_unravel_sec": 3253.045,
+        "pinning_change_pct": -8.2,
+        "gpu_generic_sec": [
+          911.8,
+          644.4
+        ],
+        "gpu_generic_change_pct": -29.3,
+        "consistency": "161895 measured pinning at 920 AO as -5.9% without unravel (GPU: Generic 1016.3 -> 776.4, -23.6%); same direction, same mechanism"
+      },
+      "fix": "driver re-uploaded, and run-d2h-view.sh now greps each run for the patch's own install line and sets rc=99 if it is missing. A patch that does not install is silent -- the same class of hazard as PyBEST's silent CPU fallback, which this project has guarded against from the start.",
+      "rerun": "job 162511"
+    },
+    "920_AO": {
+      "job": "162511",
+      "guard": "install line verified present; rc=99 would have fired otherwise",
+      "copy": 2966.103,
+      "view": 2854.967,
+      "change_pct": -3.7,
+      "per_iter_sec": [
+        741.526,
+        713.742
+      ],
+      "sections": {
+        "GPU: Generic": [
+          635.5,
+          528.3
+        ],
+        "GPU: C-split": [
+          1782.2,
+          1779.3
+        ],
+        "Base: contract": [
+          2721.6,
+          2609.2
+        ]
+      },
+      "dispatch_counts": {
+        "view": 949,
+        "copy_retaining": 66,
+        "copy_unrecognised": 0
+      },
+      "peak_rss_gib": [
+        159.14,
+        159.15
+      ],
+      "job_internal_drift": "Ints: CD-ERI 628.578 vs 628.862 s, 0.05% apart -- this job has almost no internal variance, unlike the three earlier 920 AO jobs",
+      "why_smaller_than_580": "GPU: C-split is 60% of GPU-section time at 920 AO and the patch cannot reach it; C-split moved 1782.2 -> 1779.3 s"
+    }
+  },
+  "combined_stack": {
+    "580_AO_PyTorch": {
+      "nothing": 915.898,
+      "pinned": 810.785,
+      "pinned_unravel": 637.618,
+      "pinned_unravel_view": 568.704,
+      "total_change_pct": -37.9,
+      "per_iter_sec": [
+        228.974,
+        142.176
+      ],
+      "gh200_pytorch_per_iter_sec": 342,
+      "speedup": 2.41,
+      "was_unpatched": 1.49,
+      "replication": "pinned+unravel measured twice in different jobs: 637.618 and 637.756 s, 0.02% apart"
+    },
+    "920_AO_PyTorch": {
+      "method": "a product of IN-JOB ratios, because absolute totals at this size swing 15% between jobs (Ints: CD-ERI came out 576.8, 627.5, 628.6 and 969.6 s across four jobs for identical work)",
+      "pinning": {
+        "job": "161895",
+        "ratio": 0.941,
+        "pct": -5.9
+      },
+      "unravel": {
+        "job": "161971",
+        "ratio": 0.924,
+        "pct": -7.6
+      },
+      "view": {
+        "job": "162511",
+        "ratio": 0.962,
+        "pct": -3.7
+      },
+      "product": 0.837,
+      "total_change_pct": -16.3,
+      "corroboration": "162302 and 162511 both measure pinning with unravel active at -8.2%, which would make the stack -18.3%; -16 to -18% is the honest range",
+      "best_observed_per_iter_sec": 713.742,
+      "baseline_per_iter_sec": 993.57,
+      "caution": "those two came from different jobs; the ratio is the result, not their quotient"
+    },
+    "caution": "Ints: CD-ERI varied 565.7 vs 969.6 s for identical work between two jobs at 920 AO, 71% apart. Only in-job pairs are meaningful; no cross-job total is."
+  }
+}

@@ -1,0 +1,130 @@
+host=c398 nproc=64 job=161368 date=Fri Oct  2 23:44:54 JST 2026
+0, NVIDIA GB200
+1, NVIDIA GB200
+Mem:            1691          77        1640           0          12        1613
+
+=============== pinladder_N800_cupy_baseline ===============
+# pin_experiment backend=cupy strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 3.7s
+#batch free_vram_gib=183.31
+  warmup 0:    237.71 s
+#batch free_vram_gib=179.59
+  timed 1:    237.20 s
+median 237.20 s   mean 237.20 s
+peak_rss 203.2 GiB   = 1.99x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N800_cupy_baseline.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=36%
+
+=============== pinladder_N800_cupy_pinned ===============
+# pin_experiment backend=cupy strategy=pinned
+# patch: cupy: clean_memory no longer flushes the pinned pool
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 3.8s
+#batch free_vram_gib=183.31
+  warmup 0:    232.15 s
+#batch free_vram_gib=179.59
+  timed 1:    229.19 s
+median 229.19 s   mean 229.19 s
+peak_rss 246.4 GiB   = 2.41x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N800_cupy_pinned.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=36%
+
+=============== pinladder_N800_pytorch_baseline ===============
+# pin_experiment backend=pytorch strategy=baseline
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 3.7s
+#batch free_vram_gib=183.31
+  warmup 0:    275.41 s
+#batch free_vram_gib=178.26
+  timed 1:    275.83 s
+median 275.83 s   mean 275.83 s
+peak_rss 180.0 GiB   = 1.76x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N800_pytorch_baseline.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=36%
+
+=============== pinladder_N800_pytorch_pinned ===============
+# pin_experiment backend=pytorch strategy=pinned
+# patch: pytorch: as_numpy/get_numpy copy via a reused pinned staging buffer
+# driver args: --nbasis 800 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 3.8s
+#batch free_vram_gib=183.30
+  warmup 0:    228.16 s
+#batch free_vram_gib=179.47
+  timed 1:    228.45 s
+median 228.45 s   mean 228.45 s
+peak_rss 180.3 GiB   = 1.76x operand sum (102.2 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N800_pytorch_pinned.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=35%
+
+=============== pinladder_N1100_cupy_baseline ===============
+# pin_experiment backend=cupy strategy=baseline
+# driver args: --nbasis 1100 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 8.9s
+#batch free_vram_gib=183.31
+  warmup 0:   1052.36 s
+#batch free_vram_gib=164.61
+  timed 1:   1054.76 s
+median 1054.76 s   mean 1054.76 s
+peak_rss 444.5 GiB   = 1.92x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N1100_cupy_baseline.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=28%
+
+=============== pinladder_N1100_cupy_pinned ===============
+# pin_experiment backend=cupy strategy=pinned
+# patch: cupy: clean_memory no longer flushes the pinned pool
+# driver args: --nbasis 1100 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 8.7s
+#batch free_vram_gib=183.31
+  warmup 0:   1033.42 s
+#batch free_vram_gib=164.61
+  timed 1:   1028.95 s
+median 1028.95 s   mean 1028.95 s
+peak_rss 445.3 GiB   = 1.93x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N1100_cupy_pinned.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=24%
+
+=============== pinladder_N1100_pytorch_baseline ===============
+# pin_experiment backend=pytorch strategy=baseline
+# driver args: --nbasis 1100 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 8.9s
+#batch free_vram_gib=183.30
+  warmup 0:   1500.08 s
+#batch free_vram_gib=163.38
+  timed 1:   1473.39 s
+median 1473.39 s   mean 1473.39 s
+peak_rss 400.3 GiB   = 1.73x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N1100_pytorch_baseline.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=23%
+
+=============== pinladder_N1100_pytorch_pinned ===============
+# pin_experiment backend=pytorch strategy=pinned
+# patch: pytorch: as_numpy/get_numpy copy via a reused pinned staging buffer
+# driver args: --nbasis 1100 --nocc 100 --nvec-factor 5 --reps 1 --warmup 1 --log-batching
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 8.9s
+#batch free_vram_gib=183.27
+  warmup 0:   1031.61 s
+#batch free_vram_gib=164.49
+  timed 1:   1030.72 s
+median 1030.72 s   mean 1030.72 s
+peak_rss 400.4 GiB   = 1.73x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/pinladder_N1100_pytorch_pinned.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=24%
+
+ALL DONE Sat Oct  3 02:53:54 JST 2026

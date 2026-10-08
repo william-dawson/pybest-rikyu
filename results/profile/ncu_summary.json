@@ -1,0 +1,22 @@
+{
+  "job": "161377", "tool": "Nsight Compute, HPC SDK 26.3, section SpeedOfLight",
+  "question": "The same ladder term appeared to run at ~74% of FP64 peak synthetically and ~14% in molecular CCSD. Proposed cause: the second step reshapes to M=v^2, N=o^2, K=v^2, so o^2 is the short dimension and frozen-core molecular runs have small o. This holds v fixed at 300 and varies only o.",
+  "verdict": "REFUTED. Kernel efficiency is ~98% of compute roofline in BOTH regimes and BOTH backends. The grid does shrink 5x with o^2, so the GEMM is smaller, but it is not less efficient.",
+  "cells": [
+    {"label": "wide",   "nbasis": 400, "nocc": 100, "v": 300, "gemm_N": 10000, "backend": "cupy",
+     "sm_throughput_pct": [98.36, 98.46], "dram_throughput_pct": [2.62, 7.81],
+     "duration": ["776 ms", "3.89 s"], "grid": [495616, 563200], "occupancy_pct": [12.49, 18.74]},
+    {"label": "wide",   "nbasis": 400, "nocc": 100, "v": 300, "gemm_N": 10000, "backend": "pytorch",
+     "sm_throughput_pct": [98.36, 97.60], "dram_throughput_pct": [2.62, 5.99],
+     "duration": ["776 ms", "3.93 s"], "grid": [495616, 563200], "occupancy_pct": [12.49, 18.74]},
+    {"label": "skinny", "nbasis": 340, "nocc": 40,  "v": 300, "gemm_N": 1600,  "backend": "cupy",
+     "sm_throughput_pct": [98.23, 98.39], "dram_throughput_pct": [2.68, 4.96],
+     "duration": ["665 ms", "620 ms"], "grid": [495616, 112640], "occupancy_pct": [12.49, 18.72]},
+    {"label": "skinny", "nbasis": 340, "nocc": 40,  "v": 300, "gemm_N": 1600,  "backend": "pytorch",
+     "sm_throughput_pct": [98.23, 97.08], "dram_throughput_pct": [2.68, 7.82],
+     "duration": ["665 ms", "628 ms"], "grid": [495616, 135072], "occupancy_pct": [12.49, 24.96]}
+  ],
+  "what_this_means": "Combined with nsys (job 161307), which found kernels occupy ~3% of wall time at 240 AO: the GPU performs its arithmetic at essentially the hardware limit and then waits. The earlier 'efficiency' figures divided a derived FLOP count by GPU SECTION time, and section time is overwhelmingly allocation, pinning, transfer and Python rather than kernels -- so those figures were never kernel efficiencies. Every remaining opportunity in this code path is host-side, which is also why FP64 emulation returned 1.15x where the microbenchmark promised 2.90x, and why fixing host pinning returns 37%.",
+  "aside": "Low occupancy (12-25%) is normal for FP64 tensor-core GEMMs, which are register- and shared-memory-limited per block. ncu's 'Est. Local Speedup' occupancy advice should not be read as headroom when SM throughput is already 98%.",
+  "kernels": "cutlass_80_tensorop_d884gemm_* -- sm_80 (Ampere) DMMA kernels. Identical set and efficiency in both backends."
+}

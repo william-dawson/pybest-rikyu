@@ -1,0 +1,87 @@
+host=c184 nproc=64 job=164390 date=Sun Oct  4 08:51:28 JST 2026
+
+=============== bind check ===============
+stock:   ====================================================================================================
+patched: ====================================================================================================
+
+=============== pval_h2o10_cc-pvdz_ccsd_stock ===============
+# temp_dir=/tmp/pval-164390-h2o10_cc-pvdz_ccsd-stock
+# nbasis=240 predicted=240
+# cholesky_eri_sec=6.405
+# rhf_sec=5.322
+# pin_strategy=baseline
+Total energy             -762.39447031 a.u.
+Correlation energy         -2.13277565 a.u.
+# ccsd_total_sec=100.351 upper_bound_per_iter=25.088 maxiter=4
+# total_sec=112.338
+	Maximum resident set size (kbytes): 6744384
+Base: contract           79.1     13.4 WWWWWWWWWWWW                                                 
+GPU: C-split              2.8      2.8 WW                                                           
+GPU: Generic             62.9     62.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            2.8      0.0                                                              
+Ints: CD-ERI              6.4      6.4 WWWWWW                                                       
+RCCSD: unravel           12.9     12.9 WWWWWWWWWWWW                                                 
+Total                   116.3      5.6 WWWWW                                                        
+rc=0
+
+=============== pval_h2o10_cc-pvdz_ccsd_patched ===============
+# temp_dir=/tmp/pval-164390-h2o10_cc-pvdz_ccsd-patched
+# nbasis=240 predicted=240
+# cholesky_eri_sec=6.052
+# rhf_sec=5.423
+# pin_strategy=baseline
+Total energy             -762.39447031 a.u.
+Correlation energy         -2.13277565 a.u.
+# ccsd_total_sec=45.275 upper_bound_per_iter=11.319 maxiter=4
+# total_sec=56.978
+	Maximum resident set size (kbytes): 6751424
+Base: contract           35.9     12.6 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                       
+GPU: C-split              3.3      3.3 WWWWWWWWW                                                    
+GPU: Generic             20.1     20.1 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            3.3      0.0                                                              
+Ints: CD-ERI              6.1      6.1 WWWWWWWWWWWWWWWWWW                                           
+RCCSD: unravel            3.2      3.2 WWWWWWWWW                                                    
+Total                    61.6      6.3 WWWWWWWWWWWWWWWWWWW                                          
+rc=0
+
+=============== pval_h2o10_cc-pvtz_ccsd_stock ===============
+# temp_dir=/tmp/pval-164390-h2o10_cc-pvtz_ccsd-stock
+# nbasis=580 predicted=580
+# cholesky_eri_sec=134.294
+# rhf_sec=19.707
+# pin_strategy=baseline
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+# ccsd_total_sec=853.056 upper_bound_per_iter=213.264 maxiter=4
+# total_sec=1007.357
+	Maximum resident set size (kbytes): 46989760
+Base: contract          617.4    101.7 WWWWWWWWWWWWWWWWWWWW                                         
+GPU: C-split            215.8    215.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                  
+GPU: Generic            299.9    299.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          215.8      0.0                                                              
+Ints: CD-ERI            134.3    134.3 WWWWWWWWWWWWWWWWWWWWWWWWWWW                                  
+RCCSD: unravel          143.1    143.1 WWWWWWWWWWWWWWWWWWWWWWWWWWWWW                                
+Total                  1011.4     18.6 WWW                                                          
+rc=0
+
+=============== pval_h2o10_cc-pvtz_ccsd_patched ===============
+# temp_dir=/tmp/pval-164390-h2o10_cc-pvtz_ccsd-patched
+# nbasis=580 predicted=580
+# cholesky_eri_sec=135.655
+# rhf_sec=19.935
+# pin_strategy=baseline
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+# ccsd_total_sec=571.129 upper_bound_per_iter=142.782 maxiter=4
+# total_sec=727.105
+	Maximum resident set size (kbytes): 50052288
+Base: contract          480.6    101.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                               
+GPU: C-split            204.9    204.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            174.0    174.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW          
+GPU: Splitting          204.9      0.0                                                              
+Ints: CD-ERI            135.7    135.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                     
+RCCSD: unravel           22.7     22.6 WWWWWW                                                       
+Total                   735.9     23.3 WWWWWW                                                       
+rc=0
+
+ALL DONE Sun Oct  4 09:24:20 JST 2026

@@ -1,0 +1,53 @@
+host=c245 nproc=64 job=166019 date=Sun Oct  4 21:42:32 JST 2026
+0, NVIDIA GB200
+1, NVIDIA GB200
+
+=============== final240_h2o10_cc-pvdz_ccsd_stock ===============
+# temp_dir=/tmp/final240-166019-h2o10_cc-pvdz_ccsd-stock
+# nbasis=240 predicted=240
+# cholesky_eri_sec=7.009
+# rhf_sec=6.552 
+# pin_strategy=baseline
+Total energy             -762.39447031 a.u.
+# ccsd_total_sec=124.358 upper_bound_per_iter=31.090 maxiter=4
+# total_sec=138.186
+	Maximum resident set size (kbytes): 6320640
+Base: contract           92.4     14.5 WWWWWWWWWWW                                                  
+GPU: C-split              4.0      4.0 WWW                                                          
+GPU: Generic             73.9     73.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            4.0      0.0                                                              
+Ints: CD-ERI              7.0      7.0 WWWWW                                                        
+RCCSD: unravel           13.4     13.4 WWWWWWWWWWW                                                  
+Total                   148.4     12.1 WWWWWWWWWW                                                   
+ENERGY OK (-762.39447031)
+rc=0
+vram_peak=2.3 GiB  vram_mean=1.5 GiB
+
+=============== final240_h2o10_cc-pvdz_ccsd_full ===============
+# temp_dir=/tmp/final240-166019-h2o10_cc-pvdz_ccsd-full
+# nbasis=240 predicted=240
+# cholesky_eri_sec=7.734
+# rhf_sec=6.383 
+# pin_strategy=baseline
+# accum3: torch fused axpy, 16 threads, verifying first 20
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -762.39447031 a.u.
+# ccsd_total_sec=48.816 upper_bound_per_iter=12.204 maxiter=4
+# total_sec=63.173
+# d2h_view: returned a view 267 times, copied 68 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+# accum3: fused 282 (61.3 GiB), 52 fell back, verified 20 against numpy, max deviation 0.000e+00
+	Maximum resident set size (kbytes): 7050368
+Base: contract           38.8     16.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW         
+GPU: C-split              3.7      3.7 WWWWWWWWWWW                                                  
+GPU: Generic             18.8     18.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            3.7      0.0                                                              
+Ints: CD-ERI              7.7      7.7 WWWWWWWWWWWWWWWWWWWWWWWWW                                    
+RCCSD: unravel            3.9      3.9 WWWWWWWWWWWW                                                 
+Total                    67.7      6.4 WWWWWWWWWWWWWWWWWWWW                                         
+ENERGY OK (-762.39447031)
+# accum3: fused 282 (61.3 GiB), 52 fell back, verified 20 against numpy, max deviation 0.000e+00
+rc=0
+vram_peak=2.2 GiB  vram_mean=1.1 GiB
+
+ALL DONE Sun Oct  4 21:46:14 JST 2026

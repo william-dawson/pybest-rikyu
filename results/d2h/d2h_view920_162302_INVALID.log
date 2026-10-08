@@ -1,0 +1,46 @@
+host=c070 nproc=64 job=162302 date=Sat Oct  3 13:27:21 JST 2026
+
+=============== d2hv_h2o10_aug-cc-pvtz_ccsd_copy ===============
+# temp_dir=/tmp/d2hv-162302-h2o10_aug-cc-pvtz_ccsd-copy
+# nbasis=920 predicted=920
+# cholesky_eri_sec=627.497
+# rhf_sec=61.826
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+# ccsd_total_sec=2985.955 upper_bound_per_iter=746.489 maxiter=4
+# total_sec=3675.906
+	Maximum resident set size (kbytes): 166795904
+Base: contract         2738.0    308.2 WWWWWWWWWW                                                   
+GPU: C-split           1785.3   1785.3 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            644.4    644.4 WWWWWWWWWWWWWWWWWWWWWW                                       
+GPU: Splitting         1785.3      0.0                                                              
+Ints: CD-ERI            627.5    627.5 WWWWWWWWWWWWWWWWWWWWW                                        
+RCCSD: unravel           61.6     61.6 WW                                                           
+Total                  3686.3     52.8 W                                                            
+rc=0
+
+=============== d2hv_h2o10_aug-cc-pvtz_ccsd_view ===============
+# temp_dir=/tmp/d2hv-162302-h2o10_aug-cc-pvtz_ccsd-view
+# nbasis=920 predicted=920
+# cholesky_eri_sec=629.366
+# rhf_sec=61.183
+# pin_strategy=baseline
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+# ccsd_total_sec=3253.045 upper_bound_per_iter=813.261 maxiter=4
+# total_sec=3944.327
+	Maximum resident set size (kbytes): 166814656
+Base: contract         3003.8    308.2 WWWWWWWWWW                                                   
+GPU: C-split           1783.8   1783.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            911.8    911.8 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                              
+GPU: Splitting         1783.8      0.0                                                              
+Ints: CD-ERI            629.4    629.4 WWWWWWWWWWWWWWWWWWWWW                                        
+RCCSD: unravel           61.4     61.4 WW                                                           
+Total                  3953.9     52.1 W                                                            
+rc=0
+
+ALL DONE Sat Oct  3 15:35:05 JST 2026

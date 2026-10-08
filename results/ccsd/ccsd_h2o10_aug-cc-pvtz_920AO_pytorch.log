@@ -1,0 +1,64 @@
+host=c186 nproc=64 job=147598 sys=h2o10_aug-cc-pvtz_ccsd date=Mon Sep 28 18:11:59 JST 2026
+index, name, memory.total [MiB]
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+Mem:            1691         147        1575           0           5        1544
+/dev/nvme0n1p1  3.4T     0  3.4T   0% /tmp
+
+=============== h2o10_aug-cc-pvtz_ccsd_pytorch_Csplit ===============
+tmpdir_peak= at /tmp/pybest-147598-pytorch
+# temp_dir=/tmp/pybest-147598-pytorch
+# nbasis=920 predicted=920
+# cholesky_eri_sec=626.630
+# rhf_sec=60.299
+Total energy             -763.32762373 a.u.
+Correlation energy         -2.75605876 a.u.
+T1 diagnostic: 0.010728
+# ccsd_total_sec=3716.206 upper_bound_per_iter=929.051 maxiter=4
+# total_sec=4403.664
+--- warnings ---
+ for possible WARNINGS!
+!WARNING! Frozen core orbitals are not supported in the SCF module. Only post-HF methods support a
+!WARNING! Program terminated. Amplitudes did not converge.
+!WARNING! PyTorch GPU support is enabled.
+!WARNING! basis1:None option is not active in cd-eri module
+!WARNING! symmetry:True option is not active in cd-eri module
+--- timer table ---
+Overview of CPU time usage.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Label                    Total     Own
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Base: contract         3031.2    313.3 WWWWWWWWWW                                                   
+Basis: ReadBasisSet       0.0      0.0                                                              
+DIIS                      9.9      9.9                                                              
+GPU: C-split           1781.9   1781.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            936.0    936.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                             
+GPU: Splitting         1781.9      0.0                                                              
+H_eff: Fock_full         71.1      0.0                                                              
+Index Trans              39.8     39.8 W                                                            
+Ints: CD-ERI            626.6    626.6 WWWWWWWWWWWWWWWWWWWWW                                        
+Ints: Kin                 0.0      0.0                                                              
+Ints: Nuc                 0.4      0.4                                                              
+Ints: NucNuc              0.0      0.0                                                              
+Ints: Olp                 0.0      0.0                                                              
+PBQN                   3536.6     26.2                                                              
+PT2: Epsilon              4.3      4.3                                                              
+RCCSD: Energy            29.8     23.4                                                              
+RCCSD: Jacobian           6.7      4.4                                                              
+RCCSD: MP2 guess          8.3      0.0                                                              
+RCCSD: Residual        3007.4    121.2 WWWW                                                         
+RCCSD: T_1 MP2 guess      0.0      0.0                                                              
+RCCSD: T_2 MP2 guess      8.3      1.0                                                              
+RCCSD: VecFct          3141.7     18.9                                                              
+RCCSD: unravel          462.3    462.3 WWWWWWWWWWWWWWW                                              
+SCF                      60.1      4.9                                                              
+SCF: Initial Guess        0.1      0.1                                                              
+Total                  4412.0     37.2 W                                                            
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  CPU user time  :   45392.78
+  CPU sysem time :    9533.50
+  Page swaps     :       0
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_h2o10_aug-cc-pvtz_ccsd_pytorch_Csplit.log
+gpu_max_util=100%
+
+ALL DONE Mon Sep 28 19:25:36 JST 2026

@@ -1,0 +1,87 @@
+host=c382 nproc=64 job=157159 date=Fri Oct  2 11:24:53 JST 2026
+index, name, memory.total [MiB]
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+Mem:            1691          79        1642           0           4        1612
+
+=============== ladder_N1100_cupy_Csplit  (warmup=0 reps=1) ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 9.0s
+#batch free_vram_gib=183.30
+  timed 0:   1046.47 s
+median 1046.47 s   mean 1046.47 s
+peak_rss 370.0 GiB   = 1.60x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/ladder_N1100_cupy_Csplit.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=18%
+
+=============== ladder_N1100_pytorch_Csplit  (warmup=0 reps=1) ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 9.1s
+#batch free_vram_gib=183.31
+  timed 0:   1369.49 s
+median 1369.49 s   mean 1369.49 s
+peak_rss 325.8 GiB   = 1.41x operand sum (231.0 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/ladder_N1100_pytorch_Csplit.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=20%
+
+=============== ladder_N1200_cupy_Csplit  (warmup=1 reps=1) ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 11.4s
+#batch free_vram_gib=183.30
+  warmup 0:   1534.52 s
+#batch free_vram_gib=138.16
+  timed 1:   1622.32 s
+median 1622.32 s   mean 1622.32 s
+peak_rss 533.1 GiB   = 1.85x operand sum (288.5 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/ladder_N1200_cupy_Csplit.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=25%
+
+=============== ladder_N1200_pytorch_Csplit  (warmup=1 reps=1) ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 11.5s
+#batch free_vram_gib=183.31
+  warmup 0:   1650.51 s
+#batch free_vram_gib=138.04
+  timed 1:   1948.04 s
+median 1948.04 s   mean 1948.04 s
+peak_rss 492.6 GiB   = 1.71x operand sum (288.5 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/ladder_N1200_pytorch_Csplit.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=23%
+
+=============== ladder_N1300_cupy_Csplit  (warmup=1 reps=1) ===============
+backend='cupy' cupy=True pytorch=False c_split=True x_split=False
+allocated in 14.3s
+#batch free_vram_gib=183.30
+  warmup 0:   2130.84 s
+#batch free_vram_gib=129.60
+  timed 1:   2325.18 s
+median 2325.18 s   mean 2325.18 s
+peak_rss 632.8 GiB   = 1.79x operand sum (354.1 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/ladder_N1300_cupy_Csplit.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=82%
+
+=============== ladder_N1300_pytorch_Csplit  (warmup=1 reps=1) ===============
+backend='pytorch' cupy=False pytorch=True c_split=True x_split=False
+allocated in 14.2s
+#batch free_vram_gib=183.31
+  warmup 0:   2511.33 s
+#batch free_vram_gib=128.97
+  timed 1:   2909.81 s
+median 2909.81 s   mean 2909.81 s
+peak_rss 589.9 GiB   = 1.67x operand sum (354.1 GiB)
+wrote /data1/rkp00012/rku00036/pybest/results/ladder_N1300_pytorch_Csplit.json
+rc=0
+gpu_max_util=100%  mem_ctrl_max_util=28%
+
+=============== preflight: cc-pVQZ (g functions) ===============
+  cc-pvtz        nbasis=580
+  aug-cc-pvtz    nbasis=920
+  cc-pvqz        nbasis=1150
+  cc-pvqz        cholesky OK, nchol=3444
+
+ALL DONE Fri Oct  2 16:51:52 JST 2026

@@ -1,0 +1,28 @@
+{
+  "job": "147643", "gpu": "NVIDIA GB200", "gpus_requested": 1,
+  "what": "square DGEMM/SGEMM 8192^3 timing; 2048^3 accuracy vs CPU float64",
+  "reference": "https://developer.nvidia.com/blog/unlocking-tensor-core-performance-with-floating-point-emulation-in-cublas/",
+  "note": "FP64 emulation is fixed-point (Ozaki-I/II), needs CUDA 13.0u2+. BF16x9 is FP32 emulation, a different mechanism. rel_err is against a CPU float64 reference, so the native FP64 row is the noise floor.",
+  "cupy": [
+    {"mode": "fp64 native",        "tflops": 38.41, "sec": 0.029, "rel_err": 1.56e-15, "vs_native": 1.00},
+    {"mode": "fp64 ADP",           "tflops": 50.68, "sec": 0.022, "rel_err": 1.56e-15, "vs_native": 1.32},
+    {"mode": "fp64 performant",    "tflops": 50.12, "sec": 0.022, "rel_err": 1.56e-15, "vs_native": 1.30},
+    {"mode": "fp64 55 bits",       "tflops": 70.60, "sec": 0.016, "rel_err": 4.87e-16, "vs_native": 1.84},
+    {"mode": "fp64 47 bits",       "tflops": 86.69, "sec": 0.013, "rel_err": 6.82e-14, "vs_native": 2.26},
+    {"mode": "fp64 39 bits",       "tflops": 111.37, "sec": 0.010, "rel_err": 1.61e-11, "vs_native": 2.90},
+    {"mode": "fp64 31 bits",       "tflops": 145.17, "sec": 0.008, "rel_err": 3.73e-09, "vs_native": 3.78},
+    {"mode": "fp32 native",        "tflops": 69.38, "sec": 0.016, "rel_err": 8.11e-07, "vs_native": 1.81},
+    {"mode": "fp32 BF16x9",        "tflops": 191.21, "sec": 0.006, "rel_err": 2.14e-07, "vs_native": 4.98}
+  ],
+  "pytorch": [
+    {"mode": "fp64 native",        "tflops": 38.42, "sec": 0.029, "rel_err": 1.56e-15, "vs_native": 1.00},
+    {"mode": "fp64 ADP",           "tflops": 34.88, "sec": 0.032, "rel_err": 1.56e-15, "vs_native": 0.91},
+    {"mode": "fp64 performant",    "tflops": 50.36, "sec": 0.022, "rel_err": 1.56e-15, "vs_native": 1.31},
+    {"mode": "fp64 55 bits",       "tflops": 69.19, "sec": 0.016, "rel_err": 4.87e-16, "vs_native": 1.80},
+    {"mode": "fp64 47 bits",       "tflops": 87.55, "sec": 0.013, "rel_err": 6.82e-14, "vs_native": 2.28},
+    {"mode": "fp64 39 bits",       "tflops": 111.17, "sec": 0.010, "rel_err": 1.61e-11, "vs_native": 2.89},
+    {"mode": "fp64 31 bits",       "tflops": 144.33, "sec": 0.008, "rel_err": 3.73e-09, "vs_native": 3.76},
+    {"mode": "fp32 native",        "tflops": 69.40, "sec": 0.016, "rel_err": 8.11e-07, "vs_native": 1.81},
+    {"mode": "fp32 BF16x9",        "tflops": 193.15, "sec": 0.006, "rel_err": 2.14e-07, "vs_native": 5.03}
+  ]
+}

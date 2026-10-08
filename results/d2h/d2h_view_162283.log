@@ -1,0 +1,93 @@
+host=c069 nproc=32 job=162283 date=Sat Oct  3 12:53:36 JST 2026
+
+=============== d2hv_h2o10_cc-pvdz_ccsd_copy ===============
+# temp_dir=/tmp/d2hv-162283-h2o10_cc-pvdz_ccsd-copy
+# nbasis=240 predicted=240
+# cholesky_eri_sec=8.698
+# rhf_sec=7.113
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -762.39447031 a.u.
+Correlation energy         -2.13277565 a.u.
+# ccsd_total_sec=60.123 upper_bound_per_iter=15.031 maxiter=4
+# total_sec=76.364
+	Maximum resident set size (kbytes): 7663104
+Base: contract           51.2     12.9 WWWWWWWWWWWWWWWWWWWWWWW                                      
+GPU: C-split              5.1      5.1 WWWWWWWWW                                                    
+GPU: Generic             33.2     33.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            5.1      0.0                                                              
+Ints: CD-ERI              8.7      8.7 WWWWWWWWWWWWWWW                                              
+RCCSD: unravel            3.3      3.3 WWWWW                                                        
+Total                    86.1     11.5 WWWWWWWWWWWWWWWWWWWWW                                        
+rc=0
+
+=============== d2hv_h2o10_cc-pvdz_ccsd_view ===============
+# temp_dir=/tmp/d2hv-162283-h2o10_cc-pvdz_ccsd-view
+# nbasis=240 predicted=240
+# cholesky_eri_sec=8.441
+# rhf_sec=6.259
+# pin_strategy=baseline
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -762.39447031 a.u.
+Correlation energy         -2.13277565 a.u.
+# ccsd_total_sec=68.474 upper_bound_per_iter=17.118 maxiter=4
+# total_sec=83.333
+# d2h_view: returned a view 267 times, copied 68 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+	Maximum resident set size (kbytes): 7182272
+Base: contract           48.2     12.9 WWWWWWWWWWWWWWWWWWWWWWWWW                                    
+GPU: C-split              4.7      4.7 WWWWWWWWW                                                    
+GPU: Generic             30.5     30.5 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            4.8      0.0                                                              
+Ints: CD-ERI              8.4      8.4 WWWWWWWWWWWWWWWW                                             
+RCCSD: unravel            3.4      3.3 WWWWWW                                                       
+Total                    86.7      5.1 WWWWWWWWWW                                                   
+rc=0
+
+=============== d2hv_h2o10_cc-pvtz_ccsd_copy ===============
+# temp_dir=/tmp/d2hv-162283-h2o10_cc-pvtz_ccsd-copy
+# nbasis=580 predicted=580
+# cholesky_eri_sec=180.086
+# rhf_sec=23.116
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+# ccsd_total_sec=637.756 upper_bound_per_iter=159.439 maxiter=4
+# total_sec=841.234
+	Maximum resident set size (kbytes): 51346944
+Base: contract          547.8    105.6 WWWWWWWWWWWWWWWWWWWWWWWWWWW                                  
+GPU: C-split            206.2    206.2 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW        
+GPU: Generic            236.0    236.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          206.2      0.0                                                              
+Ints: CD-ERI            180.1    180.1 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW               
+RCCSD: unravel           23.1     23.1 WWWWW                                                        
+Total                   844.8     18.1 WWWW                                                         
+rc=0
+
+=============== d2hv_h2o10_cc-pvtz_ccsd_view ===============
+# temp_dir=/tmp/d2hv-162283-h2o10_cc-pvtz_ccsd-view
+# nbasis=580 predicted=580
+# cholesky_eri_sec=182.472
+# rhf_sec=19.217
+# pin_strategy=baseline
+# d2h_view: view where the caller consumes it, copy where it escapes
+# unravel: assign_triu sliced, iadd_transpose blocked in place (block=1024)
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+# ccsd_total_sec=568.704 upper_bound_per_iter=142.176 maxiter=4
+# total_sec=771.006
+# d2h_view: returned a view 359 times, copied 66 (retaining caller) + 0 (unrecognised caller, copied to be safe)
+	Maximum resident set size (kbytes): 49686720
+Base: contract          474.9    105.7 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                             
+GPU: C-split            196.4    196.4 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Generic            172.9    172.9 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW        
+GPU: Splitting          196.4      0.0                                                              
+Ints: CD-ERI            182.5    182.5 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW     
+RCCSD: unravel           23.1     23.1 WWWWWWW                                                      
+Total                   779.9     23.6 WWWWWWW                                                      
+rc=0
+
+ALL DONE Sat Oct  3 13:24:03 JST 2026

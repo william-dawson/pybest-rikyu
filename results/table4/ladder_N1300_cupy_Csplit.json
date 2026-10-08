@@ -1,0 +1,15 @@
+{
+  "nbasis": 1300, "nocc": 100, "nvirt": 1200, "nchol": 6500, "nvec_factor": 5,
+  "backend": "cupy", "c_split": true, "x_split": false, "parts": null,
+  "subs": "xac,xbd,ecfd->efab",
+  "times_sec": [2325.1836123699322],
+  "median_sec": 2325.1836123699322, "mean_sec": 2325.1836123699322,
+  "total_gib": 354.0515899658203, "host": "c382", "slurm_job": "157159",
+  "peak_rss_gib": 632.8449096679688, "peak_over_operands": 1.787436993939394,
+  "cpus_visible": 144, "random": false, "seed": 0, "rel_err": null,
+  "cublas_env": {},
+  "free_vram_gib_per_pass": [183.30, 129.60],
+  "warmup_sec": 2130.84,
+  "mem_ctrl_max_util_pct": 82,
+  "note": "GH200 is n.c. here; H100 C-split was 4665.3 s, so 2.01x faster. Memory-controller utilisation jumps to 82% from 18-25% at smaller N: the contraction becomes HBM-bandwidth-bound at this size. Pass 2 is 9.1% slower than pass 1 after the free-VRAM reading drops 53.7 GiB."
+}

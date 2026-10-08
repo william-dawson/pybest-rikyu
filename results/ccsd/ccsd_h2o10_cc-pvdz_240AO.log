@@ -1,0 +1,156 @@
+host=c081 nproc=64 job=147258 date=Mon Sep 28 14:23:06 JST 2026
+index, name, memory.total [MiB]
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+
+=============== h2o10_ccpvdz_ccsd_cupy_Csplit ===============
+# nbasis=240 predicted=240
+# cholesky_eri_sec=5.723
+Iter         Error        CN         Last nv Method          Energy       Change
+   0      7.00674e+00     1  
+   0      8.09626e+00     2  
+   0                  1.943e+00   0.44422  2 C  
+   1      4.68856e+00     3  
+   1                  3.568e+00   0.48061  3 C  
+   2      7.58680e+00     4  
+   2                  4.122e+00   0.18373  4 C  
+   3      2.40058e+00     5  
+   3                  1.868e+01   0.64130  5 C  
+   4      1.86573e+00     6  
+   4                  2.871e+01   0.47553  6 C  
+   5      6.55187e-01     6  
+   5                  2.086e+02   0.78046  6 C  
+   6      2.25461e-01     6  
+   6                  1.597e+03   0.92260  6 C  
+   7      1.23319e-01     6  
+   7                  7.043e+03   0.75578  6 C  
+   8      6.34377e-02     6  
+   8                  1.521e+04   1.38795  6 C  
+   9      2.49492e-02     6  
+   9                  9.191e+04   1.52553  6 C  
+  10      5.64638e-03     6  
+  10                  3.181e+04   0.98963  6 C  
+  11      1.62756e-03     6  
+  11                  3.227e+04   0.83206  6 C  
+  12      5.16677e-04     6  
+  12                  3.604e+05   1.22410  6 C  
+--- warnings ---
+!WARNING! CuPy GPU support is enabled.
+!WARNING! Frozen core orbitals are not supported in the SCF module. Only post-HF methods support a
+!WARNING! basis1:None option is not active in cd-eri module
+!WARNING! symmetry:True option is not active in cd-eri module
+!WARNING! Program terminated. Amplitudes did not converge.
+Overview of CPU time usage.
+  CPU user time  :     760.51
+  CPU sysem time :     165.12
+ for possible WARNINGS!
+--- timer table ---
+Overview of CPU time usage.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Label                    Total     Own
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Base: contract           74.2     12.6 WWWWWWWWWWWWWW                                               
+Basis: ReadBasisSet       0.0      0.0                                                              
+DIIS                      0.5      0.5                                                              
+GPU: C-split              8.5      8.5 WWWWWWWWW                                                    
+GPU: Generic             53.1     53.1 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            8.5      0.0                                                              
+H_eff: Fock_full          0.6      0.0                                                              
+Index Trans               0.6      0.6                                                              
+Ints: CD-ERI              5.7      5.7 WWWWWW                                                       
+Ints: Kin                 0.0      0.0                                                              
+Ints: Nuc                 0.1      0.1                                                              
+Ints: NucNuc              0.0      0.0                                                              
+Ints: Olp                 0.0      0.0                                                              
+PBQN                     77.2      1.2 W                                                            
+PT2: Epsilon              0.2      0.2                                                              
+RCCSD: Energy             3.0      0.0                                                              
+RCCSD: Jacobian           0.3      0.2                                                              
+RCCSD: MP2 guess          0.6      0.0                                                              
+RCCSD: Residual          60.2      2.6 WW                                                           
+RCCSD: T_1 MP2 guess      0.0      0.0                                                              
+RCCSD: T_2 MP2 guess      0.6      0.1                                                              
+RCCSD: VecFct            64.5      0.9 W                                                            
+RCCSD: unravel           11.9     11.9 WWWWWWWWWWWWW                                                
+SCF                      16.1      4.3 WWWW                                                         
+SCF: Initial Guess        0.0      0.0                                                              
+Total                   105.5      2.8 WWW                                                          
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_h2o10_ccpvdz_ccsd_cupy_Csplit.log
+gpu_max_util=10%
+
+=============== h2o10_ccpvdz_ccsd_pytorch_Csplit ===============
+# nbasis=240 predicted=240
+# cholesky_eri_sec=7.735
+Iter         Error        CN         Last nv Method          Energy       Change
+   0      7.00674e+00     1  
+   0      8.09626e+00     2  
+   0                  1.943e+00   0.44422  2 C  
+   1      4.68856e+00     3  
+   1                  3.568e+00   0.48061  3 C  
+   2      7.58680e+00     4  
+   2                  4.122e+00   0.18373  4 C  
+   3      2.40058e+00     5  
+   3                  1.868e+01   0.64130  5 C  
+   4      1.86573e+00     6  
+   4                  2.871e+01   0.47553  6 C  
+   5      6.55187e-01     6  
+   5                  2.086e+02   0.78046  6 C  
+   6      2.25461e-01     6  
+   6                  1.597e+03   0.92260  6 C  
+   7      1.23319e-01     6  
+   7                  7.043e+03   0.75578  6 C  
+   8      6.34377e-02     6  
+   8                  1.521e+04   1.38795  6 C  
+   9      2.49492e-02     6  
+   9                  9.191e+04   1.52553  6 C  
+  10      5.64638e-03     6  
+  10                  3.181e+04   0.98963  6 C  
+  11      1.62756e-03     6  
+  11                  3.227e+04   0.83206  6 C  
+  12      5.16677e-04     6  
+  12                  3.604e+05   1.22410  6 C  
+--- warnings ---
+!WARNING! PyTorch GPU support is enabled.
+!WARNING! Frozen core orbitals are not supported in the SCF module. Only post-HF methods support a
+!WARNING! basis1:None option is not active in cd-eri module
+!WARNING! symmetry:True option is not active in cd-eri module
+!WARNING! Program terminated. Amplitudes did not converge.
+Overview of CPU time usage.
+  CPU user time  :     803.06
+  CPU sysem time :     262.54
+ for possible WARNINGS!
+--- timer table ---
+Overview of CPU time usage.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Label                    Total     Own
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Base: contract           78.4     13.6 WWWWWWWWWWWWW                                                
+Basis: ReadBasisSet       0.0      0.0                                                              
+DIIS                      0.5      0.5                                                              
+GPU: C-split              2.7      2.7 WW                                                           
+GPU: Generic             62.0     62.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting            2.7      0.0                                                              
+H_eff: Fock_full          0.7      0.0                                                              
+Index Trans               0.6      0.6                                                              
+Ints: CD-ERI              7.7      7.7 WWWWWWW                                                      
+Ints: Kin                 0.0      0.0                                                              
+Ints: Nuc                 0.1      0.1                                                              
+Ints: NucNuc              0.0      0.0                                                              
+Ints: Olp                 0.0      0.0                                                              
+PBQN                     92.5      1.3 W                                                            
+PT2: Epsilon              0.2      0.2                                                              
+RCCSD: Energy             0.5      0.0                                                              
+RCCSD: Jacobian           0.3      0.2                                                              
+RCCSD: MP2 guess          0.8      0.0                                                              
+RCCSD: Residual          77.1      2.7 WW                                                           
+RCCSD: T_1 MP2 guess      0.0      0.0                                                              
+RCCSD: T_2 MP2 guess      0.8      0.1                                                              
+RCCSD: VecFct            81.5      0.9                                                              
+RCCSD: unravel           12.6     12.6 WWWWWWWWWWWW                                                 
+SCF                       5.6      4.1 WWWW                                                         
+SCF: Initial Guess        0.0      0.0                                                              
+Total                   114.3      4.8 WWWW                                                         
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_h2o10_ccpvdz_ccsd_pytorch_Csplit.log
+gpu_max_util=27%
+
+ALL DONE Mon Sep 28 14:26:49 JST 2026

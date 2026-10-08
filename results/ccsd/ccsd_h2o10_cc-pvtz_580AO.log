@@ -1,0 +1,115 @@
+host=c081 nproc=64 job=147264 sys=h2o10_cc-pvtz_ccsd date=Mon Sep 28 14:34:18 JST 2026
+index, name, memory.total [MiB]
+0, NVIDIA GB200, 189471 MiB
+1, NVIDIA GB200, 189471 MiB
+Mem:            1690          68        1652           0           5        1622
+
+=============== h2o10_cc-pvtz_ccsd_cupy_Csplit ===============
+# nbasis=580 predicted=580
+# cholesky_eri_sec=131.489
+# rhf_sec=189.978
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+T1 diagnostic: 0.007849
+# ccsd_total_sec=989.790 upper_bound_per_iter=247.447 maxiter=4
+# total_sec=1311.530
+--- warnings ---
+ for possible WARNINGS!
+!WARNING! CuPy GPU support is enabled.
+!WARNING! Frozen core orbitals are not supported in the SCF module. Only post-HF methods support a
+!WARNING! Program terminated. Amplitudes did not converge.
+!WARNING! basis1:None option is not active in cd-eri module
+!WARNING! symmetry:True option is not active in cd-eri module
+--- timer table ---
+Overview of CPU time usage.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Label                    Total     Own
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Base: contract          919.0    103.1 WWWWWWWWWWW                                                  
+Basis: ReadBasisSet       0.0      0.0                                                              
+DIIS                      4.0      4.0                                                              
+GPU: C-split            253.8    253.8 WWWWWWWWWWWWWWWWWWWWWWWWWWW                                  
+GPU: Generic            562.1    562.1 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          253.9      0.0                                                              
+H_eff: Fock_full         14.2      0.0                                                              
+Index Trans              10.5     10.5 W                                                            
+Ints: CD-ERI            131.5    131.5 WWWWWWWWWWWWWW                                               
+Ints: Kin                 0.0      0.0                                                              
+Ints: Nuc                 0.2      0.2                                                              
+Ints: NucNuc              0.0      0.0                                                              
+Ints: Olp                 0.0      0.0                                                              
+PBQN                    934.5      9.9 W                                                            
+PT2: Epsilon              1.6      1.6                                                              
+RCCSD: Energy            45.5     16.4 W                                                            
+RCCSD: Jacobian           2.4      1.6                                                              
+RCCSD: MP2 guess          3.4      0.0                                                              
+RCCSD: Residual         730.0     44.8 WWWW                                                         
+RCCSD: T_1 MP2 guess      0.0      0.0                                                              
+RCCSD: T_2 MP2 guess      3.4      0.4                                                              
+RCCSD: VecFct           773.5      7.4                                                              
+RCCSD: unravel          145.8    145.8 WWWWWWWWWWWWWWW                                              
+SCF                     189.9      4.1                                                              
+SCF: Initial Guess        0.0      0.0                                                              
+Total                  1313.7     16.5 W                                                            
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  CPU user time  :    9056.79
+  CPU sysem time :    1932.33
+  Page swaps     :       0
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_h2o10_cc-pvtz_ccsd_cupy_Csplit.log
+gpu_max_util=100%
+
+=============== h2o10_cc-pvtz_ccsd_pytorch_Csplit ===============
+# nbasis=580 predicted=580
+# cholesky_eri_sec=131.347
+# rhf_sec=19.704
+Total energy             -763.24436502 a.u.
+Correlation energy         -2.69655875 a.u.
+T1 diagnostic: 0.007849
+# ccsd_total_sec=867.350 upper_bound_per_iter=216.837 maxiter=4
+# total_sec=1018.722
+--- warnings ---
+ for possible WARNINGS!
+!WARNING! Frozen core orbitals are not supported in the SCF module. Only post-HF methods support a
+!WARNING! Program terminated. Amplitudes did not converge.
+!WARNING! PyTorch GPU support is enabled.
+!WARNING! basis1:None option is not active in cd-eri module
+!WARNING! symmetry:True option is not active in cd-eri module
+--- timer table ---
+Overview of CPU time usage.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Label                    Total     Own
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Base: contract          628.2    103.2 WWWWWWWWWWWWWWWWWWWW                                         
+Basis: ReadBasisSet       0.0      0.0                                                              
+DIIS                      3.8      3.8                                                              
+GPU: C-split            213.6    213.6 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW                    
+GPU: Generic            311.4    311.4 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+GPU: Splitting          213.6      0.0                                                              
+H_eff: Fock_full         14.2      0.0                                                              
+Index Trans              10.4     10.4 WW                                                           
+Ints: CD-ERI            131.3    131.3 WWWWWWWWWWWWWWWWWWWWWWWWW                                    
+Ints: Kin                 0.0      0.0                                                              
+Ints: Nuc                 0.3      0.3                                                              
+Ints: NucNuc              0.0      0.0                                                              
+Ints: Olp                 0.0      0.0                                                              
+PBQN                    814.2      9.5 W                                                            
+PT2: Epsilon              1.4      1.4                                                              
+RCCSD: Energy            17.6     14.8 WW                                                           
+RCCSD: Jacobian           2.4      1.6                                                              
+RCCSD: MP2 guess          2.9      0.0                                                              
+RCCSD: Residual         636.1     44.0 WWWWWWWW                                                     
+RCCSD: T_1 MP2 guess      0.0      0.0                                                              
+RCCSD: T_2 MP2 guess      2.9      0.4                                                              
+RCCSD: VecFct           679.9      7.3 W                                                            
+RCCSD: unravel          146.0    146.0 WWWWWWWWWWWWWWWWWWWWWWWWWWWW                                 
+SCF                      19.6      4.7                                                              
+SCF: Initial Guess        0.0      0.0                                                              
+Total                  1025.8     21.9 WWWW                                                         
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  CPU user time  :    9212.67
+  CPU sysem time :    2519.98
+  Page swaps     :       0
+rc=0  raw=/data1/rkp00012/rku00036/pybest/logs/raw_h2o10_cc-pvtz_ccsd_pytorch_Csplit.log
+gpu_max_util=100%
+
+ALL DONE Mon Sep 28 15:13:32 JST 2026

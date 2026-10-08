@@ -1,0 +1,133 @@
+# PyBEST v2.2.0 on RIKYU (GB200, aarch64) -- benchmarking image
+#
+# Canonical single-shot recipe. Every fix below was learned the hard way during
+# the staged build (see AGENTS.md "Build gotchas"); this def has them all baked
+# in, so it should now work first try.
+#
+# Build ON A COMPUTE NODE -- libint2 is a 567 MB download and ~35 min of compile
+# on 144 cores, with one cc1plus holding ~3.5 GB on a single unity TU:
+#   export APPTAINER_CACHEDIR=/data1/rkp00012/$USER/pybest/.aptcache
+#   export APPTAINER_TMPDIR=/data1/rkp00012/$USER/pybest/.apttmp
+#   apptainer build --fakeroot pybest-rikyu.sif pybest-rikyu.def
+#
+# Run (BOTH flags are required):
+#   A=/shared/software/apptainer/bin/apptainer   # ssh 'cmd' lacks it on PATH
+#   $A exec --nv -B /data1 \                     # /data1 is NOT bound by default
+#      --env PYBEST_CUPY_AVAIL=1,PYBEST_C_SPLITTING=1 \
+#      pybest-rikyu.sif python script.py
+
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Maintainer  william.dawson@riken.jp
+    PyBEST      2.2.0
+    Target      RIKYU / NVIDIA GB200 NVL4 / aarch64
+    Purpose     GPU-offload benchmarking (CuPy vs PyTorch, C- vs X-splitting)
+
+%environment
+    export LIBINT2_ROOT=/opt/libint
+    export LIBCHOL_ROOT=/opt/libchol
+    export LD_LIBRARY_PATH=/opt/libint/lib:/opt/libchol/lib:${LD_LIBRARY_PATH:-}
+    export PATH=/opt/venv/bin:${PATH}
+    export VIRTUAL_ENV=/opt/venv
+    # GPU offload is runtime-only and deliberately left OFF here, so the CPU
+    # baseline is the default and GPU runs must opt in explicitly:
+    #   PYBEST_CUPY_AVAIL=1 | PYBEST_PYTORCH_AVAIL=1
+    #   exactly one of PYBEST_C_SPLITTING=1 / PYBEST_X_SPLITTING=1
+
+%post
+    set -eux
+    export DEBIAN_FRONTEND=noninteractive
+
+    # Slurm gives each job a PRIVATE /tmp at mode 0700; apptainer bind-mounts it
+    # into %post and apt drops to the _apt user, which under --fakeroot maps to
+    # an unmapped uid -> every repo reads "not signed" and apt-get exits 100.
+    # A login-node test does NOT reproduce this. Route apt to /var/tmp instead.
+    mkdir -p /var/tmp && chmod 1777 /var/tmp
+    export TMPDIR=/var/tmp
+    # libint/libchol tarballs record owner plgkbogusla/plgrid; under --fakeroot
+    # GNU tar as root cannot restore it and exits 2 -- invisibly, because
+    # depends/Makefile sends tar's stderr to /dev/null.
+    export TAR_OPTIONS=--no-same-owner
+
+    apt-get -o Dir::Temp=/var/tmp update -qq
+    # cmake MUST come from apt: the pip cmake only lands in the venv, which does
+    # not exist yet when libint builds.
+    apt-get -o Dir::Temp=/var/tmp install -y --no-install-recommends \
+        ca-certificates wget curl git \
+        g++ gcc make cmake pkg-config \
+        libboost-dev libboost-chrono-dev libgmp-dev \
+        libeigen3-dev libopenblas-dev \
+        python3 python3-dev \
+        autoconf automake libtool
+    rm -rf /var/lib/apt/lists/*
+
+    curl -LsSf https://astral.sh/uv/install.sh \
+        | env UV_INSTALL_DIR=/usr/local/bin sh
+
+    mkdir -p /opt/src && cd /opt/src
+    wget -q https://www.fizyka.umk.pl/~pybest/downloads/pybest.v2.2.0.tar.gz
+    tar xzf pybest.v2.2.0.tar.gz && rm -f pybest.v2.2.0.tar.gz
+    cd /opt/src/pybest.v2.2.0/depends
+    # unhide tar's stderr so any future extraction failure is diagnosable
+    sed -i 's#tar -xvf libint2.tar.gz > /dev/null 2>&1#tar -xvf libint2.tar.gz > /dev/null#' Makefile
+    sed -i 's#tar -xvf libchol.tar.gz > /dev/null 2>&1#tar -xvf libchol.tar.gz > /dev/null#' Makefile
+
+    # depends/Makefile has `CXX? = g++` (stray space => a variable literally
+    # named "CXX?"), so CXX is never set on Linux and -DCMAKE_CXX_COMPILER=
+    # would go out empty.
+    export CXX=g++
+    export CXXFLAGS="-std=c++11 -O2"
+    make libint -j"$(nproc)" LIBINT2_INSTALL_DIR=/opt/libint
+
+    # libchol is MANDATORY, not optional: PYBEST_ENABLE_CHOLESKY is only set when
+    # LIBCHOL_ROOT exists, and every GPU-optimized pattern is in Cholesky form.
+    export CXXFLAGS="-std=c++11 -O2 -I/usr/include/aarch64-linux-gnu/openblas-pthread"
+    make libchol \
+        LIBINT2_INSTALL_DIR=/opt/libint \
+        LIBCHOL_INSTALL_DIR=/opt/libchol \
+        OpenBLAS_INCLUDE_FILE=cblas.h
+
+    # make the libs findable without callers setting LD_LIBRARY_PATH
+    printf '/opt/libint/lib\n/opt/libchol/lib\n' > /etc/ld.so.conf.d/pybest.conf
+    ldconfig
+
+    cd /opt/src/pybest.v2.2.0
+    # PySide6 is pinned in requirements.txt but only used by daisy/picker.py
+    # behind try/except, and pybest/__init__ never imports daisy. Its sole
+    # aarch64 wheel needs glibc>=2.39. Drop it.
+    sed -i '/^PySide6/d' requirements.txt
+
+    export UV_CACHE_DIR=/var/cache/uv XDG_CACHE_HOME=/var/cache
+    uv venv /opt/venv --python 3.12
+    . /opt/venv/bin/activate
+    uv pip install -r requirements-build.txt
+    uv pip install -r requirements.txt
+    uv pip install "build~=1.0.3" opt_einsum
+
+    # NOTE: PYBEST_USE_MKL / PYBEST_USE_OPENBLAS are DEAD options in 2.2.0 --
+    # declared in core/CMakeLists.txt and read nowhere. Deliberately unset.
+    export LIBINT2_ROOT=/opt/libint LIBCHOL_ROOT=/opt/libchol
+    export LD_LIBRARY_PATH=/opt/libint/lib:/opt/libchol/lib:${LD_LIBRARY_PATH:-}
+    python -m build --wheel --no-isolation
+    uv pip install pybest --find-links dist/ --no-index
+
+    # Driver 580.178.04 is CUDA 13 era. [ctk] is REQUIRED: CuPy needs CUDA
+    # toolkit headers at runtime for kernel JIT.
+    uv pip install "cupy-cuda13x[ctk]"
+    # PyTorch is half the CuPy-vs-PyTorch reproduction.
+    uv pip install torch
+
+    # slim: /opt/src holds the unpacked libint source + build tree (many GB)
+    mkdir -p /opt/wheels
+    cp /opt/src/pybest.v2.2.0/dist/*.whl /opt/wheels/ || true
+    rm -rf /opt/src /var/cache/uv /var/cache/apt /root/.cache
+
+%test
+    . /opt/venv/bin/activate
+    python -c "import pybest, numpy, scipy, opt_einsum; print('imports OK')"
+    python -c "from pybest.gbasis.cholesky_eri import PYBEST_CHOLESKY_ENABLED as e; \
+               assert e, 'Cholesky ERI NOT compiled in'; print('cholesky OK')"
+    python -c "from pybest.linalg._gpu_support import gpu_contraction_optimized as g; \
+               assert len(g) == 18; print('gpu patterns', len(g))"

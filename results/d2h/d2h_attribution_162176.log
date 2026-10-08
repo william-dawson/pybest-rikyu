@@ -1,0 +1,77 @@
+host=c069 nproc=32 job=162176 date=Sat Oct  3 11:27:59 JST 2026
+
+=============== d2hat_h2o10_cc-pvdz_ccsd_pytorch ===============
+# nbasis=240 predicted=240
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# d2h_attrib: counting move_tensor_to_cpu by caller line
+# ccsd_total_sec=78.252 upper_bound_per_iter=19.563 maxiter=4
+# total_sec=96.365
+# d2h attribution: every move_tensor_to_cpu by caller line
+# d2h_can_use_out_pct=95.6 escapes_pct=4.4 unclassified_pct=0.0
+rc=0
+
+=============== d2hat_h2o10_cc-pvdz_ccsd_cupy ===============
+# nbasis=240 predicted=240
+# pin_strategy=pinned
+# pin: cupy via a reused pinned buffer (bounded)
+# d2h_attrib: counting move_tensor_to_cpu by caller line
+# ccsd_total_sec=111.910 upper_bound_per_iter=27.977 maxiter=4
+# total_sec=138.717
+# d2h attribution: every move_tensor_to_cpu by caller line
+# d2h_can_use_out_pct=95.6 escapes_pct=4.4 unclassified_pct=0.0
+rc=0
+
+=============== d2hat_h2o10_cc-pvtz_ccsd_pytorch ===============
+# nbasis=580 predicted=580
+# pin_strategy=pinned
+# pin: pytorch transfers via a reused pinned buffer
+# d2h_attrib: counting move_tensor_to_cpu by caller line
+# ccsd_total_sec=799.302 upper_bound_per_iter=199.826 maxiter=4
+# total_sec=999.816
+# d2h attribution: every move_tensor_to_cpu by caller line
+# d2h_can_use_out_pct=100.0 escapes_pct=0.0 unclassified_pct=0.0
+rc=0
+
+=============== d2hat_h2o10_cc-pvtz_ccsd_cupy ===============
+# nbasis=580 predicted=580
+# pin_strategy=pinned
+# pin: cupy via a reused pinned buffer (bounded)
+# d2h_attrib: counting move_tensor_to_cpu by caller line
+# ccsd_total_sec=1118.410 upper_bound_per_iter=279.603 maxiter=4
+# total_sec=1520.835
+# d2h attribution: every move_tensor_to_cpu by caller line
+# d2h_can_use_out_pct=100.0 escapes_pct=0.0 unclassified_pct=0.0
+rc=0
+
+ALL DONE Sat Oct  3 12:14:42 JST 2026
+=== /data1/rkp00012/rku00036/pybest/logs/raw_d2hat_h2o10_cc-pvdz_ccsd_cupy.log
+#   function                            line   calls          MB  % bytes  kind
+#   td_GPU_helper                       1487     267     62886.2    95.6%  can use out=
+#   c_splitting                          925      15      2899.2     4.4%  escapes
+#   c_splitting                         1158      53         0.0     0.0%  escapes
+#   TOTAL                                        335     65785.4   100.0%
+# d2h_can_use_out_pct=95.6 escapes_pct=4.4 unclassified_pct=0.0
+=== /data1/rkp00012/rku00036/pybest/logs/raw_d2hat_h2o10_cc-pvdz_ccsd_pytorch.log
+#   function                            line   calls          MB  % bytes  kind
+#   td_GPU_helper                       1487     267     62886.2    95.6%  can use out=
+#   c_splitting                          925      15      2899.2     4.4%  escapes
+#   c_splitting                         1158      53         0.0     0.0%  escapes
+#   TOTAL                                        335     65785.4   100.0%
+# d2h_can_use_out_pct=95.6 escapes_pct=4.4 unclassified_pct=0.0
+=== /data1/rkp00012/rku00036/pybest/logs/raw_d2hat_h2o10_cc-pvtz_ccsd_cupy.log
+#   function                            line   calls          MB  % bytes  kind
+#   td_GPU_helper                       1487     269    468009.2    96.0%  can use out=
+#   c_splitting                          998      90     19334.4     4.0%  can use out=
+#   c_splitting                          925       5       102.4     0.0%  escapes
+#   c_splitting                         1158      61         0.0     0.0%  escapes
+#   TOTAL                                        425    487446.0   100.0%
+# d2h_can_use_out_pct=100.0 escapes_pct=0.0 unclassified_pct=0.0
+=== /data1/rkp00012/rku00036/pybest/logs/raw_d2hat_h2o10_cc-pvtz_ccsd_pytorch.log
+#   function                            line   calls          MB  % bytes  kind
+#   td_GPU_helper                       1487     269    468009.2    96.0%  can use out=
+#   c_splitting                          998      90     19334.4     4.0%  can use out=
+#   c_splitting                          925       5       102.4     0.0%  escapes
+#   c_splitting                         1158      61         0.0     0.0%  escapes
+#   TOTAL                                        425    487446.0   100.0%
+# d2h_can_use_out_pct=100.0 escapes_pct=0.0 unclassified_pct=0.0
