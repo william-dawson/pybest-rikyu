@@ -198,6 +198,9 @@ Change 4 is a runtime patch, `bench/accum3_patch.py`, enabled with
 `PYBEST_ACCUM3=1`. It is separate because it requires PyTorch for a numpy
 operation, and PyBEST supports CuPy-only installations.
 
+This patch is available for your convenience, but it may be better to simply
+rewrite the changes in a smarter way based on the above guidance.
+
 ## 4. Where the time goes after patching
 
 Everything below is per CC iteration, matching section 1, and measured on the
@@ -216,9 +219,6 @@ on `GPU: Generic` and on the accumulate in `Base: contract`, and change 3 acts
 on `RCCSD: unravel`. None of them touches C-split, which is why its share
 reaches 83% once the others shrink, and why the overall reduction falls from
 61% at 240 AO to 31% at 920.
-
-Anyone continuing should start there. C-split is `c_splitting` in
-`linalg/crosslib_batching.py`, and at 920 AO it is 432 s of a 659 s iteration.
 
 Profiling at 920 AO splits the rest. GPU kernels run 501 s of each iteration
 and reach 82% of the throughput a square DGEMM achieves on the same GPU, with
